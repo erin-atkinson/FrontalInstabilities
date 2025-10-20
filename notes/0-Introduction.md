@@ -15,5 +15,43 @@ The module will assume basic familiarity with fluid dynamics fundamentals and th
 - Analysis and post-processing
 
 # Setup
+For those familiar with Julia, this module will use the latest version of Julia 1.10 (1.10.10 as of writing) and the `Project.toml` file will consist of the packages
+```
+Oceananigans @ 0.100.3
+GLMakie
+SpecialFunctions
+```
+
+Those new to Julia can follow the instructions below.
 ## Installing Julia
+Installation instructions are available at https://julialang.org/install/. The recommended method is to install `juliaup` which is a command-line utility. Then you should be able to run it from the terminal
+```
+>juliaup
+The Julia Version Manager
+
+Usage: juliaup <COMMAND>
+
+Commands:
+  default      Set the default Julia version
+  add          Add a specific Julia version or channel to your system. Access via `julia +{channel}` e.g. `julia +1.6`
+  link         Link an existing Julia binary or channel to a custom channel name
+  list         List all available channels
+  override     Manage directory overrides
+  update       Update all or a specific channel to the latest Julia version
+  remove       Remove a Julia version from your system
+  status       Show all installed Julia versions
+  gc           Garbage collect uninstalled Julia versions
+  config       Juliaup configuration
+  self         Manage this juliaup installation
+  completions  Generate tab-completion scripts for your shell
+  help         Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+
+To launch a specific Julia version, use `julia +{channel}` e.g. `julia +1.6`.
+Entering just `julia` uses the default channel set via `juliaup default`.
+```
+We would like to use Julia 1.10, just do `juliaup add 1.10`
 ## Adding Oceananigans and GLMakie
