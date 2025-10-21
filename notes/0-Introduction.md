@@ -26,32 +26,23 @@ Those new to Julia can follow the instructions below.
 ## Installing Julia
 Installation instructions are available at https://julialang.org/install/. The recommended method is to install `juliaup` which is a command-line utility. Then you should be able to run it from the terminal
 ```bash
-> juliaup
-The Julia Version Manager
-
-Usage: juliaup <COMMAND>
-
-Commands:
-  default      Set the default Julia version
-  add          Add a specific Julia version or channel to your system. Access via `julia +{channel}` e.g. `julia +1.6`
-  link         Link an existing Julia binary or channel to a custom channel name
-  list         List all available channels
-  override     Manage directory overrides
-  update       Update all or a specific channel to the latest Julia version
-  remove       Remove a Julia version from your system
-  status       Show all installed Julia versions
-  gc           Garbage collect uninstalled Julia versions
-  config       Juliaup configuration
-  self         Manage this juliaup installation
-  completions  Generate tab-completion scripts for your shell
-  help         Print this message or the help of the given subcommand(s)
-
-Options:
-  -h, --help     Print help
-  -V, --version  Print version
-
-To launch a specific Julia version, use `julia +{channel}` e.g. `julia +1.6`.
-Entering just `julia` uses the default channel set via `juliaup default`.
+juliaup
 ```
-We would like to use Julia 1.10, just do `juliaup add 1.10`
+We would like to use Julia 1.10, just do `juliaup add 1.10` to download the latest version. Once this is done, type `julia` to enter the REPL:
+![A screenshot of the Julia REPL](../images/REPL.png)
+Documentation is available at https://docs.julialang.org/en/v1/manual/getting-started/. This module will not require advanced knowledge of Julia. Make sure you are comfortable with
+- Creating `Tuple`s and `NamedTuple`s with `(a, b)` and `(; a, b=42)`, for instance
+- Defining functions with a `function` block and assignment form `f(x) = x^2`
+- Control flow with `if`
+- `for` loops
+- Operations on arrays, broadcasting
+- Specifically for simulations: ensuring hygenic variable scope (avoiding global variables)
+
+Play around! Julia is simple to learn if coming from other common scientific languages. They even provide a helpful reference for important differences to others: https://docs.julialang.org/en/v1/manual/noteworthy-differences/
+
+It is useful to make scripts, conventionally a `.jl` file extension. These can be run from the terminal with
+```bash
+julia -t 4 path/to/script.jl
+```
+Note the optional `-t` argument. This is the number of threads that Julia should use. It defaults to one, but simulations will greatly benefit from multithreading, so I suggest using as many as your computer has available (use 4 if you are unsure) when running simulation code.
 ## Adding Oceananigans and GLMakie
