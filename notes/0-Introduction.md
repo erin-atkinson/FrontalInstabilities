@@ -17,16 +17,16 @@ The module will assume basic familiarity with fluid dynamics fundamentals and th
 # Setup
 For those familiar with Julia, this module will use the latest version of Julia 1.10 (1.10.10 as of writing) and the `Project.toml` file will consist of the packages
 ```
-Oceananigans @ 0.100.3
-GLMakie
-SpecialFunctions
+  [5a033b19] CurveFit v0.6.1
+  [e9467ef8] GLMakie v0.12.0
+  [9e8cae18] Oceananigans v0.100.6
 ```
 
 Those new to Julia can follow the instructions below.
 ## Installing Julia
 Installation instructions are available at https://julialang.org/install/. The recommended method is to install `juliaup` which is a command-line utility. Then you should be able to run it from the terminal
-```
->juliaup
+```bash
+> juliaup
 The Julia Version Manager
 
 Usage: juliaup <COMMAND>
