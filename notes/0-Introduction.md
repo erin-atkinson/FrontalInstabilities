@@ -46,3 +46,19 @@ julia -t 4 path/to/script.jl
 ```
 Note the optional `-t` argument. This is the number of threads that Julia should use. It defaults to one, but simulations will greatly benefit from multithreading, so I suggest using as many as your computer has available (use 4 if you are unsure) when running simulation code.
 ## Adding Oceananigans and GLMakie
+Julia comes with its own package manager, all you have to do it run Julia to access the REPL then type `]`:
+![The Julia package manager](../images/pkg.png)
+Now we can install the required packages:
+- `Oceananigans` is the Boussinesq equation simulator we are using
+- `GLMakie` is for producing plots
+- `CurveFit` provides basic fitting algorithms
+
+To install the versions used in this module, use `@`. If you would like to use the latest compatible versions, simply remove the version specification `@a.b.c`.
+```
+add Oceananigans@0.100.6 GLMakie@0.12.0 CurveFit@0.6.1
+```
+Then they will be installed:
+![Installing packages](../images/installingpackages.png)
+
+This will take a while, but it will aim to install the above packages and all their dependencies. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my test environment (yours may say `(@v1.10)`) looks like
+![Example status](../images/status.png)
