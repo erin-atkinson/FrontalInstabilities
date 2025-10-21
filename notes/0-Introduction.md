@@ -53,12 +53,12 @@ Now we can install the required packages:
 - `GLMakie` is for producing plots
 - `CurveFit` provides basic fitting algorithms
 
-To install the versions used in this module, use `@`. If you would like to use the latest compatible versions, simply remove the version specification `@a.b.c`.
+To install the versions used in this module, use `@`. If you would like to use the latest compatible versions, simply remove the version specification `@a.b.c`, though beware there may be differences.
 ```
 add Oceananigans@0.100.6 GLMakie@0.12.0 CurveFit@0.6.1
 ```
 Then they will be installed:
 ![Installing packages](../images/installingpackages.png)
 
-This will take a while, but it will aim to install the above packages and all their dependencies. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my test environment (yours may say `(@v1.10)`) looks like
+This will take a while, but it will aim to install the above packages and all their dependencies. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my test environment looks like
 ![Example status](../images/status.png)
