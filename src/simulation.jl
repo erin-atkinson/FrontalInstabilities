@@ -5,13 +5,13 @@ f = 1e-4
 # Shear
 S = f
 # Richardson number
-Ri = 0.3
+Ri = parse(Float64, ARGS[1])
 # Stratification
 N² = Ri * S^2
 
 # Dimensions
 L = 100
-N = 512
+N = 128
 
 # Initial time step and total runtime
 Δt = 1e-2 / f
@@ -64,6 +64,12 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 u, v, w = model.velocities
 b, c = model.tracers
 
+# Derived fields
+# Streamfunction
+ψ = Field(CumulativeIntegral(-u; dims=3))
+# Kinetic energy
+s = Field(Integral(0.5 * (u^2 + v^2 + w^2)))
+
 # Output metadata
 function init_jld2!(file, model)
     file["metadata/parameters"] = (; Ri, S, N², f)
@@ -72,8 +78,8 @@ function init_jld2!(file, model)
 end
 
 # Configure output writer
-simulation.output_writers[:raw] = JLD2Writer(model, (; u, v, w, b, c);
-    filename = "raw-512.jld2",
+simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, ψ, s);
+    filename = ARGS[2],
     overwrite_existing = true,
     init=init_jld2!,
     schedule = TimeInterval(10Δt)
