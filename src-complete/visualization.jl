@@ -27,13 +27,13 @@ x_c = xnodes(c_fts)
 z_c = znodes(c_fts)
 
 # Index to plot
-n = 190
+n = Observable(190)
 
 # Data to plot
 b₀ = [p.N² * z + p.f * p.S * x for x in x_c, z in z_c]
-u = interior(u_fts[n], :, 1, :)
-b = interior(b_fts[n], :, 1, :) .+ b₀
-c = interior(c_fts[n], :, 1, :)
+u = @lift interior(u_fts[$n], :, 1, :)
+b = @lift interior(b_fts[$n], :, 1, :) .+ b₀
+c = @lift interior(c_fts[$n], :, 1, :)
 
 fig = Figure(;
     size = (1200, 500),
@@ -56,15 +56,34 @@ ht_u = heatmap!(ax_u, x_u, z_u, u;
 Colorbar(fig[1, 2], ht_u)
 
 # Plot of the passive tracer
-ax_c = Axis(fig[2, 1])
-#
-#
-#
+ax_c = Axis(fig[2, 1]; 
+    title = L"c",
+    xlabel = L"x / \text{m}",
+    ylabel = L"z / \text{m}",
+    limits = (0, L, -H, 0)
+)
+
+ht_c = heatmap!(ax_c, x_c, z_c, c;
+    colormap = :deep,
+    colorrange = (0, 1)
+)
+
+Colorbar(fig[2, 2], ht_c)
 
 # Add some black buoyancy contours to each
 contour!(ax_u, x_c, z_c, b;
     color = :black,
     levels = range(-2e-5, 2e-5, 20)
 )
+
+contour!(ax_c, x_c, z_c, b;
+    color = :black,
+    levels = range(-2e-5, 2e-5, 20)
+)
+
+record(fig, "output.mp4", 1:length(b_fts.times)) do i
+    n[] = i
+    print("$i\r")
+end
 
 fig
