@@ -1,7 +1,3 @@
-#=
-simulation.jl
-    Create a simulation of symmetric instability in a frontal zone
-=#
 using Oceananigans
 
 # Coriolis frequency
@@ -9,7 +5,7 @@ f = 1e-4
 # Shear
 S = f
 # Richardson number
-Ri = 0.5
+Ri = parse(Float64, ARGS[1])
 # Stratification
 N² = Ri * S^2
 
@@ -24,17 +20,18 @@ Nz = 64
 T = 120 / f
 
 # Create a grid
-#
-#
-#
+grid = RectilinearGrid(; 
+    size = (Nx, Nz), 
+    extent = (L, H), 
+    topology = (Periodic, Flat, Bounded)
+)
 
 # Define continuous forcing functions
-#
-#
-#
+@inline v_forcing_func(x, z, t, w) = -(S * w)
+@inline b_forcing_func(x, z, t, u, w) = -(f * S * u + N² * w)
 
 forcing = (;
-    v = Forcing(v_forcing_func; field_dependencies=(:u, )),
+    v = Forcing(v_forcing_func; field_dependencies=(:u, :w)),
     b = Forcing(b_forcing_func; field_dependencies=(:u, :w))
 )
 
@@ -51,11 +48,8 @@ model = NonhydrostaticModel(;
 # Initial conditions
 # Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
-
-# Tracer profile
-#
-#
-#
+ # Tracer is 0 at top and 1 at bottom e.g. nutrient concentration
+@inline c₀(x, z) = -z / H
 
 set!(model; c=c₀, u=u₀)
 
@@ -82,9 +76,7 @@ b, c = model.tracers
 
 # Derived fields
 # Total buoyancy gradient
-#
-#
-#
+N²_tot = Field(∂z(b) + N²)
 
 # Output metadata
 function init_jld2!(file, model)
@@ -95,7 +87,7 @@ end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename = "output.jld2",
+    filename = ARGS[2],
     overwrite_existing = true,
     init=init_jld2!,
     schedule = TimeInterval(20Δt)
