@@ -1,3 +1,7 @@
+#=
+simulation.jl
+    Create a simulation of symmetric instability in a frontal zone
+=#
 using Oceananigans
 
 # Coriolis frequency
@@ -31,7 +35,7 @@ grid = RectilinearGrid(;
 @inline b_forcing_func(x, z, t, u, w) = -(f * S * u + N² * w)
 
 forcing = (;
-    v = Forcing(v_forcing_func; field_dependencies=(:u, :w)),
+    v = Forcing(v_forcing_func; field_dependencies=(:u, )),
     b = Forcing(b_forcing_func; field_dependencies=(:u, :w))
 )
 
@@ -48,7 +52,8 @@ model = NonhydrostaticModel(;
 # Initial conditions
 # Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
- # Tracer is 0 at top and 1 at bottom e.g. nutrient concentration
+
+# Tracer profile
 @inline c₀(x, z) = -z / H
 
 set!(model; c=c₀, u=u₀)
