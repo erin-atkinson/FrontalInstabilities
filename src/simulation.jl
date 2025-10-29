@@ -9,19 +9,25 @@ Ri = parse(Float64, ARGS[1])
 # Stratification
 N² = Ri * S^2
 
-# Dimensions
-L = 100
-N = 128
+# Dimensions typical of submesoscale, but keep aspect ratio low for WENO
+L = 1_000
+H = 100
+Nx = 512
+Nz = 64
 
 # Initial time step and total runtime
 Δt = 1e-2 / f
-T = 50 / f
+T = 120 / f
 
 # Create a grid
-grid = RectilinearGrid(; size=(N, N), extent=(L, L), topology=(Periodic, Flat, Bounded))
+grid = RectilinearGrid(; 
+    size = (Nx, Nz), 
+    extent = (L, H), 
+    topology = (Periodic, Flat, Bounded)
+)
 
 # Define continuous forcing functions
-@inline v_forcing_func(x, z, t, u, w) = -(S * w)
+@inline v_forcing_func(x, z, t, w) = -(S * w)
 @inline b_forcing_func(x, z, t, u, w) = -(f * S * u + N² * w)
 
 forcing = (;
@@ -34,14 +40,17 @@ model = NonhydrostaticModel(;
     grid,
     advection = WENO(; order=5),
     forcing,
-    coriolis=FPlane(; f),
+    coriolis = FPlane(; f),
     tracers = (:b, :c),
-    buoyancy=BuoyancyTracer()
+    buoyancy = BuoyancyTracer()
 )
 
-# Set initial conditions (some noise and a linear tracer profile)
+# Initial conditions
+# Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
-@inline c₀(x, z) = -z
+ # Tracer is 0 at top and 1 at bottom e.g. nutrient concentration
+@inline c₀(x, z) = -z / H
+
 set!(model; c=c₀, u=u₀)
 
 # Create simulation
@@ -51,10 +60,11 @@ simulation = Simulation(model; Δt, stop_time=T)
 function progress(simulation)
     i = iteration(simulation)
     t = prettytime(time(simulation))
-    
-    print("$i, t=$t\r")
+    T = prettytime(simulation.stop_time)
+
+    print(rpad("$i, t=$t / $T", 60, ' ') * "\r")
 end
-simulation.callbacks[:progress] = Callback(progress, TimeInterval(10Δt))
+simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
 
 # Configure a variable time step
 wizard = TimeStepWizard(; cfl=0.5)
@@ -65,24 +75,22 @@ u, v, w = model.velocities
 b, c = model.tracers
 
 # Derived fields
-# Streamfunction
-ψ = Field(CumulativeIntegral(-u; dims=3))
-# Kinetic energy
-s = Field(Integral(0.5 * (u^2 + v^2 + w^2)))
+# Total buoyancy gradient
+N²_tot = Field(∂z(b) + N²)
 
 # Output metadata
 function init_jld2!(file, model)
-    file["metadata/parameters"] = (; Ri, S, N², f)
-    file["metadata/description"] = "Symmetric instability in a finite front"
+    file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
+    file["metadata/description"] = "Symmetric instability in a frontal zone"
     return nothing
 end
 
 # Configure output writer
-simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, ψ, s);
+simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
     filename = ARGS[2],
     overwrite_existing = true,
     init=init_jld2!,
-    schedule = TimeInterval(10Δt)
+    schedule = TimeInterval(20Δt)
 )
 
 # Run simulation
