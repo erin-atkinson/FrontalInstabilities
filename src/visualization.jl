@@ -64,7 +64,7 @@ ht_u = heatmap!(ax_u, x_u, z_u, u;
 
 Colorbar(fig[2, 2], ht_u)
 
-# Plot of the passive tracer
+# Plot of the passive tracer on third row of figure
 #
 #
 #
