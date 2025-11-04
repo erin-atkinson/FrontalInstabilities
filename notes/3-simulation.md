@@ -1,13 +1,43 @@
-# A simulation of a front
-## Basic Oceananigans setup
-## An ideal front
-$$
-b_0(x, z) = \frac{\Delta b}{2}\tanh \left(\frac{x \cos \theta + z \sin \theta}{\ell}\right)
-$$
-$$
-v_0(x, z) = \frac{1}{f}\int_{0}^z \frac{\partial }{\partial x}b_0(x, s)\text{d}s = \frac{b_0(x, z) - b_0(x, 0)}{f\tan{\theta}}
-$$
-We wish to focus on fronts which are unstable to symmetric instability. This requires that $N^2 ≥ 0$ and $\frac{\partial v_0}{\partial x} \geq -f$ everywhere. The former is satisfied for positive $\theta$. 
-> ### Exercise
-> 
-> Derive an expression for the Richardson number $\text{Ri} = N^2 / S^2$ of the basic state above. Stone (1966) demonstrates that, for an Eady state with $\text{Ro} = 0$, Kelvin-Helmholtz instability is dominant for $\text{Ri} \leq 0.25$. Assuming that this relationship may be used here, what condition on $(\Delta b, \theta, f, \ell)$ ensures that Kelvin-Helmholtz instability is avoided?
+# Basic Oceananigans setup
+## Grid
+> ### Exercise 1
+> Add a basic definition of a grid to `simulation.jl`
+
+## Fields
+### Abstract operations
+
+## Components of a model
+### Forcing
+> ### Exercise 2
+> Define the continuous forcing functions `v_forcing_func(x, z, t)` and `b_forcing_func(x, z, t)`
+
+### Boundary conditions
+
+### Tracers
+
+### Advection
+
+### Closure
+
+### Initial conditions
+> ### Exercise 3
+> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$
+
+## Simulation
+### Creation
+### Variable time steps
+### Progress info
+
+### Output
+> ### Exercise 4
+> Add an abstract operation to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
+
+### Running
+Once configured, a simulation can be run with simply
+```julia
+run!(simulation)
+```
+
+> ### Exercise 5
+> Run the simulation. At $512\times 64$ resolution, it took about 15 minutes on my laptop (Ryzen 5 7640U, 12 threads) and the output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue.
+

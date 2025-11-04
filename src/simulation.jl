@@ -23,12 +23,12 @@ Nz = 64
 Δt = 1e-2 / f
 T = 120 / f
 
-# Create a grid
+# Exercise 1: Create a grid
 #
 #
 #
 
-# Define continuous forcing functions
+# Exercise 2: Define continuous forcing functions
 #
 #
 #
@@ -52,7 +52,7 @@ model = NonhydrostaticModel(;
 # Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
 
-# Tracer profile
+# Exercise 3: Initial tracer profile
 #
 #
 #
@@ -80,7 +80,7 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 u, v, w = model.velocities
 b, c = model.tracers
 
-# Derived fields
+# Exercise 4: Derived fields
 # Total buoyancy gradient
 #
 #
