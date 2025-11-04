@@ -9,4 +9,8 @@ Where $\vec u = (u, v, w)$ is the velocity, $\rho$ is the density, $p$ is pressu
 
 # Circulation at an ideal front
 ## Modelling an ideal front
+### Thermal wind balance
+Combination of geostrophic and hydrostatic balances
 ## The Sawyer-Eliassen equations
+> ### Exercise 2
+> Thermal wind balance in SE?
