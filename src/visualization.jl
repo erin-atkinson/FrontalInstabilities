@@ -4,8 +4,7 @@ visualization.jl
 =#
 using Oceananigans, GLMakie
 
-filename = ARGS[1]
-figname = replace(ARGS[1], ".jld2" => ".png")
+filename = "output.jld2"
 
 # Read simulation data
 fds = FieldDataset(filename; backend=OnDisk())
@@ -28,7 +27,7 @@ x_c = xnodes(c_fts)
 z_c = znodes(c_fts)
 
 # Index to plot
-n = 190
+n = 170
 
 # Data to plot
 b₀ = [p.N² * z + p.f * p.S * x for x in x_c, z in z_c]
@@ -43,8 +42,8 @@ time_string = let
 end
 
 fig = Figure(;
-    size = (1200, 500),
-    fontsize = 16
+    size = (1060, 400),
+    fontsize = 18
 )
 
 # Time label
@@ -80,5 +79,5 @@ contour!(ax_u, x_c, z_c, b;
 #
 #
 
-save(fig, figname; px_per_unit=2)
+save("output.png", fig; px_per_unit=2)
 fig

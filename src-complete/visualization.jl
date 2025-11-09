@@ -4,7 +4,7 @@ visualization.jl
 =#
 using Oceananigans, GLMakie
 
-filename = "Ri05.jld2"
+filename = "output.jld2"
 
 # Read simulation data
 fds = FieldDataset(filename; backend=OnDisk())
