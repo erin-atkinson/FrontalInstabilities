@@ -4,7 +4,8 @@ visualization.jl
 =#
 using Oceananigans, GLMakie
 
-filename = "Ri03.jld2"
+filename = ARGS[1]
+figname = replace(ARGS[1], ".jld2" => ".png")
 
 # Read simulation data
 fds = FieldDataset(filename; backend=OnDisk())
@@ -79,4 +80,5 @@ contour!(ax_u, x_c, z_c, b;
 #
 #
 
+save(fig, figname; px_per_unit=2)
 fig
