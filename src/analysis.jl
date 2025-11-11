@@ -1,5 +1,5 @@
 using Oceananigans
-using Oceananigans.Operators
+using Oceananigans.Fields: instantiated_location
 
 input = ARGS[1]
 output = replace(ARGS[1], ".jld2" => "-pp.jld2")
@@ -7,39 +7,63 @@ output = replace(ARGS[1], ".jld2" => "-pp.jld2")
 # Read in the raw output
 fds = FieldDataset(input; backend=OnDisk())
 b_fts = fds.b
+v_fts = fds.v
+w_fts = fds.w
 p = fds.metadata["parameters"]
+
 b = b_fts[1]
-grid = b.grid
+v = v_fts[1]
+w = w_fts[1]
+grid = c.grid
 
-# Create our new field
-function Ri_func(i, j, k, grid, b, S, N²)
-    tot = 0
-    for _i in 1:grid.Nx, _k in 1:grid.Nz
-        tot += ∂zᶜᶜᶠ(_i, j, _k, grid, b)
-    end
-    return (N² + tot) / (S^2 * grid.Nx * grid.Nz)
-end
+# Averaged tracer
+b_avg = Field(Average(b; dims=(1, 2)))
 
-Ri = Field(KernelFunctionOperation{Nothing, Center, Nothing}(Ri_func, grid, b, p.S, p.N²))
+# Perturbation
+b′ = Field(b - b_avg)
 
-# Create a timeseries to save our results
-Ri_series = FieldTimeSeries{Nothing, Center, Nothing}(grid, b_fts.times; 
-                                                     name = "Ri", 
-                                                     backend = OnDisk(), 
-                                                     path = output
-                                                    )
+# Covariance
+w′b′ = Field(w * b′)
+
+# Terms in effective diffusivity definition
+w′b′_avg = Field(Average(w′b′; dims=(1, 2)))
+b_avg_z = Field(∂z(b_avg))
+
+# Effective diffusivity
+κ = Field(- c_avg_z * w′c′_avg / (c_avg_z^2 + 1e-5))
+
+outputs = (; KE)
+
+ftss = NamedTuple(
+    k => FieldTimeSeries(
+        instantiated_location(v), 
+        grid, 
+        c_fts.times; 
+        name = string(k), 
+        backend = OnDisk(), 
+        path = output
+    )
+    for (k, v) in pairs(outputs)
+)
 
 # Iterate over times
-N = length(b_fts)
+N = length(c_fts)
 @time for n in 1:N
     # Set input
-    set!(b, b_fts[n])
+    set!(u, u_fts[n])
+    set!(v, v_fts[n])
+    set!(w, w_fts[n])
+    set!(c, c_fts[n])
 
     # Perform operation
-    compute!(Ri)
+    # NB: compute! will by default call compute on all dependencies
+    # see Oceananigans.Fields.compute_at!
+    compute!(KE)
 
     # Save the result
-    set!(Ri_series, Ri, n)
+    map(outputs, ftss) do v, fts
+        set!(fts, v, n)
+    end
 
     print("$n / $N\r")
 end
