@@ -17,7 +17,6 @@ The module will assume basic familiarity with fluid dynamics fundamentals and th
 # Setup
 For those familiar with Julia, this module will use the latest version of Julia 1.10 (1.10.10 as of writing) and the `Project.toml` file will consist of the packages
 ```
-  [5a033b19] CurveFit v0.6.1
   [e9467ef8] GLMakie v0.12.0
   [9e8cae18] Oceananigans v0.100.6
 ```
@@ -54,11 +53,10 @@ Julia comes with its own package manager, all you have to do it run Julia to acc
 Now we can install the required packages:
 - `Oceananigans` is the Boussinesq equation simulator we are using
 - `GLMakie` is for producing plots
-- `CurveFit` provides basic fitting algorithms
 
 To install the versions used in this module, use `@`. If you would like to use the latest compatible versions, simply remove the version specification `@a.b.c`, though beware there may be differences.
 ```
-add Oceananigans@0.100.6 GLMakie@0.12.0 CurveFit@0.6.1
+add Oceananigans@0.100.6 GLMakie@0.12.0
 ```
 Then they will be installed:
 ![Installing packages](../images/installingpackages.png)
