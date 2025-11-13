@@ -17,11 +17,16 @@ N²_tot = N²_tot_fts[1]
 w = w_fts[1]
 c = c_fts[1]
 
-# Balanced Ri and w′c′_avg
-#
-#
-#
-#
+# Balanced Ri
+Ri_b = Field(Average(N²_tot / p.S^2))
+
+c_avg = Field(Average(c))
+w_avg = Field(Average(w))
+
+c′ = c - c_avg
+w′ = w - w_avg
+
+w′c′_avg = Field(Average(w′ * c′))
 
 outputs = (; Ri_b, w′c′_avg)
 

@@ -121,4 +121,4 @@ end
 > ### Exercise 3
 > Add functions to `src/analysis.jl` to produce the mean state $\langle c \rangle$ (`c_avg`), perturbations $c'$ (`c′`) and vertical turbulent transport $\langle w'c'\rangle$ (`w′c′_avg`). Also, add the balanced Richardson number as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2`.
 
-Running `transport.jl` with filenames for the post-processed data as arguments should produce the following figure.
+Running `transport.jl` should produce the following figure.
