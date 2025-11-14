@@ -117,11 +117,52 @@ c
 Because the grid has no $z$ dependence, the function we pass must only have two arguments.
 
 ## Components of a model
-[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/overview/)
+[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
 
 ### Forcing
+[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
+
+Recall the equations we need to simulate
+$$
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.
+$$
+These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor. A simple, constant forcing can be created by passing a function to `Forcing`.
+```julia
+Fᵤ = 0.1
+function u_forcing_func(x, y, z, t, p)
+	return p.Fᵤ
+end
+
+Forcing(u_forcing_func; parameters=(; Fᵤ))
+```
+```
+ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
+├── func: u_forcing_func (generic function with 1 method)
+├── parameters: (Fᵤ = 0.1,)
+└── field dependencies: ()
+```
+
+We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates. (though `parameters` is always passed to the last positional argument)
+```julia
+function quadratic_drag_u(x, y, z, t, u, v, w, p)
+	return -p.c * sqrt(u^2 + v^2 + w^2) * u
+end
+
+Forcing(quadratic_drag_u;
+	parameters = (; c=0.5),
+	field_dependencies = (:u, :v, :w)
+)
+```
+```
+ContinuousForcing{@NamedTuple{c::Float64}}
+├── func: quadratic_drag_u (generic function with 1 method)
+├── parameters: (c = 0.5,)
+└── field dependencies: (:u, :v, :w)
+```
+Note that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
+
 > ### Exercise 2
-> Define the continuous forcing functions `v_forcing_func(x, z, t)` and `b_forcing_func(x, z, t)`
+> Define the continuous forcing functions `v_forcing_func(x, z, t, p)` and `b_forcing_func(x, z, t, p)` appropriately
 
 ### Boundary conditions
 

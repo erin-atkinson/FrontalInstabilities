@@ -24,19 +24,14 @@ Nz = 64
 T = 120 / f
 
 # Exercise 1: Create a grid
-#
-#
-#
+grid = 
 
 # Exercise 2: Define continuous forcing functions
 #
 #
 #
 
-forcing = (;
-    v = Forcing(v_forcing_func; field_dependencies=(:u, )),
-    b = Forcing(b_forcing_func; field_dependencies=(:u, :w))
-)
+forcing = 
 
 # Create a model
 model = NonhydrostaticModel(; 
