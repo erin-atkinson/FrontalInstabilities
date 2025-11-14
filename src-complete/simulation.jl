@@ -31,22 +31,28 @@ grid = RectilinearGrid(;
 )
 
 # Define continuous forcing functions
-@inline v_forcing_func(x, z, t, w) = -(S * w)
-@inline b_forcing_func(x, z, t, u, w) = -(f * S * u + N² * w)
+@inline v_forcing_func(x, z, t, w, p) = -(p.S * w)
+@inline b_forcing_func(x, z, t, u, w, p) = -(f * p.S * u + p.N² * w)
 
 forcing = (;
-    v = Forcing(v_forcing_func; field_dependencies=(:u, )),
-    b = Forcing(b_forcing_func; field_dependencies=(:u, :w))
+    v = Forcing(v_forcing_func; parameters=(; S), field_dependencies=(:u, )),
+    b = Forcing(b_forcing_func; parameters=(; S, N²), field_dependencies=(:u, :w, ))
 )
+
+# Other model arguments
+advection = WENO(; order=5)
+coriolis = FPlane(; f)
+buoyancy = BuoyancyTracer()
+tracers = (:b, :c,)
 
 # Create a model
 model = NonhydrostaticModel(; 
     grid,
-    advection = WENO(; order=5),
+    advection,
     forcing,
-    coriolis = FPlane(; f),
-    tracers = (:b, :c),
-    buoyancy = BuoyancyTracer()
+    coriolis,
+    tracers,
+    buoyancy
 )
 
 # Initial conditions

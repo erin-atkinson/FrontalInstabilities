@@ -119,6 +119,28 @@ Because the grid has no $z$ dependence, the function we pass must only have two 
 ## Components of a model
 [Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
 
+The model contains information and implementation of the physics of the simulation. We will use a `NonhydrostaticModel`, though others exist. The model constructor takes many keyword arguments specifying desired properties. For our simulation, the model may look like:
+
+```julia
+model = NonhydrostaticModel(; 
+    grid,
+    advection,
+    forcing,
+    coriolis,
+    tracers,
+    buoyancy
+)
+```
+Each of the arguments we use are described below.
+
+### Rotation
+[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/coriolis/)
+
+After defining the desired Coriolis frequency $f$, a simple $f$-plane rotation can be added with 
+```julia
+coriolis = FPlane(; f)
+```
+
 ### Forcing
 [Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
 
@@ -133,7 +155,7 @@ function u_forcing_func(x, y, z, t, p)
 	return p.Fᵤ
 end
 
-Forcing(u_forcing_func; parameters=(; Fᵤ))
+forcing = Forcing(u_forcing_func; parameters=(; Fᵤ))
 ```
 ```
 ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
@@ -148,7 +170,7 @@ function quadratic_drag_u(x, y, z, t, u, v, w, p)
 	return -p.c * sqrt(u^2 + v^2 + w^2) * u
 end
 
-Forcing(quadratic_drag_u;
+forcing = Forcing(quadratic_drag_u;
 	parameters = (; c=0.5),
 	field_dependencies = (:u, :v, :w)
 )
@@ -178,28 +200,36 @@ There are also boundary conditions which aren't intended to be used directly
 - `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain
 - `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient
 
-Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here.
-
-### Tracers
-[Tracers · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/tracers/)
-
-Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
-$$
-\frac{\text{D}c}{\text{D}t} = 0
-$$
-just add
+Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
 ```julia
-tracers = (:c, ),
+boundary_conditions = nothing
 ```
+
+### Tracers and buoyancy
+[Tracers · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/tracers/)
 
 [Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/buoyancy_and_equation_of_state/)
 
-Buoyancy $b$ is an *active* tracer that appears in the momentum equation. Any active tracer can be implemented in Oceananigans, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
+Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
+$$
+\frac{\text{D}c}{\text{D}t} = 0\quad \text{if no forcing functions defined}
+$$
+just add
 ```julia
-buoyancy = BuoyancyTracer(),
-tracers = (:b, ),
+tracers = (:c, )
 ```
-Note we can add any additional tracers, we just need `:b` present to represent the buoyancy.
+
+Buoyancy $b$ is an *active* tracer that appears in the momentum equation. Any active tracer can be implemented in Oceananigans using custom forcing functions, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
+```julia
+buoyancy = BuoyancyTracer()
+tracers = (:b, )
+```
+Note we can add any additional tracers, we just need `:b` present to represent the buoyancy. So we combine the above:
+
+```julia
+buoyancy = BuoyancyTracer()
+tracers = (:b, :c, )
+```
 
 ### Advection
 The advection terms are non-linear, and typically require special treatment for good numerical performance (this is the reason for the staggered grid). Over time, people have developed many methods for calculating these terms. Oceananigans supports a few different schemes:
@@ -208,6 +238,14 @@ The advection terms are non-linear, and typically require special treatment for 
 - `WENO(; order)`: Like `UpwindBiased`, but adaptively chooses from the results of interpolations using polynomials of lower order to avoid interpolating across sharp changes in an advected quantity, preserving these sharp features. For smoothly varying fields, the order is `order`, while the minimum order is `(order - 1) / 2`.
 
 [Durran 2010](https://link.springer.com/book/10.1007/978-1-4419-6412-0) presents some background for how these work. We will use a fifth-order WENO.
+```julia
+advection = WENO(; order=5)
+```
+```
+WENO{3, Float64, Float32}(order=5)
+├── buffer_scheme: WENO{2, Float64, Float32}(order=3)
+└── advection_velocity_scheme: Centered(order=4)
+```
 ### Closure
 [Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/turbulent_diffusivity_closures_and_les_models/)
 
@@ -215,9 +253,18 @@ When we simulate a fluid on a computer, we necessarily lose some information as 
 
 We will not use an explicit closure here for simplicity; the WENO advection scheme is sufficient.
 
+```julia
+closure = nothing
+```
+
 ### Initial conditions
+`set!` can be called for models just like fields, with keywords describing what model fields to set:
+```julia
+set!(model; u=u₀, v=v₀) # etc.
+```
+We will use this to set the initial conditions of the simulation, after the model has been created.
 > ### Exercise 3
-> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$
+> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$
 
 ## Simulation
 ### Creation

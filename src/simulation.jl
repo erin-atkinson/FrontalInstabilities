@@ -33,14 +33,20 @@ grid =
 
 forcing = 
 
+# Other model arguments
+advection = WENO(; order=5)
+coriolis = FPlane(; f)
+buoyancy = BuoyancyTracer()
+tracers = (:b, :c)
+
 # Create a model
 model = NonhydrostaticModel(; 
     grid,
-    advection = WENO(; order=5),
+    advection,
     forcing,
-    coriolis = FPlane(; f),
-    tracers = (:b, :c),
-    buoyancy = BuoyancyTracer()
+    coriolis,
+    tracers,
+    buoyancy
 )
 
 # Initial conditions
