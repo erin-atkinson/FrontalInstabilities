@@ -178,7 +178,7 @@ There are also boundary conditions which aren't intended to be used directly
 - `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain
 - `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient
 
-To apply a boundary condition to a model, you first have to define a corresponding function (or constant)
+Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here.
 
 ### Tracers
 [Tracers · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/tracers/)
