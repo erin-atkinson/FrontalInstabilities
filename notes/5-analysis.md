@@ -4,28 +4,31 @@ This section covers some motivation for modelling instabilities in the first pla
 ## Vertical transport
 It is clear from the videos that the instability-induced turbulence transports momentum and tracers vertically. As discussed in section 3, a simulation is not a true representation of an inviscid fluid, with the most important difference being a lack of infinite resolution. Our simulation may be contained entirely in a single grid cell within a global ocean model. The value of velocities and tracers within this cell will be the average over the whole simulation, for example the tracer $c$ we define an average and perturbations from this average
 
-$$
-\langle c \rangle = \frac{1}{LH}\int_\text{cell} c\;\text{d}x\text{d}z  \quad \text{and}\quad c'=c - \langle c\rangle
-$$
+$$\langle c \rangle = \frac{1}{LH}\int_\text{cell} c\;\text{d}x\text{d}z  \quad \text{and}\quad c'=c - \langle c\rangle$$
 
 How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagrangian derivative.
 
 $$
 \frac{\text {D}\langle c \rangle}{\text{D}t} = \frac{\partial \langle c\rangle}{\partial t} + \vec u \cdot \nabla \langle c \rangle
 $$
+
 Using $\langle c \rangle = c - c'$ and taking a horizontal average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$)
+
 $$
 \left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \langle \vec u' \cdot \nabla c'\rangle = - \nabla \cdot \langle \vec u' c'\rangle 
 $$
+
 Where incompressibility is used for the final equality. We end up with a tracer equation for $\langle c \rangle$, but this averaged tracer is no longer materially conserved as it has a non-zero Lagrangian derivative
+
 $$
 \frac{\text {D}\langle c \rangle}{\text{D}t} =- \nabla \cdot \langle \vec u' c'\rangle 
 $$
-(note that there will also be a direct effect of the sub-grid diffusivity due to the advection scheme/closure as discussed previously, but we ignore it here). As simulations at this fine resolution are impractical for larger regions, realistic simulations require that we model the effects of small-scale turbulence by producing estimates of the turbulent flux terms $\langle \vec u' c'\rangle $ (this _closes_ the set of equations for the averaged fields, hence the term _closure_). This can be done completely analytically for only simple cases, another method is to perform multiple small-scale simulations for a range of large-scale conditions, usually represented by non-dimensional numbers, and fit a curve. Here we will produce an estimate of the total vertical transport of the tracer $c$ for different values of $\text{Ri}$ over time.
+
+(note that there will also be a direct effect of the sub-grid diffusivity due to the advection scheme/closure as discussed previously, but we ignore it here). As simulations at this fine resolution are impractical for larger regions, realistic simulations require that we model the effects of small-scale turbulence by producing estimates of the turbulent flux terms ${\langle \vec{u}' c'\rangle}$ (this _closes_ the set of equations for the averaged fields, hence the term _closure_). This can be done completely analytically for only simple cases, another method is to perform multiple small-scale simulations for a range of large-scale conditions, usually represented by non-dimensional numbers, and fit a curve. Here we will produce an estimate of the total vertical transport of the tracer $c$ for different values of $\text{Ri}$ over time.
 
 ## Parameter sweep
 
-It would be impractical to edit `simulation.jl` each time we want to change some parameters. We can make use of the `ARGS` variable to run multiple versions of the same simulation. `ARGS` is a Julia environment variable that contains a vector of the command-line arguments the script was run with (not the arguments for `julia` itself). For instance, the simple program
+It would be impractical to edit `simulation.jl` each time we want to change some parameters. We can make use of the `ARGS` variable to run multiple versions of the same simulation. `ARGS` is a Julia environment variable that contains a vector of the command-line arguments the script was run with (not the arguments for `julia` itself, such as the number of threads or project path). For instance, the simple program
 
 ```julia
 # args-example.jl
@@ -114,9 +117,13 @@ end
 ```
 > ### Exercise 2
 > Show that the balanced Richardson number, defined by
+> 
 > $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
+> 
 > May be written, for the boundary conditions in our simulation, as
+> 
 > $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}$$
+> 
 
 > ### Exercise 3
 > Add functions to `src/analysis.jl` to produce the mean state $\langle c \rangle$ (`c_avg`), perturbations $c'$ (`c′`) and vertical turbulent transport $\langle w'c'\rangle$ (`w′c′_avg`). Also, add the balanced Richardson number as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2`.
