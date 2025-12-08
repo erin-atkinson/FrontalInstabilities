@@ -28,7 +28,9 @@ Installation instructions are available at https://julialang.org/install/. The r
 juliaup
 ```
 We would like to use Julia 1.10, just do `juliaup add 1.10` to download the latest version. Once this is done, type `julia` to enter the REPL:
+
 ![A screenshot of the Julia REPL](../images/REPL.png)
+
 Documentation is available at https://docs.julialang.org/en/v1/manual/getting-started/. This module will not require advanced knowledge of Julia. Make sure you are comfortable with
 
 - Assigning and using variables
@@ -49,7 +51,9 @@ Note the optional `-t` argument. This is the number of threads that Julia should
 
 ## Adding Oceananigans and GLMakie
 Julia comes with its own package manager, all you have to do it run Julia to access the REPL then type `]`:
+
 ![The Julia package manager](../images/pkg.png)
+
 Now we can install the required packages:
 - `Oceananigans` is the Boussinesq equation simulator we are using
 - `GLMakie` is for producing plots
@@ -59,6 +63,7 @@ To install the versions used in this module, use `@`. If you would like to use t
 add Oceananigans@0.101.0 GLMakie@0.12.0
 ```
 Then they will be installed:
+
 ![Installing packages](../images/installingpackages.png)
 
 This will take a while, but it will aim to install the above packages and all their dependencies. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my test environment looks like
