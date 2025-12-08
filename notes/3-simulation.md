@@ -145,9 +145,9 @@ coriolis = FPlane(; f)
 [Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
 
 Recall the equations we need to simulate
-$$
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.
-$$
+
+$$\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.$$
+
 These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor. A simple, constant forcing can be created by passing a function to `Forcing`.
 ```julia
 Fᵤ = 0.1
@@ -211,9 +211,9 @@ boundary_conditions = nothing
 [Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/buoyancy_and_equation_of_state/)
 
 Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
-$$
-\frac{\text{D}c}{\text{D}t} = 0\quad \text{if no forcing functions defined}
-$$
+
+$$\frac{\text{D}c}{\text{D}t} = 0\quad \text{if no forcing functions defined}$$
+
 just add
 ```julia
 tracers = (:c, )
@@ -237,7 +237,7 @@ The advection terms are non-linear, and typically require special treatment for 
 - `UpwindBiased(; order)`: Interpolates values of fields using odd `order` polynomials.
 - `WENO(; order)`: Like `UpwindBiased`, but adaptively chooses from the results of interpolations using polynomials of lower order to avoid interpolating across sharp changes in an advected quantity, preserving these sharp features. For smoothly varying fields, the order is `order`, while the minimum order is `(order - 1) / 2`.
 
-[Durran 2010](https://link.springer.com/book/10.1007/978-1-4419-6412-0) presents some background for how these work. We will use a fifth-order WENO.
+[Durran 2010](https://link.springer.com/book/10.1007/978-1-4419-6412-0) presents some background for how these work. We will use a fifth-order WENO as it will allow us to avoid having to spend time tuning the closure (see below).
 ```julia
 advection = WENO(; order=5)
 ```
@@ -249,7 +249,7 @@ WENO{3, Float64, Float32}(order=5)
 ### Closure
 [Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/turbulent_diffusivity_closures_and_les_models/)
 
-When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term $\nu\nabla^2\vec u$ to model down-gradient turbulent diffusion of velocity.
+When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ to model down-gradient turbulent diffusion of velocity.
 
 We will not use an explicit closure here for simplicity; the WENO advection scheme is sufficient.
 
