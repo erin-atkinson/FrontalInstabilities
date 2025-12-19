@@ -114,7 +114,7 @@ c
 └── data: 38×38×1 OffsetArray(::Array{Float64, 3}, -2:35, -2:35, 1:1) with eltype Float64 with indices -2:35×-2:35×1:1
     └── max=0.234619, min=-0.234619, mean=0.0
 ```
-Because the grid has no $z$ dependence, the function we pass must only have two arguments.
+Because the grid has no $z$ dependence, the function we pass must only have two arguments. This convention is used throughout Oceananigans. Functions defined on the simulation domain will take arguments `(x, y, z)` or `(x, y, z, t)`, with coordinates corresponding to flat directions removed.
 
 ## Components of a model
 [Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
