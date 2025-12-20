@@ -15,10 +15,10 @@ The module will assume basic familiarity with fluid dynamics fundamentals and th
 5. Analysis and post-processing
 
 # Setup
-For those familiar with Julia, this module will use the latest version of Julia 1.10 (1.10.10 as of writing) and the `Project.toml` file will consist of the packages
+For those familiar with Julia, this module will use the latest version of Julia 1.12 (1.12.3 as of writing) and the `Project.toml` file will consist of the packages
 ```
-  GLMakie v0.12.0
-  Oceananigans v0.101.0
+  GLMakie v0.13.8
+  Oceananigans v0.102.5
 ```
 To keep setup as simple as possible, this module does not use computational notebooks or assume you have an IDE set up for Julia.  Those new to Julia can follow the instructions below to install and configure it.
 
@@ -27,7 +27,7 @@ Installation instructions are available at https://julialang.org/install/. The r
 ```bash
 juliaup
 ```
-We would like to use Julia 1.10, just do `juliaup add 1.10` to download the latest version. Once this is done, type `julia` to enter the REPL:
+We would like to use Julia 1.12, just do `juliaup add 1.12` to download the latest version. Once this is done, type `julia` to enter the REPL:
 
 ![A screenshot of the Julia REPL](../images/REPL.png)
 
@@ -39,7 +39,7 @@ Documentation is available at https://docs.julialang.org/en/v1/manual/getting-st
 - Control flow with `if`
 - `for` loops
 - Operations on arrays, broadcasting
-- Specifically for simulations: ensuring hygenic variable scope (avoiding global variables)
+- Specifically for simulations: ensuring hygenic variable scope (using constant global variables or passing parameters)
 
 Play around! Julia is simple to learn if coming from other common scientific languages. They even provide a helpful reference for important differences to others: https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
@@ -47,7 +47,7 @@ It is useful to make scripts, conventionally a `.jl` file extension. These can b
 ```bash
 julia -t 4 path/to/script.jl
 ```
-Note the optional `-t` argument. This is the number of threads that Julia should use. It defaults to one, but simulations will greatly benefit from multithreading, so I suggest using as many as your computer has available (use 4 if you are unsure) when running simulation code.
+Note the optional `-t` argument. This is the number of threads that Julia should use. It defaults to one, but simulations will greatly benefit from multithreading, so I suggest using as many as your CPU has available (use 4 if you are unsure) when running simulation code.
 
 ## Adding Oceananigans and GLMakie
 Julia comes with its own package manager, all you have to do it run Julia to access the REPL then type `]`:
@@ -60,11 +60,11 @@ Now we can install the required packages:
 
 To install the versions used in this module, use `@`. If you would like to use the latest compatible versions, simply remove the version specification `@a.b.c`, though beware there may be differences.
 ```
-add Oceananigans@0.101.0 GLMakie@0.12.0
+add Oceananigans@0.102.5 GLMakie@0.13.8
 ```
-Then they will be installed:
+Then they will be installed, starting with dependencies:
 
 ![Installing packages](../images/installingpackages.png)
 
-This will take a while, but it will aim to install the above packages and all their dependencies. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my test environment looks like
+This will take a while. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my environment looks like
 ![Example status](../images/status.png)
