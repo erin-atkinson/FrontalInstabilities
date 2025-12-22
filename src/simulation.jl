@@ -83,9 +83,7 @@ b, c = model.tracers
 
 # Exercise 4: Derived fields
 # Total buoyancy gradient
-# N²_tot = 
-#
-#
+N²_tot = 
 
 # Output metadata
 function init_jld2!(file, model)
