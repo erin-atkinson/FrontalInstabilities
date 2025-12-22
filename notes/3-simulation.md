@@ -1,6 +1,6 @@
 # Basic Oceananigans setup
 ## Grid
-[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/)
+[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
 
 In brief, Oceananigans is a finite-difference simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as Dedalus, a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
@@ -60,7 +60,7 @@ There is a secret, third thing: `Nothing`. This is the location for fields that 
 Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy.
 
 ## Fields
-[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/fields/)
+[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/fields/)
 
 A `Field` is a container that holds values of a quantity on a specific grid, along with boundary conditions, nodes and other data. Fields may also be used to represent derived quantities that are produced by `AbstractOperations` acting on fields, described later. To create a field on a grid, just use the constructor `Field`
 ```julia
@@ -117,7 +117,7 @@ c
 Because the grid has no $z$ dependence, the function we pass must only have two arguments. This convention is used throughout Oceananigans. Functions defined on the simulation domain will take arguments `(x, y, z)` or `(x, y, z, t)`, with coordinates corresponding to flat directions removed.
 
 ## Components of a model
-[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
+[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/models_overview/)
 
 The model contains information and implementation of the physics of the simulation. We will use a `NonhydrostaticModel`, though others exist. The model constructor takes many keyword arguments specifying desired properties. For our simulation, the model may look like:
 
@@ -134,7 +134,7 @@ model = NonhydrostaticModel(;
 Each of the arguments we use are described below.
 
 ### Rotation
-[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/coriolis/)
+[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/coriolis/)
 
 After defining the desired Coriolis frequency $f$, a simple $f$-plane rotation can be added with 
 ```julia
@@ -142,7 +142,7 @@ coriolis = FPlane(; f)
 ```
 
 ### Forcing
-[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
+[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/forcing_functions/)
 
 Recall the equations we need to simulate
 
@@ -188,7 +188,7 @@ Note that, just like for `set!`, `Flat` coordinates are omitted from these forci
 
 ### Boundary conditions
 
-[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/boundary_conditions/)
+[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/boundary_conditions/)
 
 Every field comes with a set of boundary conditions
 - `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field i.e. the no-slip boundary condition $u(x, y, 0) = 0$
@@ -206,9 +206,8 @@ boundary_conditions = nothing
 ```
 
 ### Tracers and buoyancy
-[Tracers · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/tracers/)
 
-[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/buoyancy_and_equation_of_state/)
+[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/buoyancy_and_equation_of_state/)
 
 Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
 
@@ -247,7 +246,7 @@ WENO{3, Float64, Float32}(order=5)
 └── advection_velocity_scheme: Centered(order=4)
 ```
 ### Closure
-[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/model_setup/turbulent_diffusivity_closures_and_les_models/)
+[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/turbulence_closures/)
 
 When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ to model down-gradient turbulent diffusion of velocity.
 
@@ -307,7 +306,7 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 
 [Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/output_writers/)
 \
-[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations/)
+[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
 
 Finally, we add a `JLD2Writer` to the simulation to output model fields. We can also output derived fields using `AbstractOperations`.
 
