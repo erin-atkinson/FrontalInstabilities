@@ -267,13 +267,82 @@ We will use this to set the initial conditions of the simulation, after the mode
 > Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$
 
 ## Simulation
+[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
 ### Creation
-### Variable time steps
+We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
+```julia
+simulation = Simulation(model; Δt=7, stop_time=6)
+```
 ### Progress info
+[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/callbacks/)
 
-### Output
+Oceananigans has a callback system for creating functions that run at specific points during simulation runtime. We will use this to produce some output as the simulation runs. First, we define a function that prints some info (using `prettytime` to convert seconds into a suitable unit)
+
+```julia
+function progress(simulation)
+    i = iteration(simulation)
+    t = prettytime(time(simulation))
+    T = prettytime(simulation.stop_time)
+
+    print(rpad("$i, t=$t / $T", 60, ' ') * "\r")
+end
+```
+We then add this to the simulation callbacks.
+```julia
+simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
+```
+### Variable time steps
+[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
+
+The numerical stability of an advection equation is determined primarily by the 
+
+Intuitively, this condition states that the movement of an advected quantity in one timestep $u\Delta t$ must not be larger than a single grid cell $\Delta x$. We can use this condition as a guide for how large we can make the simulation timestep and retain stability. Since velocity is an evolving quantity, we use a `TimeStepWizard` to adjust the timestep to be as large as possible while still retaining a minimum CFL number of $0.5$.
+
+```julia
+wizard = TimeStepWizard(; cfl=0.5)
+simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
+```
+
+### Output and operations
+
+[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/output_writers/)
+\
+[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations/)
+
+Finally, we add a `JLD2Writer` to the simulation to output model fields. We can also output derived fields using `AbstractOperations`.
+
+```julia
+u, v, w = model.velocities
+b, c = model.tracers
+
+# Derivatives
+∂v∂x = ∂x(v)
+
+# Sums
+KE = (u^2 + v^2) / 2
+```
+
 > ### Exercise 4
-> Add an abstract operation to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
+> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
+
+We can also pass a function as keyword argument `init` that is run when the output file is initialized. It is prudent to output simulation parameters and a short description in addition to fields.
+
+```julia
+# Output metadata
+function init_jld2!(file, model)
+    file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
+    file["metadata/description"] = "Symmetric instability in a frontal zone"
+    return nothing
+end
+
+# Configure output writer
+simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
+    filename = "output.jld2",
+    overwrite_existing = true,
+    init=init_jld2!,
+    schedule = TimeInterval(20Δt)
+)
+```
 
 ### Running
 Once configured, a simulation can be run with simply

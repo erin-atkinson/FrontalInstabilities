@@ -83,7 +83,7 @@ b, c = model.tracers
 
 # Exercise 4: Derived fields
 # Total buoyancy gradient
-#
+# N²_tot = 
 #
 #
 
