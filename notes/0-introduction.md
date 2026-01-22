@@ -67,4 +67,5 @@ Then they will be installed, starting with dependencies:
 ![Installing packages](../images/installingpackages.png)
 
 This will take a while. Packages you explicitly install like above become part of your `Project.toml` and can be viewed with `status` and accessed in scripts with `using`. All of their dependencies are part of your `Manifest.toml` and these can be viewed with `status -m`. The `status` of my environment looks like
+
 ![Example status](../images/status.png)
