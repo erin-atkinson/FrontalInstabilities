@@ -5,7 +5,7 @@ The ocean is awash with important fluid dynamical processes at all spatial and t
 
 In this module we will create a simulation of flow around a submesoscale ocean front using Oceananigans, a Julia package for finite-difference simulations of the Boussinesq equations, intended for an oceanic context. The setup is motivated by the theory of symmetric instability, an instability in rotating, baroclinic fluids that is important in the submesoscale ocean.
 
-The module will assume basic familiarity with fluid dynamics fundamentals and the incompressible Navier-Stokes equations. Proficiency in Julia is not required, the language should be intuitive for those with experience in Python (numpy) or MATLAB. An outline of this module is as follows:
+The module will assume basic familiarity with fluid dynamics fundamentals and the incompressible Navier-Stokes equations. Proficiency in Julia is not required, the language should be intuitive for those with experience in Python (NumPy) or MATLAB. An outline of this module is as follows:
 
 0. Julia setup for Oceananigans and GLMakie
 1. Derivation of the Boussinesq equations and subsequently the Sawyer-Eliassen equations for the flow in the frontal plane
