@@ -73,8 +73,9 @@ These model the flow of an almost-constant density, incompressible fluid. An equ
 ```
 though this is not true in the case of a compressible fluid (flow speed comparable to speed of sound, or large hydrostatic pressure variations) or in the presence of sources of temperature or salinity. 
 
-## Primitive equations
-Combining rotation and the Boussinesq approximation, we arrive at the primitive equations for incompressible, inviscid ocean flow in the absence of sources of momentum and buoyancy
+## The Boussinesq equations
+
+Combining rotation and the Boussinesq approximation, we arrive at the inviscid Boussinesq equations ocean flow in the absence of sources of momentum and buoyancy
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z,\quad \frac{\text{D}b}{\text{D}t} = 0 \quad \text{and}\quad \nabla \cdot \vec u = 0.
 ```
