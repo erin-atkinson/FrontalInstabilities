@@ -5,7 +5,7 @@ This section will outline the derivation of the Boussinesq equations in a rotati
 ```
 Where ${\vec{u} = (u, v, w)}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
-This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the primitive equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
+This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
 
 ## Fluid in a rotating frame
 Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $I$ and frame $R$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of of a vector in the two frames are related by
