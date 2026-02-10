@@ -28,10 +28,12 @@ In this coordinate system, the Coriolis acceleration can be written
 ```
 where $\lambda$ is the latitude.
 
-In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u\,\cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator). We can then apply the so-called _traditional approximation_:
+In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u\,\cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
 ```math
-2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u \quad \text{where} \quad f = 2\Omega \sin\lambda \sim 10^{-4}\,\text{s}.
+2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} f = 2\Omega \sin\lambda
 ```
+is the Coriolis parameter, or Coriolis frequency. As a reference, $f \approx 10^{-4}$\,s$^{-1}$ at $\lamdba = 45^\circ$N.
+
 Turning back to the Newton's second law, the acceleration in the rotating reference frame, namely, $\text d\vec x/\text dt|_R$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z.
@@ -39,7 +41,7 @@ Turning back to the Newton's second law, the acceleration in the rotating refere
 
 When is rotation important? If we assume that the timescale of a flow is advective ${T \sim L/U}$ for velocity scale $U$ and horizontal length scale $L$, then the relative size of the first two terms is
 ```math
-\frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{\frac{U^2}{L}}{fU} = \frac{U}{fL}
+\frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{U^2/L}{fU} = \frac{U}{fL}.
 ```
 This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small. For ocean flow, which is typically ${U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
 ```math
