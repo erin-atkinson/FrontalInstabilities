@@ -16,7 +16,7 @@ Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we c
 ```math
 \frac{\text{d}^2\vec x}{\text{d}t^2}_I = \left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times \right)\vec x = \vec F,
 ```
-where $\vec u$ is the velocity parcel measured in the rotating frame of reference, which gives two inertial (pseudo-)forces
+where $\vec u = \test d\vec x/\text d t|_R$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
 ```math
 \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_I = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_R + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
@@ -24,17 +24,19 @@ The term proportional to $\Omega^2$ is the centrifugal acceleration, which is we
 
 In this coordinate system, the Coriolis acceleration can be written
 ```math
-2\vec{\Omega} \times \vec u = 2\Omega \begin{pmatrix}0 \\ \cos \lambda \\ \sin \lambda \end{pmatrix} \times \begin{pmatrix}u \\ v \\ w \end{pmatrix} = 2\Omega \begin{pmatrix} -v\sin \lambda  + w \cos \lambda \\ u\sin \lambda \\ -u \cos \lambda \end{pmatrix}.
+2\vec{\Omega} \times \vec u = 2\Omega \begin{pmatrix}0 \\ \cos \lambda \\ \sin \lambda \end{pmatrix} \times \begin{pmatrix}u \\ v \\ w \end{pmatrix} = 2\Omega \begin{pmatrix} -v\,\sin \lambda  + w\,\cos \lambda \\ u\,\sin \lambda \\ -u\,\cos \lambda \end{pmatrix},
 ```
+where $\lambda$ is the latitude.
 
-In most geophysical applications, gravity is strong compared to rotation (${2\Omega u\cos \lambda \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$). We can then apply the so-called _traditional approximation_:
+In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u\,\cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator). We can then apply the so-called _traditional approximation_:
 ```math
 2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u \quad \text{where} \quad f = 2\Omega \sin\lambda \sim 10^{-4}\,\text{s}.
 ```
-We can add the Coriolis acceleration to the momentum equation to account for the effect of rotation
+Turning back to the Newton's second law, the acceleration in the rotating reference frame, namely, $\text d\vec x/\text dt|_R$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z.
 ```
+
 When is rotation important? If we assume that the timescale of a flow is advective ${T \sim L/U}$ for velocity scale $U$ and horizontal length scale $L$, then the relative size of the first two terms is
 ```math
 \frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{\frac{U^2}{L}}{fU} = \frac{U}{fL}
@@ -90,6 +92,7 @@ This set of equations describes a great deal of ocean phenomena, and may be appl
 > The component of the flow that satisfies this relationship is called the _balanced_ flow. At large, geostrophic scales, most of the flow is balanced and this relationship can be used to infer information about the flow from knowledge of its density gradients.
 
 # Ocean fronts
+
 Fronts are highly anisotropic structures consisting of a horizontal change in density. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by fresh water inflow due to rivers.
 
 An important feature of fronts, especially at smaller $\text{Ro} \sim 1$ scales, is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
