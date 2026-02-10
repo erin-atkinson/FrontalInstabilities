@@ -3,24 +3,24 @@ This section will outline the derivation of the Boussinesq equations in a rotati
 ```math
 \frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z, \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0.  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
 ```
-Where ${\vec{u} = (u, v, w)}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
+where ${\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
 This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
 
 ## Fluid in a rotating frame
-Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $I$ and frame $R$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of of a vector in the two frames are related by
+Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $I$ and frame $R$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $\vec A$ in the two frames are related by
 ```math
-\frac{\text{d}}{\text{d}t}_I = \frac{\text{d}}{\text{d}t}_R + \vec \Omega \times
+\left.\frac{\text{d\vec A}{\text{d}t}\right|_I = \left.\frac{\text{d \vec A}}{\text{d}t}\right|_R + \vec \Omega \times \vec A.
 ```
-Applying this twice to the position of a fluid parcel ${\vec{x}}$, we can form Newton's second law
+Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we can form Newton's second law
 ```math
-\frac{\text{d}^2\vec x}{\text{d}t^2}_I = \left (\frac{\text{d}}{\text{d}t}_R + \vec \Omega \times\right )\left (\frac{\text{d}}{\text{d}t}_R + \vec \Omega \times \right)\vec x = \vec F
+\frac{\text{d}^2\vec x}{\text{d}t^2}_I = \left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times \right)\vec x = \vec F,
 ```
-Which gives two inertial forces
+where $\vec u$ is the velocity parcel measured in the rotating frame of reference, which gives two inertial (pseudo-)forces
 ```math
-\frac{\text{d}^2\vec x}{\text{d}t^2}_I = \frac{\text{d}^2\vec x}{\text{d}t^2}_R + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n)
+\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_I = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_R + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
-The last term is the centrifugal acceleration, which is well known. This is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The middle term is the Coriolis acceleration. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction and ${\hat{y}}$ aligned with north-south. 
+The term proportional to $\Omega^2$ is the centrifugal acceleration, which is well known. It is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The term $2\vec{\Omega} \times \vec u$ is the Coriolis acceleration. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction, $\hat x$ points directly east and ${\hat{y}}$ points directly north.
 
 In this coordinate system, the Coriolis acceleration can be written
 ```math
