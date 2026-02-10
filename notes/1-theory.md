@@ -1,7 +1,7 @@
 # The equations of motion 
-This section will outline the derivation of the Boussinesq equations in a rotating frame from the equation of motions of an inviscid, incompressible fluid,
+This section will outline the derivation of the Boussinesq equations in a rotating frame from the equation of motions of an inviscid fluid,
 ```math
-\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z \quad \text{and}\quad \nabla \cdot \vec u = 0. \quad (1)
+\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z, \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0.  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
 ```
 Where ${\vec{u} = (u, v, w)}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
