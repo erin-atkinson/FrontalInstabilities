@@ -40,7 +40,7 @@ Turning back to Newton's second law, the acceleration in the rotating reference 
 ```
 
 When is rotation important? 
-First off, we need to introduce the limiting case when rotation is the _only_ pheomenon that determines the current, namely, _geostrophic balance_, in which the horizontal pressure force entirely balances the Coriolis acceleration:
+First off, we need to introduce the limiting case when rotation is the _only_ pheomenon that controls the current, in which casee it is said to be in _geostrophic balance_. Then, the horizontal pressure force entirely balances the Coriolis acceleration:
 ```math
 f \hat z \times \vec u= -\frac{1}{\rho}\nabla_H p,
 ```
