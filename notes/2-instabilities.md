@@ -17,12 +17,10 @@ Symmetric instability has some quirks which may be of interest
  - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
  - Its stability parameter is materially conserved. (see next exercise.)
 
-> ### Exercise 1
-> For positive $f$, show that the condition for stability in equation (1) is that the potential vorticity $q$ is negative where
-> 
-> $$q = (\nabla \times \vec u_0 + f\hat z) \cdot \nabla b_0 = (f + \zeta)N^2 - \frac{M^4}{f}$$
-> 
-> Potential vorticity is typically thought of as a materially conserved property ($\text{D}q/\text{D}t=0$, see Vallis $\S 4.5$) and this is true for the inviscid Boussinesq equations presented previously. This presents a problem: an unstable fluid parcel with $q<0$ will remain unstable to SI no matter how much it evolves. What may resolve this contradiction?
+> ### Exercise 2.2
+> A. For positive $f$, show that the condition for stability in equation ${(2.1)}$ is that the potential vorticity $q$ is negative, where
+> $$q = (\nabla \times \vec u_0 + f\hat z) \cdot \nabla b_0 = (f + \zeta)N^2 - \frac{M^4}{f}.$$
+> B. Potential vorticity is typically thought of as a materially conserved property ($\text{D}q/\text{D}t=0$, see Vallis $`\S\,4.5`$) and this is true for the inviscid Boussinesq equations presented previously. This presents a problem: an unstable fluid parcel with $q<0$ will remain unstable to SI no matter how much it evolves. What may resolve this contradiction?
 
 For $\zeta = 0$, the stability of a fluid to SI is controlled by a single non-dimensional number
 
