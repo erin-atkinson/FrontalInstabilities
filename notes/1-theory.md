@@ -1,22 +1,22 @@
 # The equations of motion 
 This section will outline the derivation of the Boussinesq equations in a rotating frame from the equation of motions of an inviscid fluid,
 ```math
-\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z, \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0.  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
+\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z,\quad \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
 ```
 where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
 This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
 
 ## Fluid in a rotating frame
-Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $\vec A$ in the two frames are related by
+Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector ${\vec A}$ in the two frames are related by
 ```math
-\left.\frac{\text d \vec A}{\text{d}t}\right|_(I) = \left.\frac{\text{d \vec A}}{\text{d}t}\right|_(R) + \vec \Omega \times \vec A.
+\left.\frac{\text d \vec{A}}{\text{d}t}\right|_{(I)} = \left.\frac{\text{d \vec{A}}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \vec{A}.
 ```
 Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we can form Newton's second law
 ```math
-\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(I) = \left (\left.\frac{\text{d}}{\text{d}t}\right|_(R) + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_(R) + \vec \Omega \times \right)\vec x = \vec F,
+\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_{(I)} = \left (\left.\frac{\text{d}}{\text{d}t}\right|_{(R)} + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \right)\vec x = \vec F,
 ```
-where $\vec u = \text d\vec x/\text d t|_R$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
+where $\vec u = \text d\vec x/\text d t|_{(R)}$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
 ```math
 \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(I) = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(R) + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
