@@ -3,22 +3,22 @@ This section will outline the derivation of the Boussinesq equations in a rotati
 ```math
 \frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z, \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0.  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
 ```
-where ${\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
+where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
 This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
 
 ## Fluid in a rotating frame
-Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $I$ and frame $R$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $\vec A$ in the two frames are related by
+Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $\vec A$ in the two frames are related by
 ```math
-\left.\frac{\text{d\vec A}{\text{d}t}\right|_I = \left.\frac{\text{d \vec A}}{\text{d}t}\right|_R + \vec \Omega \times \vec A.
+\left.\frac{\text d \vec A}{\text{d}t}\right|_(I) = \left.\frac{\text{d \vec A}}{\text{d}t}\right|_(R) + \vec \Omega \times \vec A.
 ```
 Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we can form Newton's second law
 ```math
-\frac{\text{d}^2\vec x}{\text{d}t^2}_I = \left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_R + \vec \Omega \times \right)\vec x = \vec F,
+\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(I) = \left (\left.\frac{\text{d}}{\text{d}t}\right|_(R) + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_(R) + \vec \Omega \times \right)\vec x = \vec F,
 ```
-where $\vec u = \test d\vec x/\text d t|_R$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
+where $\vec u = \text d\vec x/\text d t|_R$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
 ```math
-\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_I = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_R + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
+\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(I) = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(R) + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
 The term proportional to $\Omega^2$ is the centrifugal acceleration, which is well known. It is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The term $2\vec{\Omega} \times \vec u$ is the Coriolis acceleration. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction, $\hat x$ points directly east and ${\hat{y}}$ points directly north.
 
@@ -28,13 +28,13 @@ In this coordinate system, the Coriolis acceleration can be written
 ```
 where $\lambda$ is the latitude.
 
-In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u\,\cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
+In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u \cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
 ```math
-2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} f = 2\Omega \sin\lambda
+2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega \sin\lambda
 ```
-is the Coriolis parameter, or Coriolis frequency. As a reference, $f \approx 10^{-4}$\,s$^{-1}$ at $\lambda = 45^\circ$N.
+is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at $\lambda = 45^{\text{o}}$N.
 
-Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $\text d\vec x/\text dt|_R$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
+Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text d\vec x/\text dt|_(R)`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z.
 ```
@@ -50,11 +50,11 @@ More generally, if we assume that the timescale of a flow is advective ${T \sim 
 ```math
 \frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{U^2/L}{fU} = \frac{U}{fL}.
 ```
-This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically ${U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
+This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically $`{U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}`$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
 ```math
-L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}
+L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}.
 ```
-So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime can still slowly evolve due to weak (i.e., $O(\text{Ro})$) _ageostrophic_ velocities, and is called _quasi-geostrophic_. (Quasi-)Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for ${\text{Ro}\ll 1}$
+So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime can still slowly evolve due to weak (i.e., ${O(\text{Ro})}$) _ageostrophic_ velocities, and is called _quasi-geostrophic_. (Quasi-)Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for ${\text{Ro}\ll 1}$.
 
 
 ## The Boussinesq approximation
