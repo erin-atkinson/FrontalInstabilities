@@ -16,7 +16,7 @@ Instability (i.e., modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta
 
 Symmetric instability has some quirks which may be of interest
  - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$. (Stone 1966)
- - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${f \not\propto \hat{z}}$). (Zeitlin 2018)
+ - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${\Omega \not\parallel \hat{z}}$). (Zeitlin 2018)
  - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
  - Its stability parameter is materially conserved. (see next exercise.)
 
