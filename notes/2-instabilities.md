@@ -23,10 +23,8 @@ Symmetric instability has some quirks which may be of interest
 > B. Potential vorticity is typically thought of as a materially conserved property ($\text{D}q/\text{D}t=0$, see Vallis $`\S\,4.5`$) and this is true for the inviscid Boussinesq equations presented previously. This presents a problem: an unstable fluid parcel with $q<0$ will remain unstable to SI no matter how much it evolves. What may resolve this contradiction?
 
 For $\zeta = 0$, the stability of a fluid to SI is controlled by a single non-dimensional number
-
-$$q = fN^2\left (1 - \frac{M^4}{N^2f^2}\right ) = fN^2\left (1 - \frac{S^2}{N^2}\right ) = fN^2 \left ( 1- \frac{1}{\text{Ri}}\right) \quad \text{with} \quad \text{Ri} = \frac{N^2}{S^2}$$
-
-The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertical shear of velocity. Sheared velocities are inherently unstable, and one of the first type of fluid instability one learns about (Kelvin-Helmholtz). However, fluid with a large Richardson number, like most large-scale ocean flows, is very well-supported by gravity - low density on top of much higher density - which counteracts the destabilising effect of velocity shear. Symmetric instability occurs for $\text{Ri} < 1$.
+$$q = fN^2\left (1 - \frac{M^4}{N^2f^2}\right ) = fN^2\left (1 - \frac{S^2}{N^2}\right ) = fN^2 \left ( 1- \frac{1}{\text{Ri}}\right) \quad \text{with} \quad \text{Ri} = \frac{N^2}{S^2}.$$
+The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertical shear of velocity. Sheared velocities are inherently unstable, and one of the first type of fluid instability one learns about (e.g., Kelvin-Helmholtz). However, fluid with a large Richardson number, like most large-scale ocean flows, is very well-supported by gravity -- low density on top of much higher density -- which counteracts the destabilising effect of velocity shear. Symmetric instability occurs for $\text{Ri} < 1$.
 
 Finally, we are ready to proceed with the fun part of the module. A rough outline of the remaining content is as follows
 
