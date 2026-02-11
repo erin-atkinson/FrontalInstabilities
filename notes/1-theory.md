@@ -1,7 +1,7 @@
 # The equations of motion 
 This section will outline the derivation of the Boussinesq equations in a rotating frame from the equation of motions of an inviscid fluid,
 ```math
-\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z,\quad \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1)
+\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z,\quad \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1.1)
 ```
 where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
 
@@ -58,7 +58,7 @@ So, away from the equator where ${f \approx 0}$, rotation is the most important 
 
 
 ## The Boussinesq approximation
-Water is mostly incompressible under the conditions of ocean flows we are considering here, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of equations ${(1)}$ that is appropriate in this case. Expanding in the small parameter $\varepsilon$ around a static state (${\vec{u}_0 = 0}$)
+Water is mostly incompressible under the conditions of ocean flows we are considering here, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of equations ${(1.1)}$ that is appropriate in this case. Expanding in the small parameter $\varepsilon$ around a static state (${\vec{u}_0 = 0}$)
 ```math
 \vec u = \varepsilon\vec u_1 + \dots \quad \text{and} \quad \rho = \rho_0 + \varepsilon \delta \rho + \dots \quad \text{and} \quad p = p_0 + \varepsilon \delta p + \dots,
 ```
@@ -122,10 +122,10 @@ where we assume that $v_0 = 0$ on $z=0$.
 ## Flow around an ideal front
 The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any perturbations (note the change in notation for $\vec u, b$), namely,
 ```math
-\vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, s) \,\text{d}s + \phi. \qquad  (2)
+\vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, s) \,\text{d}s + \phi. \qquad  (1.2)
 ```
 We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get
 ```math
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (3)
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3)
 ```
-We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(2)}$.
+We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(1.2)}$.
