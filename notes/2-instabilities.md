@@ -26,7 +26,7 @@ For $\zeta = 0$, the stability of a fluid to SI is controlled by a single non-di
 $$q = fN^2\left (1 - \frac{M^4}{N^2f^2}\right ) = fN^2\left (1 - \frac{S^2}{N^2}\right ) = fN^2 \left ( 1- \frac{1}{\text{Ri}}\right) \quad \text{with} \quad \text{Ri} = \frac{N^2}{S^2}.$$
 The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertical shear of velocity. Sheared velocities are inherently unstable, and one of the first type of fluid instability one learns about (e.g., Kelvin-Helmholtz). However, fluid with a large Richardson number, like most large-scale ocean flows, is very well-supported by gravity -- low density on top of much higher density -- which counteracts the destabilising effect of velocity shear. Symmetric instability occurs for $\text{Ri} < 1$.
 
-Finally, we are ready to proceed with the fun part of the module. A rough outline of the remaining content is as follows
+Finally, we are ready to proceed with the fun part of the module. A rough outline of the remaining content is as follows.
 
 1. Simulate a simple state with a known Richardson number
 2. Inspect the resulting instability by creating an animation
