@@ -30,7 +30,7 @@ The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertic
 
 Finally, we are ready to proceed with the fun part of the module. A rough outline of the remaining content is as follows.
 
-1. Simulate a simple state with a known Richardson number
-2. Inspect the resulting instability by creating an animation
-3. Repeat for other values of $\text{Ri}$
-4. Compare the consequences of the instability as $\text{Ri}$ changes, focusing on factors important to large-scale ocean simulations
+1. Simulate a simple state with a known Richardson number.
+2. Inspect the resulting instability by creating an animation.
+3. Repeat for other values of $\text{Ri}$.
+4. Compare the consequences of the instability as $\text{Ri}$ changes, focusing on factors important to large-scale ocean simulations.
