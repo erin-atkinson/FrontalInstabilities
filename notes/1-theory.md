@@ -32,22 +32,29 @@ In most geophysical applications, gravity is strong compared to rotation (${|2\O
 ```math
 2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} f = 2\Omega \sin\lambda
 ```
-is the Coriolis parameter, or Coriolis frequency. As a reference, $f \approx 10^{-4}$\,s$^{-1}$ at $\lamdba = 45^\circ$N.
+is the Coriolis parameter, or Coriolis frequency. As a reference, $f \approx 10^{-4}$\,s$^{-1}$ at $\lambda = 45^\circ$N.
 
-Turning back to the Newton's second law, the acceleration in the rotating reference frame, namely, $\text d\vec x/\text dt|_R$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
+Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $\text d\vec x/\text dt|_R$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z.
 ```
 
-When is rotation important? If we assume that the timescale of a flow is advective ${T \sim L/U}$ for velocity scale $U$ and horizontal length scale $L$, then the relative size of the first two terms is
+When is rotation important? 
+First off, we need to introduce the limiting case when rotation is the _only_ pheomenon that determines the current, namely, _geostrophic balance_, in which the horizontal pressure force entirely balances the Coriolis acceleration:
+```math
+f \hat z \times \vec u= -\frac{1}{\rho}\nabla_H p,
+```
+where $\nabla_H$ is the horizontal gradient operator.
+
+More generally, if we assume that the timescale of a flow is advective ${T \sim L/U}$ for velocity scale $U$ and horizontal length scale $L$, then the relative size of the first two terms is
 ```math
 \frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{U^2/L}{fU} = \frac{U}{fL}.
 ```
-This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small. For ocean flow, which is typically ${U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
+This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically ${U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
 ```math
-L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}} = 10 \,\text{km}
+L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}
 ```
-So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime is called _geostrophic_. Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for ${\text{Ro}\to 0}$
+So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime can still slowly evolve due to weak (i.e., $O(\text{Ro})$) _ageostrophic_ velocities, and is called _quasi-geostrophic_. (Quasi-)Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for ${\text{Ro}\ll 1}$
 
 
 ## The Boussinesq approximation
