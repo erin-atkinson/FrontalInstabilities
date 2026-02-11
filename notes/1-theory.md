@@ -10,7 +10,7 @@ This section is intended for recap and as a theoretical context for the main, si
 ## Fluid in a rotating frame
 Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $`{\vec A}`$ in the two frames are related by
 ```math
-\left.\frac{\text d \vec{A}}{\text{d}t}\right|_{(I)} = \left.\frac{\text{d \vec{A}}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \vec{A}.
+\left.\frac{\text d \vec A}{\text{d}t}\right|_{(I)} = \left.\frac{\text d \vec{A}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \vec{A}.
 ```
 Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we can form Newton's second law
 ```math
@@ -18,7 +18,7 @@ Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we c
 ```
 where $\vec u = \text d\vec x/\text d t|_{(R)}$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
 ```math
-\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(I) = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_(R) + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
+\left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_{(I)} = \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_{(R)} + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
 The term proportional to $\Omega^2$ is the centrifugal acceleration, which is well known. It is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The term $2\vec{\Omega} \times \vec u$ is the Coriolis acceleration. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction, $\hat x$ points directly east and ${\hat{y}}$ points directly north.
 
@@ -34,7 +34,7 @@ In most geophysical applications, gravity is strong compared to rotation (${|2\O
 ```
 is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at $\lambda = 45^{\text{o}}$N.
 
-Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text d\vec x/\text dt|_(R)`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
+Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text{d}\vec{x}/\text{d}t|_{(R)}`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u= -\frac{1}{\rho}\nabla p - g\hat z.
 ```
