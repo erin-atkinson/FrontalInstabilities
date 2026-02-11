@@ -40,7 +40,7 @@ Turning back to Newton's second law, the acceleration in the rotating reference 
 ```
 
 When is rotation important? 
-First off, we need to introduce the limiting case when rotation is the _only_ pheomenon that controls the current, in which casee it is said to be in _geostrophic balance_. Then, the horizontal pressure force entirely balances the Coriolis acceleration:
+First off, we need to introduce the limiting case when rotation is the _only_ pheomenon that controls the current, in which case it is said to be in _geostrophic balance_. Then, the horizontal pressure force entirely balances the Coriolis acceleration:
 ```math
 f \hat z \times \vec u= -\frac{1}{\rho}\nabla_H p,
 ```
@@ -122,10 +122,10 @@ where we assume that $v_0 = 0$ on $z=0$.
 ## Flow around an ideal front
 The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any perturbations (note the change in notation for $\vec u, b$), namely,
 ```math
-\vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, s) \,\text{d}s + \phi \qquad  (2)
+\vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, s) \,\text{d}s + \phi. \qquad  (2)
 ```
 We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get
 ```math
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \quad (3)
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (3)
 ```
 We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(2)}$.
