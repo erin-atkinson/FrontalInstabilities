@@ -6,7 +6,7 @@ We now turn to motions that evolve on time scales, much longer than $N^{-1}$.
 > 
 > A. Show that under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
 > 
-> B. Show that under this approximation, a plane-wave mode $(u, v, w, b) = (\hat u, \hat v, \hat w, \hat b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
+> B. Show that under this approximation, a plane-wave mode $(u, v, w, b) = (\tilde u, \tilde v, \tilde w, \tilde b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
 > 
 > $$\omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \qquad (2.1)$$
 > 
