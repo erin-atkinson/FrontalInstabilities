@@ -58,7 +58,7 @@ So, away from the equator where ${f \approx 0}$, rotation is the most important 
 
 
 ## The Boussinesq approximation
-Water is mostly incompressible, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of ${(1)}$ that is appropriate in this case. Expanding in the small parameter $\varepsilon$ around a static state (${\vec{u}_0 = 0}$)
+Water is mostly incompressible under the conditions of ocean flows we are considering here, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of equations ${(1)}$ that is appropriate in this case. Expanding in the small parameter $\varepsilon$ around a static state (${\vec{u}_0 = 0}$)
 ```math
 \vec u = \varepsilon\vec u_1 + \dots \quad \text{and} \quad \rho = \rho_0 + \varepsilon \delta \rho + \dots \quad \text{and} \quad p = p_0 + \varepsilon \delta p + \dots,
 ```
