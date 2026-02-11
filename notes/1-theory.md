@@ -8,7 +8,7 @@ where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g
 This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
 
 ## Fluid in a rotating frame
-Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector ${\vec A}$ in the two frames are related by
+Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $`{\vec A}`$ in the two frames are related by
 ```math
 \left.\frac{\text d \vec{A}}{\text{d}t}\right|_{(I)} = \left.\frac{\text{d \vec{A}}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \vec{A}.
 ```
