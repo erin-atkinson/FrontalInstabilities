@@ -102,9 +102,9 @@ This set of equations describes a great deal of ocean phenomena, and may be appl
 
 # Ocean fronts
 
-Fronts are highly anisotropic structures consisting of a horizontal change in density. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by fresh water inflow due to rivers.
+Density fronts are highly anisotropic structures consisting of a horizontal change in density in one direction. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by fresh water inflow due to rivers.
 
-An important feature of fronts, especially at smaller $\text{Ro} \sim 1$ scales, is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
+An important feature of fronts, especially at smaller scales ($\text{Ro} \sim 1$), is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
 
 Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
 
