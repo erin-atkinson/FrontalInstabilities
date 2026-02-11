@@ -109,7 +109,7 @@ An important feature of fronts, especially at smaller scales ($\text{Ro} \sim 1$
 Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
 
 ## Describing an ideal front
-An ideal front may be described by an Eady state, with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet,
+An ideal front may be described by an Eady state, with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet whose orientation we choose to be along $\hat y$ without loss of generality, namely,
 ```math
 b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = Sz= \frac{M^2}{f} z,
 ```
