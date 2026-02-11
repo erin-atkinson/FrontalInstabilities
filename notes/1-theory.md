@@ -68,9 +68,9 @@ the momentum equation becomes
 ```
 Equating the zero-order terms gives
 ```math
-0 = - \nabla p_0 - \rho_0 g \hat z \implies p_0 = -\rho_0 g z
+0 = - \nabla p_0 - \rho_0 g \hat z \implies p_0 = -\rho_0 g z,
 ```
-Which is just the hydrostatic relation for a constant density fluid. The next order equation is
+which is just the hydrostatic relation for a constant density fluid. The next order equation is
 ```math
 \rho_0 \frac{\text{D}\vec u_1}{\text{D}t} = -\nabla \delta p- \delta \rho g\hat z.
 ```
