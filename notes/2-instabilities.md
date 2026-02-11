@@ -12,10 +12,10 @@ We now turn to motions that evolve on time scales, much longer than $N^{-1}$.
 Instability (i.e., modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta) < 0$ or $N^2 < 0$. These are inertial and gravitational instabilities respectively and will not be the focus of this example. Even if those two conditions are not met, a sufficiently large $M^2$ can cause symmetric instability, which consists of thin rolls aligned with isopycnals (lines of constant $b_0$) in the hydrostatic case and with no variation in the down-front ($y$) direction, hence the name. 
 
 Symmetric instability has some quirks which may be of interest
- - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$ (Stone 1966)
- - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${f \not\propto \hat{z}}$) (Zeitlin 2018)
- - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small
- - Its stability parameter is materially conserved (see exercise)
+ - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$. (Stone 1966)
+ - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${f \not\propto \hat{z}}$). (Zeitlin 2018)
+ - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
+ - Its stability parameter is materially conserved. (see next exercise.)
 
 > ### Exercise 1
 > For positive $f$, show that the condition for stability in equation (1) is that the potential vorticity $q$ is negative where
