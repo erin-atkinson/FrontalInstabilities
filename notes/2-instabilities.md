@@ -1,9 +1,15 @@
 # Instability in the SE equations
-The dispersion relationship for waves in the hydrostatic double-periodic ideal front equations is
 
-$$\omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \quad (1)$$
+We now turn to motions that evolve on time scales, much longer than $N^{-1}$.
 
-with $\zeta = \frac{\partial v_0}{\partial x}$. Instability (modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta) < 0$ or $N^2 < 0$. These are inertial and gravitational instabilities respectively and will not be the focus of this example. Even if those two conditions are met, a sufficiently large $M^2$ can cause symmetric instability, which consists of thin rolls aligned with isopycnals (lines of constant $b_0$) in the hydrostatic case and with no variation in the down-front (y) direction, hence the name. 
+> ### Exercise 2.1
+> 
+> A. Show that under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
+> B. Show that under this approximation, a plane-wave mode $(\vec u, b) = (\hat{\vec u}, \hat b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
+> $$\omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \qquad (1)$$
+> with $\zeta = \partial_x v_0$.
+
+Instability (i.e., modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta) < 0$ or $N^2 < 0$. These are inertial and gravitational instabilities respectively and will not be the focus of this example. Even if those two conditions are not met, a sufficiently large $M^2$ can cause symmetric instability, which consists of thin rolls aligned with isopycnals (lines of constant $b_0$) in the hydrostatic case and with no variation in the down-front ($y$) direction, hence the name. 
 
 Symmetric instability has some quirks which may be of interest
  - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$ (Stone 1966)
