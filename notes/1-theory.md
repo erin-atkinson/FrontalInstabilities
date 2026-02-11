@@ -92,7 +92,7 @@ Combining rotation and the Boussinesq approximation, we arrive at the inviscid B
 ```
 This set of equations describes a great deal of ocean phenomena, and may be applicable to thin horizontal slices of the atmosphere also.
 
-> ### Exercise 1
+> ### Exercise 1.1
 >
 > Show that, for a fluid with ${\frac{\text{D}\vec{u}}{\text{D}t} = 0}$, the thermal wind relations are satisfied
 > ```math
@@ -114,6 +114,10 @@ An ideal front may be described by an Eady state, with constant horizontal and v
 b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = Sz= \frac{M^2}{f} z,
 ```
 where we assume that $v_0 = 0$ on $z=0$.
+
+> ### Exercise 1.2
+>
+> Verify that the fields above are indeed in thermal wind balance.
 
 ## Flow around an ideal front
 The total flow is the sum of the front itself and any perturbations
