@@ -1,11 +1,19 @@
 # The equations of motion 
-This section will outline the derivation of the Boussinesq equations in a rotating frame from the equation of motions of an inviscid fluid,
+This section will outline the derivation of the Boussinesq equations in a rotating frame from the equations of motion of an inviscid fluid,
 ```math
-\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z,\quad \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0  \quad \text{and}\quad ENERGY\ EQUATION, \qquad (1.1)
+\frac{\text{D}\vec u}{\text{D}t} = -\frac{1}{\rho}\nabla p - g\hat z,\quad \frac{\text{D}\rho}{\text{D}t} + \rho \nabla \cdot \vec u = 0  \quad \text{and}\quad \frac{\text{D}\rho}{\text{D}t} - \frac{1}{c_s^2}\frac{\text{D} p}{\text{D}t} = \frac{\dot Q}{c_p}\frac{\partial \rho}{\partial T}_{\text{const } p}, \qquad (1.1)
 ```
-where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth). We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed.
+where $\vec{u}$ is the velocity, ${\rho}$ is the density, $p$ is pressure and $g$ is the gravitational acceleration. The Lagrangian derivative ${\text{D} / \text{D}t = \partial t / \partial t + \vec u \cdot \nabla}$ is the rate of change of a property of a fluid parcel and the coordinate system is such that $+z$ is aligned with the vertical (away from the  centre of the Earth).  
 
-This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section.
+The form of the thermodynamic equation presented here includes the temperature $T$, heating rate per unit mass $\dot Q$, the specific heat capacity at constant pressure $c_p$ and the speed of sound $c_s$. In addition, we need an equation of state that relates density to other variables. For a liquid, exact equations of state are typically unknown so we use the linearised form, 
+```math
+\rho(T, p) = \rho_0\left [1-\alpha(T - T_0) + \frac{p-p_0}{\rho_0c_s^2}\right ],
+```
+where $\alpha$ is the coefficient of thermal expansion and $\rho_0$, $T_0$, $p_0$ are reference density, temperature and pressure respectively. This ignores the contribution of salinity (water with more dissolved salt is denser), but this is a simple addition. 
+
+We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed. 
+
+This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section. A detailed derivation of the Boussinesq equations from the basic equations of motion of a fluid can be found in *Atmospheric and Oceanic Fluid Dynamics* $\S 2.4$
 
 ## Fluid in a rotating frame
 Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $`{\vec A}`$ in the two frames are related by
@@ -32,7 +40,7 @@ In most geophysical applications, gravity is strong compared to rotation (${|2\O
 ```math
 2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega \sin\lambda
 ```
-is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at $`\lambda = 45^{\circ}`$N.
+is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at $\lambda = 45^{\circ}\,\text{N}$.
 
 Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text{d}\vec{x}/\text{d}t|_{(R)}`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
@@ -50,7 +58,7 @@ More generally, if we assume that the timescale of a flow is advective ${T \sim 
 ```math
 \frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{U^2/L}{fU} = \frac{U}{fL}.
 ```
-This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically $`{U \sim 0.1 - 1\,\text{m}\,\text{s}^{-1}}`$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
+This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically $`{U \sim 0.1\! -\! 1\,\text{m}\,\text{s}^{-1}}`$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
 ```math
 L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}.
 ```
@@ -58,31 +66,36 @@ So, away from the equator where ${f \approx 0}$, rotation is the most important 
 
 
 ## The Boussinesq approximation
-Water is mostly incompressible under the conditions of ocean flows we are considering here, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of equations ${(1.1)}$ that is appropriate in this case. Expanding in the small parameter $\varepsilon$ around a static state (${\vec{u}_0 = 0}$)
+Water is mostly incompressible under the conditions of ocean flows we are considering here, so the density of sea water depends primarily on its temperature and salt content, with an average of about $`\rho_0 = 1027\,\text{kg}\,\text{m}^{-3}`$. Especially near the surface of the ocean, density changes are small, with an upper range of about $`{\delta \rho \sim 10 \,\text{kg}\,\text{m}^{-3}}`$. We may therefore seek an approximation of equations ${(1.1)}$ that is appropriate in this case. 
+
+We decompose the density and pressure into hydrostatic and perturbation terms
 ```math
-\vec u = \varepsilon\vec u_1 + \dots \quad \text{and} \quad \rho = \rho_0 + \varepsilon \delta \rho + \dots \quad \text{and} \quad p = p_0 + \varepsilon \delta p + \dots,
+p(x, y, z, t) = \rho_0 gz + \delta p(x, y, z, t) \quad \rho = \rho_0 + \delta \rho(x, y, z, t)
 ```
 the momentum equation becomes
 ```math
-\varepsilon(\rho_0 + \varepsilon \delta \rho)\frac{\text{D}\vec u_1}{\text{D}t} = -\nabla (p_0 + \varepsilon \delta p) - (\rho_0 + \varepsilon \delta \rho) g\hat z
+(\rho_0 + \delta \rho)\frac{\text{D}\vec u}{\text{D}t} = -\nabla \delta p - \delta \rho g\hat z
 ```
-Equating the zero-order terms gives
+If $\delta\rho \ll \rho_0$, we can neglect the corresponding term on the LHS
 ```math
-0 = - \nabla p_0 - \rho_0 g \hat z \implies p_0 = -\rho_0 g z,
+\rho_0 \frac{\text{D}\vec u}{\text{D}t} \approx -\nabla \delta p- \delta \rho g\hat z.
 ```
-which is just the hydrostatic relation for a constant density fluid. The next order equation is
+Note that we cannot neglect the term $\delta \rho g$. The rate of change of velocity due to gravitational acceleration $g/U\approx 10\!-\!100\,\text{s}^{-1}$ is very large compared to typical flows in the ocean, which may evolve over hours, days or much longer, so the product $\delta \rho g$ is not small compared to $\rho_0D\vec{u} /Dt$. We usually define a geopotential $\phi = \delta p/\rho_0$ and buoyancy $b = -\delta\rho g /\rho_0$ to get the Boussinesq momentum equation.
 ```math
-\rho_0 \frac{\text{D}\vec u_1}{\text{D}t} = -\nabla \delta p- \delta \rho g\hat z.
+\frac{\text{D}\vec u}{\text{D}t} = -\nabla \phi + b\hat z.
 ```
-We usually define a geopotential $\phi = \delta p/\rho_0$ and buoyancy $b = -\delta\rho g /\rho_0$ to get the Boussinesq equations.
+The mass conservation equation may be written
 ```math
-\frac{\text{D}\vec u}{\text{D}t} = -\nabla \phi + b\hat z \quad \text{and}\quad \nabla \cdot \vec u = 0.
+\frac{\text{D}\delta \rho}{\text{D}t} + (\rho_0 +  \delta \rho)\nabla \cdot \vec u = 0\implies \nabla \cdot \vec{u} \approx 0
 ```
-These model the flow of an almost-constant density, incompressible fluid. An equation for $b$ is required, which is derived from the equation of state for sea water. Typically, buoyancy is materially conserved just as temperature and salinity are:
+An equation for $b$ is required, which is derived from the thermodynamic equation for seawater. Using the equation of state:
 ```math
-\frac{\text{D}b}{\text{D}t} = 0,
+\frac{\text{D}b}{\text{D}t} = \dot b = \frac{g\alpha}{c_p}\dot Q 
 ```
-though this is not true in the case of a compressible fluid (flow speed comparable to speed of sound, or large hydrostatic pressure variations) or in the presence of sources of temperature or salinity. 
+For the rest of this module, we will assume that there are no non-conservative sources of heat and buoyancy is therefore conserved:
+```math
+\frac{\text{D}b}{\text{D}t} = 0.
+```
 
 ## The Boussinesq equations
 
@@ -90,7 +103,7 @@ Combining rotation and the Boussinesq approximation, we arrive at the inviscid B
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z,\quad \frac{\text{D}b}{\text{D}t} = 0 \quad \text{and}\quad \nabla \cdot \vec u = 0.
 ```
-This set of equations describes a great deal of ocean phenomena, and may be applicable to thin horizontal slices of the atmosphere also.
+These model the flow of an almost-constant density, incompressible fluid. Note that the term $\phi$ is found by enforcing the incompressibility constraint. This set of equations describes a great deal of ocean phenomena, and may be applicable to thin horizontal slices of the atmosphere also.
 
 > ### Exercise 1.1
 >
@@ -98,7 +111,7 @@ This set of equations describes a great deal of ocean phenomena, and may be appl
 > ```math
 > f\frac{\partial u}{\partial z} = -\frac{\partial b}{\partial y}, \quad f\frac{\partial v}{\partial z} = \frac{\partial b}{\partial x} % \quad \text{or}\quad f\hat z\times \frac{\partial \vec u_H}{\partial z} = \nabla_H b
 > ```
-> The component of the flow that satisfies this relationship is called the _balanced_ flow. At large, geostrophic scales, most of the flow is balanced and this relationship can be used to infer information about the flow from knowledge of its density gradients.
+> The component of the flow that satisfies this relationship is called the _balanced_ flow. At large, geostrophic scales, most of the flow is balanced and this relationship can be used to infer information about the flow from knowledge of its density/buoyancy gradients.
 
 # Ocean fronts
 
