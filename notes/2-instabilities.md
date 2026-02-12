@@ -1,4 +1,4 @@
-# Instability in the SE (WHAT'S SE?) equations
+# Instability in a front
 
 We now turn to motions that evolve on time scales, much longer than $N^{-1}$.
 
