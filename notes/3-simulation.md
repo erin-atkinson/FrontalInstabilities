@@ -2,7 +2,7 @@
 ## Grid
 [Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
 
-In brief, Oceananigans is a finite-difference simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as Dedalus, a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
+In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports [other grid types](https://clima.github.io/OceananigansDocumentation/stable/grids/) (POINTS TO STABLE VERSION, NOT SURE IT'S WE YOU WANT). A basic definition of a 2D grid is as follows:
 ```julia
 grid = RectilinearGrid(CPU();
     topology = (Periodic, Bounded, Flat),
