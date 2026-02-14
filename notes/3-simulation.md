@@ -3,7 +3,7 @@
 
 [Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/) (POINTS TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT)
 
-In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports [other grid types](https://clima.github.io/OceananigansDocumentation/stable/grids/) (POINTS TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT). A basic definition of a 2D grid is as follows:
+In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
 grid = RectilinearGrid(CPU();
     topology = (Periodic, Bounded, Flat),
@@ -54,7 +54,7 @@ Fields will in general come with three _locations_ that define their position wi
 - Tracers such as temperature are entirely on grid centers `Center, Center, Center`.
 - Each order of a derivative "flips" the corresponding location, so $\partial_x T$ would be on `Face`, `Center`, `Center`.
 
-Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \partial_x v - \partial u_y$ falls onto `Face`, `Face`, `Center`.
+Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \partial_x v - \partial u_y$ naturally falls onto `Face`, `Face`, `Center`.
 
 There is a secret, third thing: `Nothing`. This is the location for fields that are the result of a `Reduction`, which we will look at later. A reduction takes a field and "reduces" it in one or more directions (such as an average or integral).
  
