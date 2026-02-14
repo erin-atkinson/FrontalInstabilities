@@ -20,8 +20,8 @@ Nx = 512
 Nz = 64
 
 # Initial time step and total runtime
-Δt = 1e-2 / f  # s
-T = 120 / f  # s
+Δt = 1e-2 / f
+T = 120 / f
 
 # Exercise 1: Create a grid
 grid =
