@@ -24,7 +24,12 @@ Nz = 64
 T = 120 / f
 
 # Exercise 1: Create a grid
-grid =
+grid = RectilinearGrid(CPU();
+    topology = (Periodic, Bounded, Flat),
+    size = (32, 32),
+    x = (-0.5, 0.5),
+    y = (-0.5, 0.5)
+)
 
 # Exercise 2: Define continuous forcing functions
 #

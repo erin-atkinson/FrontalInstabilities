@@ -26,8 +26,8 @@ The grid size is $32\times 32$ and the _physical_ size (i.e. the length and widt
 
 Note the lack of units in the definition.  If you would prefer, [you can use some pre-defined units to write your code](https://clima.github.io/OceananigansDocumentation/stable/appendix/library/#Units). I'm going to continue without these however, because we may be performing non-dimensional simulations.
 
-> ### Exercise 1
-> Add a 2D grid to `simulation.jl` using the parameters L, H, Nx and Nz in the script. The grid should be periodic in the x direction and bounded at the top and bottom in the z direction.
+> ### Exercise 3.1
+> Add a 2D grid to `simulation.jl` using the parameters `L`, `H`, `Nx` and `Nz` in the script. The grid should be periodic in the $x$ direction and bounded at the top and bottom in the $z$ direction.
 
 ### Domain boundaries and halos
 Oceananigans represents boundary conditions by including them in the fields themselves. Once a field's boundary conditions are defined, a region outside of the grid (as defined by the user) is filled with values that satisfy said boundary condition. So, when you define a grid with `size=(32, 32)` the actual size in memory is (by default) $38 \times 38(\times 1)$. Values on the grid are defined using `OffsetArray`, and have indices `-2:35`. This boundary region is referred to as the _halo_ and the region of the full grid that isn't the halo is the _interior_. Specifying boundary conditions is introduced later in this tutorial.
