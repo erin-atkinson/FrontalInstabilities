@@ -48,9 +48,9 @@ As an optimisation, different fields "live" on different grid nodes. If the grid
 ![Staggered grid diagram](../images/staggered.png)
 
 Fields will in general come with three _locations_ that define their position within a cell. As a rule:
-- $x$-velocity ($u$) is on  `Face`, `Center`, `Center`. So `u[i, j, k]` would be the velocity at `node(i, j, k, grid, Face(), Center(), Center())` and so on for $v$ and $w$
-- Tracers, such as temperature are entirely on grid centers `Center, Center, Center`.
-- Each order of a derivative "flips" the corresponding location, so $\frac{\partial T}{\partial x}$ would be on `Face`, `Center`, `Center`
+- $x$-velocity ($u$) is on  `Face`, `Center`, `Center`. So `u[i, j, k]` would be the velocity at `node(i, j, k, grid, Face(), Center(), Center())` and so on for $v$ and $w$.
+- Tracers such as temperature are entirely on grid centers `Center, Center, Center`.
+- Each order of a derivative "flips" the corresponding location, so $\frac{\partial T}{\partial x}$ would be on `Face`, `Center`, `Center`.
 
 Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \partial_x v - \partial u_y$ naturally falls onto `Face`, `Face`, `Center`.
 
