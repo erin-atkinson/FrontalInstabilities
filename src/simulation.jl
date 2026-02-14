@@ -5,42 +5,42 @@ simulation.jl
 using Oceananigans
 
 # Coriolis frequency
-f = 1e-4
+f = 1e-4  # s⁻¹
 # Shear
-S = f
+S = f  # s⁻¹
 # Richardson number
 Ri = 0.5
 # Stratification
-N² = Ri * S^2
+N² = Ri * S^2  # s⁻²
 
 # Dimensions typical of submesoscale, but keep aspect ratio low for WENO
-L = 1_000
-H = 100
+L = 1_000  # m
+H = 100  # m
 Nx = 512
 Nz = 64
 
 # Initial time step and total runtime
-Δt = 1e-2 / f
-T = 120 / f
+Δt = 1e-2 / f  # s
+T = 120 / f  # s
 
 # Exercise 1: Create a grid
-grid = 
+grid =
 
 # Exercise 2: Define continuous forcing functions
 #
 #
 #
 
-forcing = 
+    forcing =
 
-# Other model arguments
-advection = WENO(; order=5)
+    # Other model arguments
+        advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
 tracers = (:b, :c)
 
 # Create a model
-model = NonhydrostaticModel(; 
+model = NonhydrostaticModel(;
     grid,
     advection,
     forcing,
@@ -83,21 +83,21 @@ b, c = model.tracers
 
 # Exercise 4: Derived fields
 # Total buoyancy gradient
-N²_tot = 
+N²_tot =
 
 # Output metadata
-function init_jld2!(file, model)
-    file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
-    file["metadata/description"] = "Symmetric instability in a frontal zone"
-    return nothing
-end
+    function init_jld2!(file, model)
+        file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
+        file["metadata/description"] = "Symmetric instability in a frontal zone"
+        return nothing
+    end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename = "output.jld2",
-    overwrite_existing = true,
+    filename="output.jld2",
+    overwrite_existing=true,
     init=init_jld2!,
-    schedule = TimeInterval(20Δt)
+    schedule=TimeInterval(20Δt)
 )
 
 # Run simulation
