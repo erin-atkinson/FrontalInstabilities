@@ -5,17 +5,17 @@ simulation.jl
 using Oceananigans
 
 # Coriolis frequency
-f = 1e-4  # s⁻¹
+f = 1e-4
 # Shear
-S = f  # s⁻¹
+S = f
 # Richardson number
 Ri = 0.5
 # Stratification
-N² = Ri * S^2  # s⁻²
+N² = Ri * S^2
 
 # Dimensions typical of submesoscale, but keep aspect ratio low for WENO
-L = 1_000  # m
-H = 100  # m
+L = 1_000
+H = 100
 Nx = 512
 Nz = 64
 
