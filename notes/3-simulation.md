@@ -190,7 +190,7 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 Pay attention to how external parameters and field dependencies are introduced and treated.
 We recall that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
 
-> ### Exercise 2
+> ### Exercise 3.2
 > Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with the ellipses to be determined, in a manner that is appropriate to our frontal problem.
 
 ### Boundary conditions
@@ -270,7 +270,7 @@ set!(model; u=u₀, v=v₀) # etc.
 ```
 We will use this to set the initial conditions of the simulation, after the model has been created.
 > ### Exercise 3
-> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$
+> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$.
 
 ## Simulation
 [Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
