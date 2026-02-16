@@ -61,7 +61,7 @@ There is a secret, third thing: `Nothing`. This is the location for fields that 
 Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy.
 
 ## Fields
-[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/fields/)
+[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/fields/)
 
 A `Field` is a container that holds values of a quantity on a specific grid, along with boundary conditions, nodes and other data. Fields may also be used to represent derived quantities that are produced by `AbstractOperations` acting on fields, described later. To create a field on a grid, just use the constructor `Field`
 ```julia
@@ -118,7 +118,7 @@ c
 Because the grid has no $z$ dependence, the function we pass must only have two arguments. This convention is used throughout Oceananigans. Functions defined on the simulation domain will take arguments `(x, y, z)` or `(x, y, z, t)`, with coordinates corresponding to flat directions removed.
 
 ## Components of a model
-[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/models_overview/)
+[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
 
 The model contains information and implementation of the physics of the simulation. We will use a `NonhydrostaticModel`, though others exist. The model constructor takes many keyword arguments specifying desired properties. For our simulation, the model may look like:
 
@@ -135,7 +135,7 @@ model = NonhydrostaticModel(;
 Each of the arguments we use are described below.
 
 ### Rotation
-[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/coriolis/)
+[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/coriolis/)
 
 After defining the desired Coriolis frequency $f$, a simple $f$-plane rotation can be added with 
 ```julia
@@ -143,7 +143,7 @@ coriolis = FPlane(; f)
 ```
 
 ### Forcing
-[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/forcing_functions/)
+[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
 
 Recall the equations we need to simulate:
 
@@ -195,7 +195,7 @@ We recall that, just like for `set!`, `Flat` coordinates are omitted from these 
 
 ### Boundary conditions
 
-[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/boundary_conditions/)
+[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
 Every field comes with a set of boundary conditions
 - `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field i.e. the no-slip boundary condition $u(x, y, 0) = 0$
@@ -214,7 +214,7 @@ boundary_conditions = nothing
 
 ### Tracers and buoyancy
 
-[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/buoyancy_and_equation_of_state/)
+[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/buoyancy_and_equation_of_state/)
 
 Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
 
@@ -253,7 +253,7 @@ WENO{3, Float64, Float32}(order=5)
 └── advection_velocity_scheme: Centered(order=4)
 ```
 ### Closure
-[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/turbulence_closures/)
+[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/turbulence_closures/)
 
 When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ to model down-gradient turbulent diffusion of velocity.
 
@@ -269,18 +269,18 @@ closure = nothing
 set!(model; u=u₀, v=v₀) # etc.
 ```
 We will use this to set the initial conditions of the simulation, after the model has been created.
-> ### Exercise 3
+> ### Exercise 3.3
 > Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$.
 
 ## Simulation
-[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
+[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/)
 ### Creation
 We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
 ```julia
 simulation = Simulation(model; Δt=7, stop_time=6)
 ```
 ### Progress info
-[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/callbacks/)
+[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/callbacks/)
 
 Oceananigans has a callback system for creating functions that run at specific points during simulation runtime. We will use this to produce some output as the simulation runs. First, we define a function that prints some info (using `prettytime` to convert seconds into a suitable unit)
 
@@ -298,7 +298,7 @@ We then add this to the simulation callbacks.
 simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
 ```
 ### Variable time steps
-[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
+[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
 
 The numerical stability of an advection equation is determined primarily by the 
 
@@ -311,9 +311,9 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 
 ### Output and operations
 
-[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/output_writers/)
+[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/output_writers/)
 \
-[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
+[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations/#Operations-and-averaging)
 
 Finally, we add a `JLD2Writer` to the simulation to output model fields. We can also output derived fields using `AbstractOperations`.
 
@@ -328,7 +328,7 @@ b, c = model.tracers
 KE = (u^2 + v^2) / 2
 ```
 
-> ### Exercise 4
+> ### Exercise 3.4
 > Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
 
 We can also pass a function as keyword argument `init` that is run when the output file is initialized. It is prudent to output simulation parameters and a short description in addition to fields.
@@ -356,5 +356,5 @@ Once configured, a simulation can be run with simply
 run!(simulation)
 ```
 
-> ### Exercise 5
+> ### Exercise 3.5
 > Run the simulation. At $512\times 64$ resolution, it took about 15 minutes on my laptop (Ryzen 5 7640U, 12 threads) and the output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue.
