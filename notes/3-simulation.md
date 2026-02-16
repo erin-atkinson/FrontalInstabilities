@@ -149,7 +149,10 @@ Recall the equations we need to simulate:
 
 $$\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.$$
 
-These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor. A simple, constant forcing can be created by passing a function to `Forcing`.
+These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor.
+Let us now explain in general how to build forcing, before turning our attention back to our frontal problem.
+
+A simple, constant forcing can be created by passing a function to `Forcing`.
 ```julia
 Fᵤ = 0.1
 function u_forcing_func(x, y, z, t, p)
