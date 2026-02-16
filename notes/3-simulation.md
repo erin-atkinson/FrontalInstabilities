@@ -331,7 +331,7 @@ KE = (u^2 + v^2) / 2
 ```
 
 > ### Exercise 3.4
-> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
+> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \partial_z b$.
 
 We can also pass a function as keyword argument `init` that is run when the output file is initialized. It is prudent to output simulation parameters and a short description in addition to fields.
 
