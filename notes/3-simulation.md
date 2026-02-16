@@ -199,15 +199,15 @@ Pay attention to how external parameters and field dependencies are introduced a
 
 [Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
-Every field comes with a set of boundary conditions
-- `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$
+Every field comes with a set of boundary conditions:
+- `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$;
 - `GradientBoundaryCondition` represents boundary conditions which constrain the gradient, rather than the value of a field
-- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary
-- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries
+- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary;
+- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
 
-There are also boundary conditions which aren't intended to be used directly
-- `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain
-- `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient
+There are also boundary conditions which aren't intended to be used directly:
+- `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain;
+- `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient.
 
 Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
 ```julia
