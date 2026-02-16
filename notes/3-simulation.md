@@ -168,7 +168,7 @@ ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
 └── field dependencies: ()
 ```
 
-Note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (`Flat` coordinates are omitted, however.) One way to meorize it is to remember that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
+Note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (`Flat` coordinates are omitted, however.) One way to memorize it is to remember that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
 
 We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates (but again, before `parameters`).
 ```julia
