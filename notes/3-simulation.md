@@ -201,7 +201,7 @@ Pay attention to how external parameters and field dependencies are introduced a
 
 Every field comes with a set of boundary conditions:
 - `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$;
-- `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field
+- `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field;
 - `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary;
 - `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
 
@@ -218,16 +218,16 @@ boundary_conditions = nothing
 
 [Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/buoyancy_and_equation_of_state/)
 
-Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
+Passive tracers may be inserted into the model with the keyword argument `tracers`. To add an unforced field $c$ that is evolved by the model using
 
-$$\frac{\text{D}c}{\text{D}t} = 0\quad \text{if no forcing functions defined}$$
+$$\frac{\text{D}c}{\text{D}t} = 0,$$
 
 just add
 ```julia
 tracers = (:c, )
 ```
 
-Buoyancy $b$ is an *active* tracer that appears in the momentum equation. Any active tracer can be implemented in Oceananigans using custom forcing functions, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
+Buoyancy $b$ is an *active* tracer, that is, it appears in the momentum equation. Any active tracer can be implemented in Oceananigans using custom forcing functions, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
 ```julia
 buoyancy = BuoyancyTracer()
 tracers = (:b, )
@@ -257,7 +257,7 @@ WENO{3, Float64, Float32}(order=5)
 ### Closure
 [Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/turbulence_closures/)
 
-When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ to model down-gradient turbulent diffusion of velocity.
+When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. In particular, energy dissipates at molecular scales, which are impossible to resolve in any oceanic simulation. In order to close the equations of motion, motion at smaller-than-grid-scales must be represented in some way in a numerical model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ with a coefficient that would be larger than the physical value to model down-gradient turbulent diffusion of velocity.
 
 We will not use an explicit closure here for simplicity; the WENO advection scheme is sufficient.
 
