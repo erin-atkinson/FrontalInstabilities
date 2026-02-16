@@ -165,7 +165,9 @@ ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
 └── field dependencies: ()
 ```
 
-We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates. (though `parameters` is always passed to the last positional argument)
+Note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (`Flat` coordinates are omitted, however.) One way to meorize it is to remember that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
+
+We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates (but again, before `parameters`).
 ```julia
 function quadratic_drag_u(x, y, z, t, u, v, w, p)
 	return -p.c * sqrt(u^2 + v^2 + w^2) * u
@@ -182,10 +184,11 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 ├── parameters: (c = 0.5,)
 └── field dependencies: (:u, :v, :w)
 ```
-Note that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
+Pay attention to how external parameters and field dependencies are introduced and treated.
+We recall that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
 
 > ### Exercise 2
-> Define the continuous forcing functions `v_forcing_func(x, z, t, p)` and `b_forcing_func(x, z, t, p)` appropriately
+> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with the ellipses to be determined, in a manner that is appropriate to our frontal problem.
 
 ### Boundary conditions
 
