@@ -159,7 +159,7 @@ function u_forcing_func(x, y, z, t, p)
 	return p.Fᵤ
 end
 
-forcing = Forcing(u_forcing_func; parameters=(; Fᵤ))
+forcing = Forcing(u=u_forcing_func; parameters=(; Fᵤ))
 ```
 ```
 ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
@@ -168,7 +168,10 @@ ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
 └── field dependencies: ()
 ```
 
-As mentioned [earlier](https://github.com/erin-atkinson/FrontalInstabilities/blob/main/notes/3-simulation.md#components-of-a-model), note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (And just like for `set!`, we omit `Flat` coordinates.) One way to memorize it is to consider that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
+As mentioned [earlier](https://github.com/erin-atkinson/FrontalInstabilities/blob/main/notes/3-simulation.md#components-of-a-model), note how 
+- the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (But just like for `set!`, we omit `Flat` coordinates.) One way to memorize it is to consider that the forcing, even if constant, applies at all points and all times; 
+- The last argument, `p`, stands for "parameters" and is always the last positional argument;
+- In the last line, we specificed that the forcing applied to $u$, and what the external parameters were.
 
 We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates (but again, before `parameters`).
 ```julia
@@ -187,7 +190,7 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 ├── parameters: (c = 0.5,)
 └── field dependencies: (:u, :v, :w)
 ```
-Pay attention to how external parameters and field dependencies are introduced and treated,m and how we specificed that the forcing applied to $u$.
+Pay attention to how external parameters and field dependencies are introduced and treated.
 
 > ### Exercise 3.2
 > Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, in a manner that is appropriate to our frontal problem.
