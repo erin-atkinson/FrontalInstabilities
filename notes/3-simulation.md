@@ -200,7 +200,7 @@ Pay attention to how external parameters and field dependencies are introduced a
 [Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
 Every field comes with a set of boundary conditions
-- `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field, that is, the no-slip boundary condition $u(x, y, 0) = 0$
+- `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$
 - `GradientBoundaryCondition` represents boundary conditions which constrain the gradient, rather than the value of a field
 - `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary
 - `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries
