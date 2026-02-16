@@ -302,7 +302,7 @@ simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
 ### Variable time steps
 [Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
 
-The numerical stability of an advection equation is determined primarily by the 
+The numerical stability of an advection equation is determined primarily by the I THINK YOU MEAN TO WRITE COURANT-FRIEDRICHS-LEWY CONDITION, BUT I DON'T KNOW IF YOU'RE GIVING A FORMULA OR NOT.
 
 Intuitively, this condition states that the movement of an advected quantity in one timestep $u\Delta t$ must not be larger than a single grid cell $\Delta x$. We can use this condition as a guide for how large we can make the simulation timestep and retain stability. Since velocity is an evolving quantity, we use a `TimeStepWizard` to adjust the timestep to be as large as possible while still retaining a minimum CFL number of $0.5$.
 
