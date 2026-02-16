@@ -176,7 +176,7 @@ function quadratic_drag_u(x, y, z, t, u, v, w, p)
 	return -p.c * sqrt(u^2 + v^2 + w^2) * u
 end
 
-forcing = Forcing(quadratic_drag_u;
+forcing = Forcing(u=quadratic_drag_u;
 	parameters = (; c=0.5),
 	field_dependencies = (:u, :v, :w)
 )
@@ -187,8 +187,7 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 ├── parameters: (c = 0.5,)
 └── field dependencies: (:u, :v, :w)
 ```
-Pay attention to how external parameters and field dependencies are introduced and treated.
-We recall that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
+Pay attention to how external parameters and field dependencies are introduced and treated,m and how we specificed that the forcing applied to $u$.
 
 > ### Exercise 3.2
 > Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, in a manner that is appropriate to our frontal problem.
