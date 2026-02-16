@@ -168,7 +168,7 @@ ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
 └── field dependencies: ()
 ```
 
-As mentioned [earlier](https://github.com/erin-atkinson/FrontalInstabilities/blob/main/notes/3-simulation.md#components-of-a-model), note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (And recall that `Flat` coordinates are omitted.) One way to memorize it is to remember that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
+As mentioned [earlier](https://github.com/erin-atkinson/FrontalInstabilities/blob/main/notes/3-simulation.md#components-of-a-model), note how the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (And just like for `set!`, we omit `Flat` coordinates.) One way to memorize it is to consider that the forcing, even if constant, applies at all points and all times. The last argument, `p`, stands for "parameters" and is always the last positional argument.
 
 We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates (but again, before `parameters`).
 ```julia
