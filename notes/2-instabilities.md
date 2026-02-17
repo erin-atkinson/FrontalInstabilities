@@ -36,7 +36,7 @@ Symmetric instability consists of thin rolls aligned with isopycnals (lines of c
  - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$ (Stone 1966)
  - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${\vec \Omega \not\parallel \hat{z}}$) (Zeitlin 2018)
  - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
- - Its stability parameter, $q$, is materially conserved if fluid parcels conserved momentum and buoyancy.
+ - Its stability parameter, $q$, is materially conserved if fluid parcels conserve momentum and buoyancy.
 
 > ### Exercise 2.3
 > Potential vorticity is typically thought of as a materially conserved property ($\text{D}q/\text{D}t=0$, see Vallis $`\S\,4.5`$) and this is true for the inviscid Boussinesq equations $(1.2)$ presented previously. This presents a problem: an unstable fluid parcel with $q<0$ will remain unstable to SI no matter how much perturbations attempt to restore the fluid to a stabile state. What may resolve this contradiction?
