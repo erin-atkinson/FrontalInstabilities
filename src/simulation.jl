@@ -24,23 +24,28 @@ Nz = 64
 T = 120 / f
 
 # Exercise 1: Create a grid
-grid = 
+grid = RectilinearGrid(CPU();
+    topology=(Periodic, Bounded, Flat),
+    size=(32, 32),
+    x=(-0.5, 0.5),
+    y=(-0.5, 0.5)
+)
 
 # Exercise 2: Define continuous forcing functions
 #
 #
 #
 
-forcing = 
+forcing =
 
 # Other model arguments
-advection = WENO(; order=5)
+    advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
 tracers = (:b, :c)
 
 # Create a model
-model = NonhydrostaticModel(; 
+model = NonhydrostaticModel(;
     grid,
     advection,
     forcing,
@@ -83,21 +88,21 @@ b, c = model.tracers
 
 # Exercise 4: Derived fields
 # Total buoyancy gradient
-N²_tot = 
+N²_tot =
 
 # Output metadata
-function init_jld2!(file, model)
-    file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
-    file["metadata/description"] = "Symmetric instability in a frontal zone"
-    return nothing
-end
+    function init_jld2!(file, model)
+        file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
+        file["metadata/description"] = "Symmetric instability in a frontal zone"
+        return nothing
+    end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename = "output.jld2",
-    overwrite_existing = true,
+    filename="output.jld2",
+    overwrite_existing=true,
     init=init_jld2!,
-    schedule = TimeInterval(20Δt)
+    schedule=TimeInterval(20Δt)
 )
 
 # Run simulation

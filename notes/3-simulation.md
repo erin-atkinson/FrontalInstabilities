@@ -1,8 +1,9 @@
 # Basic Oceananigans setup
 ## Grid
-[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
 
-In brief, Oceananigans is a finite-difference simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as Dedalus, a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
+[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/) (POINTS TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT)
+
+In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
 grid = RectilinearGrid(CPU();
     topology = (Periodic, Bounded, Flat),
@@ -27,8 +28,8 @@ The grid size is $32\times 32$ and the _physical_ size (i.e. the length and widt
 
 Note the lack of units in the definition.  If you would prefer, [you can use some pre-defined units to write your code](https://clima.github.io/OceananigansDocumentation/stable/appendix/library/#Units). I'm going to continue without these however, because we may be performing non-dimensional simulations.
 
-> ### Exercise 1
-> Add a 2D grid to `simulation.jl` using the parameters L, H, Nx and Nz in the script. The grid should be periodic in the x direction and bounded at the top and bottom in the z direction.
+> ### Exercise 3.1
+> Add a 2D grid to `simulation.jl` using the parameters `L`, `H`, `Nx` and `Nz` in the script. The grid should be periodic in the $x$ direction and bounded at the top and bottom in the $z$ direction.
 
 ### Domain boundaries and halos
 Oceananigans represents boundary conditions by including them in the fields themselves. Once a field's boundary conditions are defined, a region outside of the grid (as defined by the user) is filled with values that satisfy said boundary condition. So, when you define a grid with `size=(32, 32)` the actual size in memory is (by default) $38 \times 38(\times 1)$. Values on the grid are defined using `OffsetArray`, and have indices `-2:35`. This boundary region is referred to as the _halo_ and the region of the full grid that isn't the halo is the _interior_. Specifying boundary conditions is introduced later in this tutorial.
@@ -49,18 +50,18 @@ As an optimisation, different fields "live" on different grid nodes. If the grid
 ![Staggered grid diagram](../images/staggered.png)
 
 Fields will in general come with three _locations_ that define their position within a cell. As a rule:
-- $x$-velocity ($u$) is on  `Face`, `Center`, `Center`. So `u[i, j, k]` would be the velocity at `node(i, j, k, grid, Face(), Center(), Center())` and so on for $v$ and $w$
-- Tracers, such as temperature are entirely on grid centers `Center, Center, Center`.
-- Each order of a derivative "flips" the corresponding location, so $\frac{\partial T}{\partial x}$ would be on `Face`, `Center`, `Center`
+- $x$-velocity ($u$) is on  `Face`, `Center`, `Center`. So `u[i, j, k]` would be the velocity at `node(i, j, k, grid, Face(), Center(), Center())` and so on for $v$ and $w$.
+- Tracers such as temperature are entirely on grid centers `Center, Center, Center`.
+- Each order of a derivative "flips" the corresponding location, so $\partial_x T$ would be on `Face`, `Center`, `Center`.
 
-Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}$ naturally falls onto `Face`, `Face`, `Center`.
+Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \partial_x v - \partial u_y$ naturally falls onto `Face`, `Face`, `Center`.
 
 There is a secret, third thing: `Nothing`. This is the location for fields that are the result of a `Reduction`, which we will look at later. A reduction takes a field and "reduces" it in one or more directions (such as an average or integral).
  
 Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy.
 
 ## Fields
-[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/fields/)
+[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/fields/)
 
 A `Field` is a container that holds values of a quantity on a specific grid, along with boundary conditions, nodes and other data. Fields may also be used to represent derived quantities that are produced by `AbstractOperations` acting on fields, described later. To create a field on a grid, just use the constructor `Field`
 ```julia
@@ -117,7 +118,7 @@ c
 Because the grid has no $z$ dependence, the function we pass must only have two arguments. This convention is used throughout Oceananigans. Functions defined on the simulation domain will take arguments `(x, y, z)` or `(x, y, z, t)`, with coordinates corresponding to flat directions removed.
 
 ## Components of a model
-[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/models_overview/)
+[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
 
 The model contains information and implementation of the physics of the simulation. We will use a `NonhydrostaticModel`, though others exist. The model constructor takes many keyword arguments specifying desired properties. For our simulation, the model may look like:
 
@@ -134,7 +135,7 @@ model = NonhydrostaticModel(;
 Each of the arguments we use are described below.
 
 ### Rotation
-[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/coriolis/)
+[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/coriolis/)
 
 After defining the desired Coriolis frequency $f$, a simple $f$-plane rotation can be added with 
 ```julia
@@ -142,13 +143,16 @@ coriolis = FPlane(; f)
 ```
 
 ### Forcing
-[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/forcing_functions/)
+[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
 
-Recall the equations we need to simulate
+Recall the equations we need to simulate:
 
 $$\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.$$
 
-These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor. A simple, constant forcing can be created by passing a function to `Forcing`.
+These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor.
+Let us now explain in general how to build forcing terms, before turning our attention back to our frontal problem.
+
+A simple, constant forcing can be created by passing a function to `Forcing`.
 ```julia
 Fᵤ = 0.1
 function u_forcing_func(x, y, z, t, p)
@@ -164,7 +168,12 @@ ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
 └── field dependencies: ()
 ```
 
-We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates. (though `parameters` is always passed to the last positional argument)
+As mentioned [earlier](https://github.com/erin-atkinson/FrontalInstabilities/blob/main/notes/3-simulation.md#components-of-a-model), note how 
+- the space and time coordinates are always passed onto the function first, even when said function is constant with respect to them. (But just like for `set!`, we omit `Flat` coordinates.) One way to memorize it is to consider that the forcing, even if constant, applies at all points and all times; 
+- The last argument, `p`, stands for "parameters" and is always the last positional argument;
+- In the last line, we specificed that the forcing applied to $u$, and what the external parameters were.
+
+We can also have the forcing functions depend on the value of model fields at the same location, which are added after the coordinates (but again, before `parameters`).
 ```julia
 function quadratic_drag_u(x, y, z, t, u, v, w, p)
 	return -p.c * sqrt(u^2 + v^2 + w^2) * u
@@ -181,24 +190,24 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 ├── parameters: (c = 0.5,)
 └── field dependencies: (:u, :v, :w)
 ```
-Note that, just like for `set!`, `Flat` coordinates are omitted from these forcing functions.
+Pay attention to how external parameters and field dependencies are introduced and treated.
 
-> ### Exercise 2
-> Define the continuous forcing functions `v_forcing_func(x, z, t, p)` and `b_forcing_func(x, z, t, p)` appropriately
+> ### Exercise 3.2
+> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, in a manner that is appropriate to our frontal problem.
 
 ### Boundary conditions
 
-[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/boundary_conditions/)
+[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
-Every field comes with a set of boundary conditions
-- `ValueBoundaryCondition` represents boundary conditions which constrain the value of a particular field i.e. the no-slip boundary condition $u(x, y, 0) = 0$
-- `GradientBoundaryCondition` represents boundary conditions which constrain the gradient, rather than the value of a field
-- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary
-- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries
+Every field comes with a set of boundary conditions:
+- `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$;
+- `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field;
+- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary that produces a specific flux (density) of a field across that boundary;
+- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
 
-There are also boundary conditions which aren't intended to be used directly
-- `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain
-- `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient
+There are also boundary conditions that aren't intended to be used directly:
+- `PeriodicBoundaryCondition` applies to any field on a grid with a periodic direction. This fills the halo with the value of the field on the other side of the domain;
+- `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient.
 
 Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
 ```julia
@@ -207,18 +216,18 @@ boundary_conditions = nothing
 
 ### Tracers and buoyancy
 
-[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/buoyancy_and_equation_of_state/)
+[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/buoyancy_and_equation_of_state/)
 
-Passive tracers may be inserted into the model with the keyword argument `tracers`. To add a field $c$ that is evolved by the model using
+Passive tracers may be inserted into the model with the keyword argument `tracers`. To add an unforced field $c$ that is evolved by the model using
 
-$$\frac{\text{D}c}{\text{D}t} = 0\quad \text{if no forcing functions defined}$$
+$$\frac{\text{D}c}{\text{D}t} = 0,$$
 
 just add
 ```julia
 tracers = (:c, )
 ```
 
-Buoyancy $b$ is an *active* tracer that appears in the momentum equation. Any active tracer can be implemented in Oceananigans using custom forcing functions, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
+Buoyancy $b$ is an *active* tracer, that is, it appears in the momentum equation. Any active tracer can be implemented in Oceananigans using custom forcing functions, but since buoyancy is so common it has dedicated syntax. To include a basic buoyancy in the model, you need the following keyword arguments
 ```julia
 buoyancy = BuoyancyTracer()
 tracers = (:b, )
@@ -246,9 +255,9 @@ WENO{3, Float64, Float32}(order=5)
 └── advection_velocity_scheme: Centered(order=4)
 ```
 ### Closure
-[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/turbulence_closures/)
+[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/turbulence_closures/)
 
-When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. Motion at smaller length scales is still important for realistic motion of a fluid, and must be represented in some way in a model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ to model down-gradient turbulent diffusion of velocity.
+When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. In particular, energy dissipates at molecular scales, which are impossible to resolve in any oceanic simulation. In order to close the equations of motion, motion at smaller-than-grid-scales must be represented in some way in a numerical model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ with a coefficient that would be larger than the physical value to model down-gradient turbulent diffusion of velocity.
 
 We will not use an explicit closure here for simplicity; the WENO advection scheme is sufficient.
 
@@ -262,18 +271,18 @@ closure = nothing
 set!(model; u=u₀, v=v₀) # etc.
 ```
 We will use this to set the initial conditions of the simulation, after the model has been created.
-> ### Exercise 3
-> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest interesting example is a linear profile, here with 0 at the surface and 1 at the bottom, $c_0 = -z / H$
+> ### Exercise 3.3
+> Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest non-trivial example is a linear profile, here with 0 at the surface and 1 at the bottom.
 
 ## Simulation
-[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
+[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/)
 ### Creation
 We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
 ```julia
 simulation = Simulation(model; Δt=7, stop_time=6)
 ```
 ### Progress info
-[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/callbacks/)
+[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/callbacks/)
 
 Oceananigans has a callback system for creating functions that run at specific points during simulation runtime. We will use this to produce some output as the simulation runs. First, we define a function that prints some info (using `prettytime` to convert seconds into a suitable unit)
 
@@ -291,9 +300,9 @@ We then add this to the simulation callbacks.
 simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
 ```
 ### Variable time steps
-[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
+[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
 
-The numerical stability of an advection equation is determined primarily by the 
+The numerical stability of an advection equation is determined primarily by the I THINK YOU MEAN TO WRITE COURANT-FRIEDRICHS-LEWY CONDITION, BUT I DON'T KNOW IF YOU'RE GIVING A FORMULA OR NOT.
 
 Intuitively, this condition states that the movement of an advected quantity in one timestep $u\Delta t$ must not be larger than a single grid cell $\Delta x$. We can use this condition as a guide for how large we can make the simulation timestep and retain stability. Since velocity is an evolving quantity, we use a `TimeStepWizard` to adjust the timestep to be as large as possible while still retaining a minimum CFL number of $0.5$.
 
@@ -304,9 +313,9 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 
 ### Output and operations
 
-[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/output_writers/)
+[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/output_writers/)
 \
-[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
+[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations/#Operations-and-averaging)
 
 Finally, we add a `JLD2Writer` to the simulation to output model fields. We can also output derived fields using `AbstractOperations`.
 
@@ -321,8 +330,8 @@ b, c = model.tracers
 KE = (u^2 + v^2) / 2
 ```
 
-> ### Exercise 4
-> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \frac{\partial b}{\partial z}$
+> ### Exercise 3.4
+> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \partial_z b$.
 
 We can also pass a function as keyword argument `init` that is run when the output file is initialized. It is prudent to output simulation parameters and a short description in addition to fields.
 
@@ -349,5 +358,7 @@ Once configured, a simulation can be run with simply
 run!(simulation)
 ```
 
-> ### Exercise 5
-> Run the simulation. At $512\times 64$ resolution, it took about 15 minutes on my laptop (Ryzen 5 7640U, 12 threads) and the output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue.
+> ### Exercise 3.5
+> Run the simulation.
+> 
+> _At_ $512\times 64$ _resolution, it took about 15 minutes on Erin's laptop (Ryzen 5 7640U, 12 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, number of threads irrelevant). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
