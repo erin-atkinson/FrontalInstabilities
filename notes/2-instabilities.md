@@ -1,17 +1,22 @@
 # Instability in a front
 
-We now turn to motions that evolve on time scales, much longer than $N^{-1}$.
+We now turn to motions that evolve on time scales much longer than $N^{-1}$.
 
 > ### Exercise 2.1
 > 
-> A. Show that under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
+> A. Using the equation for $\text{D}w/\text{D}t$, show that, under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
+>
+> B. Using this approximation, show that equation set $1.3$ may be written, keeping only linear terms and ignoring $y$ variation, as
+> $$\frac{\partial u}{\partial t} - fv = -\phi_x, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w$$
+> $$\text{and} \quad \frac{\partial b}{\partial t}= -M^2 u-N^2w,$$
+> with $\phi_z = b$ and $\nabla \cdot \vec u = 0$.
 > 
-> B. Show that under this approximation, a plane-wave mode $(u, v, w, b) = (\tilde u, \tilde v, \tilde w, \tilde b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
+> C. Show that a plane-wave mode $(u, v, w, b) = (\tilde u, \tilde v, \tilde w, \tilde b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
 > 
 > $$\omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \qquad (2.1)$$
 > 
-> with $\zeta = \partial_x v_0$.
-
+> Hint: construct a differential equation for $u$ only, then use the plane wave assumption.
+>
 Instability (i.e., modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta) < 0$ or $N^2 < 0$. These are inertial and gravitational instabilities respectively and will not be the focus of this example. Even if those two conditions are not met, a sufficiently large $M^2$ can cause symmetric instability, which consists of thin rolls aligned with isopycnals (lines of constant $b_0$) in the hydrostatic case and with no variation in the down-front ($y$) direction, hence the name. (PROVE IT AS EXERCISE?)
 
 Symmetric instability has some quirks which may be of interest
