@@ -122,11 +122,11 @@ An important feature of fronts, especially at smaller scales ($\text{Ro} \sim 1$
 Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
 
 ## Describing an ideal front
-An ideal front may be described by an Eady state, with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet whose orientation we choose to be along $\hat y$ without loss of generality, namely,
+We use a linearised state to define an ideal front with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet whose orientation we choose to be along $\hat y$ without loss of generality, namely,
 ```math
-b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = Sz= \frac{M^2}{f} z,
+b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = \zeta x +Sz= \zeta x + \frac{M^2}{f} z,
 ```
-where we assume that $v_0 = 0$ on $z=0$.
+where we assume that $v_0 = \zeta x$ on $z=0$.
 
 > ### Exercise 1.2
 >
@@ -137,8 +137,8 @@ The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any 
 ```math
 \vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, z') \,\text{d}z' + \phi. \qquad  (1.2)
 ```
-We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background
+We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background.
 ```math
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3)
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (1.3a)\\ \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3b, c)
 ```
 We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(1.2)}$.
