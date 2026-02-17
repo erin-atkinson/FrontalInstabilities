@@ -25,10 +25,10 @@ T = 120 / f
 
 # Exercise 1: Create a grid
 grid = RectilinearGrid(CPU();
-    topology = (Periodic, Bounded, Flat),
-    size = (32, 32),
-    x = (-0.5, 0.5),
-    y = (-0.5, 0.5)
+    topology=(Periodic, Bounded, Flat),
+    size=(32, 32),
+    x=(-0.5, 0.5),
+    y=(-0.5, 0.5)
 )
 
 # Exercise 2: Define continuous forcing functions
@@ -36,10 +36,10 @@ grid = RectilinearGrid(CPU();
 #
 #
 
-    forcing =
+forcing =
 
-    # Other model arguments
-        advection = WENO(; order=5)
+# Other model arguments
+    advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
 tracers = (:b, :c)
