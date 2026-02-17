@@ -159,7 +159,7 @@ function u_forcing_func(x, y, z, t, p)
 	return p.Fᵤ
 end
 
-forcing = Forcing(u=u_forcing_func; parameters=(; Fᵤ))
+forcing = Forcing(u_forcing_func; parameters=(; Fᵤ))
 ```
 ```
 ContinuousForcing{@NamedTuple{Fᵤ::Float64}}
@@ -179,7 +179,7 @@ function quadratic_drag_u(x, y, z, t, u, v, w, p)
 	return -p.c * sqrt(u^2 + v^2 + w^2) * u
 end
 
-forcing = Forcing(u=quadratic_drag_u;
+forcing = Forcing(quadratic_drag_u;
 	parameters = (; c=0.5),
 	field_dependencies = (:u, :v, :w)
 )
