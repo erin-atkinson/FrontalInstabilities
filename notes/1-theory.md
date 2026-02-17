@@ -13,7 +13,7 @@ where $\alpha$ is the coefficient of thermal expansion and $\rho_0$, $T_0$, $p_0
 
 We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed. 
 
-This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section. A detailed derivation of the Boussinesq equations from the basic equations of motion of a fluid can be found in *Atmospheric and Oceanic Fluid Dynamics* $\S 2.4$
+This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section. A detailed derivation of the Boussinesq equations from the basic equations of motion of a fluid can be found in $\S 2.4$ of *Atmospheric and Oceanic Fluid Dynamics* by Geoffrey K. Vallis
 
 ## Fluid in a rotating frame
 Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $`{\vec A}`$ in the two frames are related by
