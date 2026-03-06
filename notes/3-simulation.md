@@ -361,4 +361,4 @@ run!(simulation)
 > ### Exercise 3.5
 > Run the simulation.
 > 
-> _At_ $512\times 64$ _resolution, it took about 15 minutes on Erin's laptop (Ryzen 5 7640U, 12 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, number of threads irrelevant). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
+> _At_ $512\times 64$ _resolution, it took about 15 minutes on Erin's laptop (Ryzen 5 7640U, 12 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
