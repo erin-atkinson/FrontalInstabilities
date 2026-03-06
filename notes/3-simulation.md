@@ -1,7 +1,7 @@
 # Basic Oceananigans setup
 ## Grid
 
-[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/) (POINTS TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT)
+[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/) _*(NICO MADE IT POINT TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT)*_
 
 In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
@@ -302,7 +302,7 @@ simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
 ### Variable time steps
 [Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
 
-The numerical stability of an advection equation is determined primarily by the I THINK YOU MEAN TO WRITE COURANT-FRIEDRICHS-LEWY CONDITION, BUT I DON'T KNOW IF YOU'RE GIVING A FORMULA OR NOT.
+The numerical stability of an advection equation is determined primarily by the _*(SENTENCE WASN'T FINISHED; I (NICO) THINK YOU MEAN TO WRITE COURANT-FRIEDRICHS-LEWY CONDITION, BUT I DON'T KNOW IF YOU'RE GIVING A FORMULA OR NOT.)*_
 
 Intuitively, this condition states that the movement of an advected quantity in one timestep $u\Delta t$ must not be larger than a single grid cell $\Delta x$. We can use this condition as a guide for how large we can make the simulation timestep and retain stability. Since velocity is an evolving quantity, we use a `TimeStepWizard` to adjust the timestep to be as large as possible while still retaining a minimum CFL number of $0.5$.
 
@@ -361,4 +361,4 @@ run!(simulation)
 > ### Exercise 3.5
 > Run the simulation.
 > 
-> _At_ $512\times 64$ _resolution, it took about 15 minutes on Erin's laptop (Ryzen 5 7640U, 12 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, number of threads irrelevant). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
+> _At_ $512\times 64$ _resolution, it took about 15 minutes on Erin's laptop (Ryzen 5 7640U, 12 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
