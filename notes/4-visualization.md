@@ -1,4 +1,7 @@
 # Making a video of the simulation
+
+## Elements of `Makie`
+
 Currently, Julia's premier plotting package is `Makie` this comes in two different flavours:
 - `CairoMakie` Lightweight, platform-agnostic
 - `GLMakie` Uses OpenGL to render figures, notably, this enables 3D plotting and interactive plots
