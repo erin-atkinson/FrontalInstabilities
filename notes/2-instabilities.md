@@ -8,9 +8,7 @@ We now turn to motions that evolve on time scales much longer than $N^{-1}$.
 >
 > B. Using this approximation, show that equation set $1.3$ may be written, keeping only linear terms and ignoring $y$ variation, as
 > 
-> $$\frac{\partial u}{\partial t} - fv = -\phi_x, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w$$
-> 
-> $$\text{and} \quad \frac{\partial b}{\partial t}= -M^2 u-N^2w,$$
+> $$\frac{\partial u}{\partial t} - fv = -\phi_x, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w\quad \text{and} \quad \frac{\partial b}{\partial t}= -M^2 u-N^2w,$$
 > 
 > with $\phi_z = b$ and $\nabla \cdot \vec u = 0$.
 > 
