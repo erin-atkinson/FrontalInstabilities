@@ -6,7 +6,7 @@ We now turn to motions that evolve on time scales much longer than $N^{-1}$.
 > 
 > A. Using the equation for $\text{D}w/\text{D}t$, show that, under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
 >
-> B. Using this approximation, show that equation set $1.3$ may be written, keeping only linear terms and ignoring $y$ variation, as
+> B. Using this approximation, show that equation set $(1.3)$ may be written, keeping only linear terms and ignoring $y$ variation, as
 > 
 > $$\frac{\partial u}{\partial t} - fv = -\phi_x, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w\quad \text{and} \quad \frac{\partial b}{\partial t}= -M^2 u-N^2w,$$
 > 
