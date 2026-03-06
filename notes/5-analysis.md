@@ -3,8 +3,9 @@ This section covers some motivation for modelling instabilities in the first pla
 
 ## Vertical transport
 It is clear from the videos that the instability-induced turbulence transports momentum and tracers vertically. As discussed in section 3, a simulation is not a true representation of an inviscid fluid, with the most important difference being a lack of infinite resolution. Our simulation may be contained entirely in a single grid cell within a global ocean model. The value of velocities and tracers within this cell will be the average over the whole simulation, for example the tracer $c$ we define an average and perturbations from this average
-
-$$\langle c \rangle = \frac{1}{LH}\int_\text{cell} c\,\text{d}x\,\text{d}z  \quad \text{and}\quad c'=c - \langle c\rangle.$$
+```math
+\langle c \rangle = \frac{1}{LH}\int_\text{cell} c\,\text{d}x\,\text{d}z  \quad \text{and}\quad c'=c - \langle c\rangle.
+```
 
 How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagrangian derivative
 
