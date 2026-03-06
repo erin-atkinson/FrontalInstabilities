@@ -7,8 +7,11 @@ We now turn to motions that evolve on time scales much longer than $N^{-1}$.
 > A. Using the equation for $\text{D}w/\text{D}t$, show that, under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
 >
 > B. Using this approximation, show that equation set $1.3$ may be written, keeping only linear terms and ignoring $y$ variation, as
+> 
 > $$\frac{\partial u}{\partial t} - fv = -\phi_x, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w$$
+> 
 > $$\text{and} \quad \frac{\partial b}{\partial t}= -M^2 u-N^2w,$$
+> 
 > with $\phi_z = b$ and $\nabla \cdot \vec u = 0$.
 > 
 > C. Show that a plane-wave mode $(u, v, w, b) = (\tilde u, \tilde v, \tilde w, \tilde b)\exp[\text i(kx + mz - \omega t)]$ evolving in an infinitely long domain follows the dispersion relationship
