@@ -16,10 +16,10 @@ $$
 Using $\langle c \rangle = c - c'$ and taking a horizontal _*[NICO: WHY HORIZONTAL?]*_ average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$),
 
 $$
-\left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \left\langle \vec u ' \cdot \nabla c'\right\rangle = - \nabla \cdot \left\langle \vec u' c'\right\rangle. 
+\left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \langle \vec u' \cdot \nabla c'\rangle = - \nabla \cdot \langle \vec u' c'\rangle,
 $$
 
-Where incompressibility is used for the final equality. We end up with a tracer equation for $\langle c \rangle$, but this averaged tracer is no longer materially conserved as it has a non-zero Lagrangian derivative
+where we used incompressibility for the final equality. We end up with a tracer equation for $\langle c \rangle$, but this averaged tracer is no longer materially conserved as it has a non-zero Lagrangian derivative
 
 $$
 \frac{\text {D}\langle c \rangle}{\text{D}t} =- \nabla \cdot \langle \vec u' c'\rangle 
