@@ -8,23 +8,18 @@ It is clear from the videos that the instability-induced turbulence transports m
 ```
 
 How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagrangian derivative
-
-$$
+```math
 \frac{\text {D}\langle c \rangle}{\text{D}t} = \frac{\partial \langle c\rangle}{\partial t} + \vec u \cdot \nabla \langle c \rangle.
-$$
-
+```
 Using $\langle c \rangle = c - c'$ and taking a horizontal _*[NICO: WHY HORIZONTAL?]*_ average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$),
-
-$$
+```math
 \left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \langle \vec u' \cdot \nabla c'\rangle = - \nabla \cdot \langle \vec u' c'\rangle,
-$$
+```
 
 where we used incompressibility for the final equality. We end up with a tracer equation for $\langle c \rangle$, but this averaged tracer is no longer materially conserved as it has a non-zero Lagrangian derivative
-
-$$
+```math
 \frac{\text {D}\langle c \rangle}{\text{D}t} =- \nabla \cdot \langle \vec u' c'\rangle 
-$$
-
+```
 (note that there will also be a direct effect of the sub-grid diffusivity due to the advection scheme/closure as discussed previously, but we ignore it here). As simulations at this fine resolution are impractical for larger regions, realistic simulations require that we model the effects of small-scale turbulence by producing estimates of the turbulent flux terms ${\langle \vec{u}' c'\rangle}$ (this _closes_ the set of equations for the averaged fields, hence the term _closure_). This can be done completely analytically for only simple cases, another method is to perform multiple small-scale simulations for a range of large-scale conditions, usually represented by non-dimensional numbers, and fit a curve. Here we will produce an estimate of the total vertical transport of the tracer $c$ for different values of $\text{Ri}$ over time.
 
 ## Parameter sweep
