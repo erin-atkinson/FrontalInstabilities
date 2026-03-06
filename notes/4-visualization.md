@@ -80,9 +80,9 @@ save("example.png", fig)
 ```
 ![Figure](../images/example.png)
 
-In 2D, Makie plotting functions typically take an array for the x and y coodinates, as well as a 2D array, or function `f(x, y)` to plot. There are many keyword arguments that may be used to configure a `Figure`, `Axis` or plot, and these can be found in the [documentation](https://docs.makie.org/stable/), or with `?heatmap`, for instance. `L"x / \text{m}"` is an example of a LaTeX string, included in Makie, that allows easily making pretty text in figures. If needed, you can interpolate into these with `%$` rather than `$`.
+In 2D, Makie plotting functions typically take an array for the $x$ and $y$ coordinates, as well as a 2D array, or function `f(x, y)` to plot. There are many keyword arguments that may be used to configure a `Figure`, `Axis` or plot, and these can be found in the [documentation](https://docs.makie.org/stable/), or with `?heatmap`, for instance. `L"x / \text{m}"` is an example of a LaTeX string, included in Makie, that allows easily making pretty text in figures. If needed, you can interpolate into these with `%$` rather than `$`. _*[NICO: I DON'T UNDERSTAND THIS LAST SENTENCE.]*_
 
-The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colormaps or variants are frequently used in climate science, and many have common meanings which help readers intuit your results.
+The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colormaps or variants are frequently used in climate science, and many have common meanings, which help readers intuit your results.
 
 > ### Exercise 1
 >
