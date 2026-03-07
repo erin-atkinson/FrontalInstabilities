@@ -8,7 +8,7 @@ It is clear from the videos that the instability-induced turbulence transports m
 ```
 
 How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagrangian derivative
-```math
+```math 
 \frac{\text {D}\langle c \rangle}{\text{D}t} = \frac{\partial \langle c\rangle}{\partial t} + \vec u \cdot \nabla \langle c \rangle.
 ```
 Using $\langle c \rangle = c - c'$ and taking a horizontal _*[NICO: WHY HORIZONTAL?]*_ average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$),
@@ -35,7 +35,9 @@ end
 
 when run with `julia args-example.jl one two three` will print
 ```
-
+one
+two
+three
 ```
 Note that all the entries are strings, so if we are expecting a different type we must use `parse`:
 ```julia
@@ -45,6 +47,9 @@ b = parse(Float64, ARGS[2])
 println(a + b)
 ```
 Now `julia args-arithmetic.jl 1e3 12.76` will produce
+```
+1012.77
+```
 
 We can clearly separate arguments for `julia` from arguments for the script using a double-dash `--`:
 ```bash
