@@ -48,7 +48,7 @@ println(a + b)
 ```
 Now `julia args-arithmetic.jl 1e3 12.76` will produce
 ```
-1012.77
+1012.76
 ```
 
 We can clearly separate arguments for `julia` from arguments for the script using a double-dash `--`:
