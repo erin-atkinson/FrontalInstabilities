@@ -62,7 +62,7 @@ julia -t 12 --project="env" -- args-arithmetic.jl -0.5 8e-2
 > Smaller $\text{Ri}$ will take longer (why?). Using the same resolution, the $\text{Ri} = 0.3$ simulation took 22 minutes.
 
 # Post-processing
-Once we have simulations for varying $\text{Ri}$, we can compare our results, however, first we will want to do some post-processing using Oceananigans. As well as simulations, Oceananigans provides powerful post-processing capabilities using `Field`s paired with `AbstractOperation`s. These work much the same way as when they are used for simulation output, but with a bit of boiler-plate code for reading and writing. Documentation is available at [Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
+Once we have simulations for varying $\text{Ri}$, we can compare our results, however, first we will want to do some post-processing using Oceananigans. As well as simulations, Oceananigans provides powerful post-processing capabilities using `Field`s paired with `AbstractOperation`s. These work much the same way as when they are used for simulation output, but with a bit of boiler-plate code for reading and writing. Documentation is available at [Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations)
 ## Simple post-processing workflow
 Here is an example script that produces total kinetic energy and kinetic energy density
 ```julia
