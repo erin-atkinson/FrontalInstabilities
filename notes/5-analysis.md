@@ -11,7 +11,7 @@ How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagra
 ```math 
 \frac{\text {D}\langle c \rangle}{\text{D}t} = \frac{\partial \langle c\rangle}{\partial t} + \vec u \cdot \nabla \langle c \rangle.
 ```
-Using $\langle c \rangle = c - c'$ and taking a horizontal _*[NICO: WHY HORIZONTAL?]*_ average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$),
+Using $\langle c \rangle = c - c'$ and taking a horizontal average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$),
 ```math
 \left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \langle \vec u' \cdot \nabla c'\rangle = - \nabla \cdot \langle \vec u' c'\rangle,
 ```
