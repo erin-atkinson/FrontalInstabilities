@@ -56,7 +56,7 @@ We can clearly separate arguments for `julia` from arguments for the script usin
 julia -t 12 --project="env" -- args-arithmetic.jl -0.5 8e-2
 ```
 
-> ### Exercise 2
+> ### Exercise 5.1
 >
 > Modify the simulation code to instead read an initial $\text{Ri}$ value and output filename from the command-line arguments using `ARGS`, then run simulations for $\text{Ri} = \{0.3, 0.7, 0.9\}$ in addition to the existing $\text{Ri}=0.5$ output (which you may want to rename appropriately).
 > Smaller $\text{Ri}$ will take longer (why?). Using the same resolution, the $\text{Ri} = 0.3$ simulation took 22 minutes.
@@ -116,7 +116,7 @@ N = length(u_fts)
     print("$n / $N\r")
 end
 ```
-> ### Exercise 2
+> ### Exercise 5.2
 > Show that the balanced Richardson number, defined by
 > 
 > $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
@@ -126,7 +126,7 @@ end
 > $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}$$
 > 
 
-> ### Exercise 3
+> ### Exercise 5.3
 > Add functions to `src/analysis.jl` to produce the mean state $\langle c \rangle$ (`c_avg`), perturbations $c'$ (`c′`) and vertical turbulent transport $\langle w'c'\rangle$ (`w′c′_avg`). Also, add the balanced Richardson number as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2`.
 
 Running `transport.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time. 
