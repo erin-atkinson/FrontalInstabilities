@@ -232,7 +232,7 @@ Buoyancy $b$ is an *active* tracer, that is, it appears in the momentum equation
 buoyancy = BuoyancyTracer()
 tracers = (:b, )
 ```
-Note we can add any additional tracers, we just need `:b` present to represent the buoyancy. So we combine the above:
+Note we can add any additional tracers, we just need a tracer with symbol `:b` present to represent the buoyancy. So we combine the above:
 
 ```julia
 buoyancy = BuoyancyTracer()
