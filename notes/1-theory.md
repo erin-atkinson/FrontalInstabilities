@@ -36,9 +36,9 @@ In this coordinate system, the Coriolis acceleration can be written
 ```
 where $\lambda$ is the latitude.
 
-In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u \cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
+In most geophysical applications, gravity is strong compared to rotation ($`{|2\Omega u\, \cos \lambda| \ll g}`$) and vertical velocities are small ($`{w\,\cos \lambda \ll v\sin\lambda}`$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
 ```math
-2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega \sin\lambda
+2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\,\sin \lambda   \\ u\,\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega\, \sin\lambda
 ```
 is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at mid-latitudes $`(\lambda \approx 45^{\circ}\,\text{N})`$.
 
