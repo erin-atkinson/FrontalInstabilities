@@ -130,7 +130,6 @@ end
 > Add functions to `src/analysis.jl` to produce the mean state $\langle c \rangle$ (`c_avg`), perturbations $c'$ (`c′`) and vertical turbulent transport $\langle w'c'\rangle$ (`w′c′_avg`). Also, add the balanced Richardson number as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2`.
 
 Running `transport.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time. 
-Running `transport.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time. 
 ![Bulk Richardson number and cumulative vertical transport](../images/transport.png)
 
 The instability restores the flow to a stable state, with $\text{Ri}_b = 1$, and vertically mixes the passive tracer in the process. In addition, the sudden impact of the instability, especially starting in very unstable states, kicks off oscillations, which show up in the bulk Richardson number. 
