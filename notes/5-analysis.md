@@ -119,11 +119,11 @@ end
 > ### Exercise 5.2
 > Show that the balanced Richardson number, defined by
 > 
-> $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
+> $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2},$$
 > 
-> May be written, for the boundary conditions in our simulation, as
+> may be written, for the boundary conditions in our simulation, as
 > 
-> $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}$$
+> $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}.$$
 > 
 
 > ### Exercise 5.3
