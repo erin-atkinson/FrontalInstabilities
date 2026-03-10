@@ -36,11 +36,11 @@ In this coordinate system, the Coriolis acceleration can be written
 ```
 where $\lambda$ is the latitude.
 
-In most geophysical applications, gravity is strong compared to rotation (${|2\Omega u \cos \lambda| \ll g}$) and vertical velocities are small (${w\cos \lambda \ll v\sin\lambda}$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
+In most geophysical applications, gravity is strong compared to rotation ($`{|2\Omega u\, \cos \lambda| \ll g}`$) and vertical velocities are small ($`{w\,\cos \lambda \ll v\sin\lambda}`$ away from the equator where $\sin\lambda \approx 0$). We can then apply the so-called _traditional approximation_:
 ```math
-2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega \sin\lambda
+2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\,\sin \lambda   \\ u\,\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega\, \sin\lambda
 ```
-is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at mid-latitudes $(\lambda \approx 45^{\circ}\,\text{N})$.
+is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at mid-latitudes $`(\lambda \approx 45^{\circ}\,\text{N})`$.
 
 Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text{d}\vec{u}/\text{d}t|_{(R)}`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
@@ -107,9 +107,9 @@ These model the flow of an almost-constant density, incompressible fluid. Note t
 
 > ### Exercise 1.1
 >
-> Show that, for a fluid with ${\frac{\text{D}\vec{u}}{\text{D}t} = 0}$, the thermal wind relations are satisfied
+> Show that, for a fluid with ${\frac{\text{D}\vec{u}}{\text{D}t} = 0}$, the thermal wind relations are satisfied, namely,
 > ```math
-> f\frac{\partial u}{\partial z} = -\frac{\partial b}{\partial y}, \quad f\frac{\partial v}{\partial z} = \frac{\partial b}{\partial x} % \quad \text{or}\quad f\hat z\times \frac{\partial \vec u_H}{\partial z} = \nabla_H b
+> f\frac{\partial u}{\partial z} = -\frac{\partial b}{\partial y}, \quad\text{and}\quad f\frac{\partial v}{\partial z} = \frac{\partial b}{\partial x} % \quad \text{or}\quad f\hat z\times \frac{\partial \vec u_H}{\partial z} = \nabla_H b.
 > ```
 > The component of the flow that satisfies this relationship is called the _balanced_ flow. At large, geostrophic scales, most of the flow is balanced and this relationship can be used to infer information about the flow from knowledge of its density/buoyancy gradients.
 
@@ -139,6 +139,9 @@ The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any 
 ```
 We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background.
 ```math
-\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (1.3a)\\ \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3b, c)
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (1.3a)
+```
+```math
+\frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3b, c)
 ```
 We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(1.2)}$.

@@ -87,7 +87,7 @@ In 2D, Makie plotting functions typically take an array for the $x$ and $y$ coor
 
 The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colormaps or variants are frequently used in climate science, and many have common meanings, which help readers intuit your results.
 
-> ### Exercise 1
+> ### Exercise 4.1
 >
 > Add a heatmap of the passive tracer $c$ to `visualization.jl` at grid location `fig[3, 1]` and a colorbar at `fig[3, 2]`
 >
@@ -115,6 +115,6 @@ record(fig, "../videos/example.mp4", 1:N) do i
     print("$i / $N\r")
 end
 ```
-> ### Exercise 2
+> ### Exercise 4.2
 >
 > Modify the `visualization.jl` to make an animation `Ri05.mp4`
