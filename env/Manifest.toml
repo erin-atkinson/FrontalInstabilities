@@ -490,6 +490,7 @@ version = "3.4.1+0"
 [[deps.GLMakie]]
 deps = ["ColorTypes", "Colors", "FileIO", "FixedPointNumbers", "FreeTypeAbstraction", "GLFW", "GeometryBasics", "LinearAlgebra", "Makie", "Markdown", "MeshIO", "ModernGL", "Observables", "PrecompileTools", "Printf", "ShaderAbstractions", "StaticArrays"]
 git-tree-sha1 = "56335175a66c30ca0e503ad717d366cd9e1663b1"
+pinned = true
 uuid = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 version = "0.13.8"
 
@@ -1051,6 +1052,7 @@ version = "0.5.5"
 [[deps.Oceananigans]]
 deps = ["Adapt", "Crayons", "CubedSphere", "Dates", "Distances", "DocStringExtensions", "FFTW", "GPUArraysCore", "Glob", "InteractiveUtils", "JLD2", "KernelAbstractions", "Krylov", "LinearAlgebra", "Logging", "MPI", "MuladdMacro", "OffsetArrays", "OrderedCollections", "Pkg", "Printf", "Random", "ReactantCore", "Rotations", "SeawaterPolynomials", "SparseArrays", "StaticArrays", "Statistics", "StructArrays"]
 git-tree-sha1 = "31758e2d605545bdbad6f2bd2d1ca3b8173c845c"
+pinned = true
 uuid = "9e8cae18-63c1-5223-a75c-80ca9d6e9a09"
 version = "0.102.5"
 
@@ -1203,7 +1205,7 @@ version = "0.44.2+0"
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "Random", "SHA", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.12.1"
+version = "1.12.0"
 weakdeps = ["REPL"]
 
     [deps.Pkg.extensions]
