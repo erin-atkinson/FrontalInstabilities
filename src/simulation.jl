@@ -76,7 +76,7 @@ function progress(simulation)
 
     print(rpad("$i, t=$t / $T", 60, ' ') * "\r")
 end
-simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
+simulation.callbacks[:progress] = Callback(progress, TimeInterval(100Δt))
 
 # Configure a variable time step
 wizard = TimeStepWizard(; cfl=0.5)
