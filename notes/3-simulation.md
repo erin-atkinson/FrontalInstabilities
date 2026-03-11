@@ -148,7 +148,7 @@ model = NonhydrostaticModel(;
 )
 ```
 
-### Forcing: `forcing`
+### Forcing functions: `forcing`
 [Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
 
 Recall the equations we need to simulate:
@@ -213,19 +213,32 @@ Pay attention to how external parameters and field dependencies are introduced a
 
 [Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
-PUT DEFAULTS HERE
+Boundary conditions are implemented using the halo regions of fields. When a field is created, it comes with a set of default boundary conditions that depend on the grid `topology`:
 
-Every field comes with a set of boundary conditions:
-- `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$;
-- `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field;
-- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary equal to the divergence of a specified flux (density) of a field across that boundary;
-- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
+- `Bounded` directions have `NoFluxBoundaryCondition`.
+At each boundary, wall-normal velocities are zero and all other fields have zero gradient in the boundary direction.
+- `Periodic` directions have `PeriodicBoundaryCondition`, which fills the halo with the value of the field on the other side of the domain.
 
-There are also boundary conditions that aren't used directly and are applied as defaults as a consequence of grid `topology`:
-- `PeriodicBoundaryCondition` applies to all fields at boundaries in periodic directions. This fills the halo with the value of the field on the other side of the domain;
-- `NoFluxBoundaryCondition` is the default boundary condition for bounded directions. At each boundary, wall-normal velocities are zero e.g. $u(0, y, z) = 0$ and all other fields have zero gradient.
+`PeriodicBoundaryCondition` cannot be changed, but `NoFluxBoundaryCondition` can be changed. The options depend on the location of the field. 
 
-Boundary conditions can be applied just like forcings. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
+For fields located on `Center` in the boundary direction (e.g. `v`, `w` and `b` on the boundary $x=0$), the possible boundary conditions are:
+- `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition:    $$v(0, y, z) = v_\text{boundary};$$
+- `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field:
+$$\frac{\partial v}{\partial x}(0, y, z) = A;$$
+- `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary equal to the divergence of a specified flux (density) of a field across that boundary. This is useful for applying cooling at the ocean surface, for instance.
+
+For fields located on `Face` in the boundary direction (e.g. `u` on the boundary $x=0$), there is only one non-default choice:
+- `OpenBoundaryCondition` allows you to set the halo regions explicitly and is useful for performing, for example, a small-scale simulation forced by some pre-computed larger-scale simulation at the boundaries.
+
+Boundary conditions can be applied just like forcings, by creating functions and applying them to each boundary for each field:
+```julia
+v_boundary(x, y, t, p) = exp(-x^2 / 2p.σ^2)
+
+v_top_bcs = ValueBoundaryCondition(v_boundary, parameters=(; σ=1))
+v_bcs = FieldBoundaryConditions(; top=v_top_bcs)
+boundary_conditions = (; v=v_bcs)
+```
+See the docs page for more examples, including how to implment boundary conditions on non-rectilinear "immersed" boundaries. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
 ```julia
 model = NonhydrostaticModel(;
     ...
