@@ -143,7 +143,7 @@ f = 1e-4 # s^-1, mid-latitudes on Earth
 
 model = NonhydrostaticModel(;
     ...
-    coriolis = FPlane(; f)
+    coriolis = FPlane(; f),
     ...
 )
 ```
@@ -213,11 +213,13 @@ Pay attention to how external parameters and field dependencies are introduced a
 
 [Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
 
+PUT DEFAULTS HERE
+
 Every field comes with a set of boundary conditions:
 - `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition $u(x, y, 0) = 0$;
 - `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field;
 - `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary equal to the divergence of a specified flux (density) of a field across that boundary;
-- `OpenBoundaryCondition` is allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
+- `OpenBoundaryCondition` allows you to set the halo regions explicitly, and is useful for performing, for example, simulations of small-scale features forced by some pre-computed larger-scale simulation at the boundaries.
 
 There are also boundary conditions that aren't used directly and are applied as defaults as a consequence of grid `topology`:
 - `PeriodicBoundaryCondition` applies to all fields at boundaries in periodic directions. This fills the halo with the value of the field on the other side of the domain;
