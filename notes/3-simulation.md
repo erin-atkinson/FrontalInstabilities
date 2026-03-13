@@ -1,9 +1,9 @@
 # Basic Oceananigans setup
 ## Grid
 
-[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/grids/) _*(NICO MADE IT POINT TO STABLE VERSION, NOT SURE IT'S WHAT WE WANT)*_
+[Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
 
-In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
+In brief, Oceananigans is a finite-difference simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
 grid = RectilinearGrid(CPU();
     topology = (Periodic, Bounded, Flat),
@@ -26,10 +26,10 @@ This creates a rectilinear ($x$ spacing may change only as a function of $x$ and
 
 The grid size is $32\times 32$ and the _physical_ size (i.e. the length and width of the physical domain it represents) is $1\times 1$, centered on the origin.
 
-Note the lack of units in the definition.  If you would prefer, [you can use some pre-defined units to write your code](https://clima.github.io/OceananigansDocumentation/stable/appendix/library/#Units). I'm going to continue without these however, because we may be performing non-dimensional simulations.
+Note the lack of units in the definition.  If you would prefer, [you can use some pre-defined units](https://clima.github.io/OceananigansDocumentation/v0.102.5/appendix/library/#Units). I'm going to continue without these however, because we may be performing non-dimensional simulations.
 
 > ### Exercise 3.1
-> Add a 2D grid to `simulation.jl` using the parameters `L`, `H`, `Nx` and `Nz` in the script. The grid should be periodic in the $x$ direction and bounded at the top and bottom in the $z$ direction.
+> Add a 2D grid to `simulation.jl` using the parameters `L`, `H`, `Nx` and `Nz` in the script. The grid should be periodic in the $x$ direction and bounded, at the top and bottom, in the $z$ direction.
 
 ### Domain boundaries and halos
 Oceananigans represents boundary conditions by including them in the fields themselves. Once a field's boundary conditions are defined, a region outside of the grid (as defined by the user) is filled with values that satisfy said boundary condition. So, when you define a grid with `size=(32, 32)` the actual size in memory is (by default) $38 \times 38(\times 1)$. Values on the grid are defined using `OffsetArray`, and have indices `-2:35`. This boundary region is referred to as the _halo_ and the region of the full grid that isn't the halo is the _interior_. Specifying boundary conditions is introduced later in this tutorial.
@@ -61,7 +61,7 @@ There is a secret, third thing: `Nothing`. This is the location for fields that 
 Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy.
 
 ## Fields
-[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/fields/)
+[Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/fields/)
 
 A `Field` is a container that holds values of a quantity on a specific grid, along with boundary conditions, nodes and other data. Fields may also be used to represent derived quantities that are produced by `AbstractOperations` acting on fields, described later. To create a field on a grid, just use the constructor `Field`
 ```julia
@@ -118,7 +118,7 @@ c
 Because the grid has no $z$ dependence, the function we pass must only have two arguments. This convention is used throughout Oceananigans. Functions defined on the simulation domain will take arguments `(x, y, z)` or `(x, y, z, t)`, with coordinates corresponding to flat directions removed.
 
 ## Components of a model
-[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/models_overview/)
+[Model Setup · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/models_overview/)
 
 The model contains information and implementation of the physics of the simulation. We will use a `NonhydrostaticModel`, though others exist. The model constructor takes many keyword arguments specifying desired properties. For our simulation, the model may look like:
 
@@ -135,7 +135,7 @@ model = NonhydrostaticModel(;
 Each of the arguments we use are described below.
 
 ### Rotation: `coriolis`
-[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/coriolis/)
+[Coriolis forces · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/coriolis/)
 
 After defining the desired Coriolis frequency $f$, a simple $f$-plane rotation can be added with 
 ```julia
@@ -149,7 +149,7 @@ model = NonhydrostaticModel(;
 ```
 
 ### Forcing functions: `forcing`
-[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/forcing_functions/)
+[Forcings · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/forcing_functions/)
 
 Recall the equations we need to simulate:
 
@@ -211,7 +211,7 @@ Pay attention to how external parameters and field dependencies are introduced a
 
 ### Boundary conditions: `boundary_conditions`
 
-[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/boundary_conditions/)
+[Boundary conditions · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/boundary_conditions/)
 
 Boundary conditions are implemented using the halo regions of fields. When a field is created, it comes with a set of default boundary conditions that depend on the grid `topology`:
 
@@ -249,7 +249,7 @@ model = NonhydrostaticModel(;
 
 ### Tracers and buoyancy
 
-[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/buoyancy_and_equation_of_state/)
+[Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/buoyancy_and_equation_of_state/)
 
 Passive tracers may be inserted into the model with the keyword argument `tracers`. To add an unforced field $c$ that is evolved by the model using
 
@@ -299,7 +299,7 @@ model = NonhydrostaticModel(;
 )
 ```
 ### Closure
-[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/models/turbulence_closures/)
+[Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/turbulence_closures/)
 
 When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. In particular, energy dissipates at molecular scales, which are impossible to resolve in any oceanic simulation. In order to close the equations of motion, motion at smaller-than-grid-scales must be represented in some way in a numerical model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ with a coefficient that would be larger than the physical value to model down-gradient turbulent diffusion of velocity.
 
@@ -323,14 +323,14 @@ We will use this to set the initial conditions of the simulation, after the mode
 > Create a function `c₀(x, z)` with your desired initial conditions of the tracer $c$. This can be anything you want, but the simplest non-trivial example is a linear profile, the example we use later has 0 at the surface and 1 at the bottom.
 
 ## Simulation
-[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/)
+[Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
 ### Creation
 We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
 ```julia
 simulation = Simulation(model; Δt=7, stop_time=6)
 ```
 ### Progress info
-[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/callbacks/)
+[Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/callbacks/)
 
 Oceananigans has a callback system for creating functions that run at specific points during simulation runtime. We will use this to produce some output as the simulation runs. First, we define a function that prints some info (using `prettytime` to convert seconds into a suitable unit)
 
@@ -348,7 +348,7 @@ We then add this to the simulation callbacks.
 simulation.callbacks[:progress] = Callback(progress, TimeInterval(100Δt))
 ```
 ### Variable time steps
-[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
+[Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
 
 The numerical stability of an advection equation is determined primarily by the Courant-Friedrichs-Lewy condition
 
@@ -365,9 +365,9 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 
 ### Output and operations
 
-[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/output_writers/)
+[Output writers ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/output_writers/)
 \
-[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/operations/#Operations-and-averaging)
+[Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
 
 Finally, we add a `JLD2Writer` to the simulation to output model fields. We can also output derived fields using `AbstractOperations`.
 
