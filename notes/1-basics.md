@@ -126,6 +126,10 @@ An important feature of fronts, especially at smaller scales $`(\text{Ro} \sim 1
 Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
 
 ## Describing an ideal front
+> ![](../images/frontal-zone.png)
+> 
+> Left: some kind of frontal structure in the surface mixed layer. Black contours are isopycnals (lines of constant $`b`$) and the filled contours show the balanced along-front velocity $`v`$. A magenta box surrounds the region of interest. Right: The same structure, but zoomed in. The spacing between contours is reduced by a factor of three for clarity. In this region, the gradients in $`b`$ and $`v`$ are approximately constant.
+
 We use a linearised state to define an ideal front with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet whose orientation we choose to be along $\hat y$ without loss of generality, namely,
 ```math
 b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = \zeta x +Sz= \zeta x + \frac{M^2}{f} z,
