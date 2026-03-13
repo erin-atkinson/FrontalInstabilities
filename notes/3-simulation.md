@@ -330,6 +330,7 @@ We will use this to set the initial conditions of the simulation, after the mode
 
 ## Simulation
 [Simulation · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/simulations_overview/)
+
 ### Creation
 We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
 ```julia
