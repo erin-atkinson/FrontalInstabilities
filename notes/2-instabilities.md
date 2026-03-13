@@ -42,7 +42,7 @@ Symmetric instability consists of thin rolls aligned with isopycnals (lines of c
 > Potential vorticity is typically thought of as a materially conserved property ($\text{D}q/\text{D}t=0$, see Vallis $`\S\,4.5`$) and this is true for the inviscid Boussinesq equations $(1.2)$ presented previously. This presents a problem: an unstable fluid parcel with $q<0$ will remain unstable to SI no matter how much perturbations attempt to restore the fluid to a stabile state. What may resolve this contradiction?
 >
 
-For $\zeta = 0$, the stability of a fluid to SI is controlled by a single non-dimensional number, namely,
+For the rest of this module, we will be using a background state with $`\zeta = 0`$. In this case, the stability of a balanced flow to SI is controlled by a single non-dimensional number, namely,
 
 $$q = fN^2\left (1 - \frac{M^4}{N^2f^2}\right ) = fN^2\left (1 - \frac{S^2}{N^2}\right )\\ = fN^2 \left ( 1- \frac{1}{\text{Ri}}\right) \quad \text{with} \quad \text{Ri} = \frac{N^2}{S^2}.$$
 
