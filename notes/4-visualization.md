@@ -1,21 +1,34 @@
 # Making a video of the simulation
 
+This section will use `GLMakie` to produce plots of simulation fields and demonstrate how these can be used to make a video of the simulation output.
+
 ## Elements of `Makie`
 
 Currently, Julia's premier plotting package is `Makie` this comes in two different flavours:
 - `CairoMakie` Lightweight, platform-agnostic
 - `GLMakie` Uses OpenGL to render figures, notably, this enables 3D plotting and interactive plots
 
-I will refer to both of these as "Makie", but note that you only need to `add` one of the above. There is also a secret, third thing: `WGLMakie` or "WebGL Makie", which is, as the name implies, for embedding in websites.
+I will refer to both of these as "Makie", but note that you only need to `add` one of the above. There is also a secret, third thing: `WGLMakie` or "WebGL Makie", which is, as the name implies, for embedding interactive plots in websites.
 
-Simulation output data can be read into memory using `FieldTimeSeries`. This creates an indexable series of model fields. The specific iterations to load, as well as whether to load all into memory or keep them lazily on disk can be specified.
+## Reading simulation output: `FieldTimeSeries` and `FieldDataset`
+
+[Example use of FieldTimeSeries for simple output](https://clima.github.io/OceananigansDocumentation/v0.102.5/literated/two_dimensional_turbulence/#Visualizing-the-results)
+
+Simulation output data can be read into memory using `FieldTimeSeries`. This creates an indexable series of a field when given a path to the file produced by an output writer, and the name of the field to read. The most important option is perhaps `backend`.
+
+- `backend = InMemory()` is the default, and loads all iterations stored in a file into memory for quick access
+- `backend = OnDisk()` will *lazily* load the data; the file is only accessed when indexing into the timeseries
+
+The simulation output here will likely fit in your computer's memory, but if the file is large you may want to consider using `OnDisk()`.
+
+To create a timeseries that contains all the output for $u$, we do
 ```julia
 filename = "output.jld2"
-u_timeseries = FieldTimeSeries(filename, "u")
+u_timeseries = FieldTimeSeries(filename, "u"; backend=InMemory())
 ```
-Each element of a `FieldTimeSeries` is a `Field`
+Each element of a `FieldTimeSeries` is a `Field`, and they can be indexed like a 1D array in time
 ```julia
-u_timeseries[10]
+u = u_timeseries[10]
 ```
 ```
 512×1×64 Field{Face, Center, Center} on RectilinearGrid on CPU
@@ -25,9 +38,9 @@ u_timeseries[10]
 └── data: 518×1×70 OffsetArray(view(::Array{Float64, 4}, :, :, :, 10), -2:515, 1:1, -2:67) with eltype Float64 with indices -2:515×1:1×-2:67
     └── max=1.73368e-8, min=-1.80413e-8, mean=2.27805e-11
 ```
-A `FieldTimeSeries` can also be indexed as if it were a large (offset) array
+A `FieldTimeSeries` can also be indexed as if it were a large (offset) array, with time as the last index `(x, y, z, t)`
 ```julia
-u_timeseries[10, 1, 32, 40]
+u_timeseries[1, 32, 40, 10] # equivalent to u[1, 32, 40]
 ```
 ```
 -1.0188229815355498e-8
@@ -60,7 +73,7 @@ z = znodes(u_timeseries)
 n = length(u_timeseries)
 
 # Get field interior
-u = interior(u_timeseries, :, 1, :, n)
+u = interior(u_timeseries[n], :, 1, :)
 
 # Create figure
 fig = Figure(; size=(500, 200))
@@ -83,8 +96,19 @@ save("example.png", fig)
 ```
 ![Figure](../images/example.png)
 
-In 2D, Makie plotting functions typically take an array for the $x$ and $y$ coordinates, as well as a 2D array, or function `f(x, y)` to plot. There are many keyword arguments that may be used to configure a `Figure`, `Axis` or plot, and these can be found in the [documentation](https://docs.makie.org/stable/), or with `?heatmap`, for instance. `L"x / \text{m}"` is an example of a LaTeX string, included in Makie, that allows easily making pretty text in figures. If needed, you can interpolate into these with `%$` rather than `$`. _*[NICO: I DON'T UNDERSTAND THIS LAST SENTENCE.]*_
+In 2D, Makie plotting functions typically take an array for the $x$ and $y$ coordinates, as well as a 2D array, or function `f(x, y)` to plot. There are many keyword arguments that may be used to configure a `Figure`, `Axis` or plot, and these can be found in the [documentation](https://docs.makie.org/stable/), or with `?heatmap`, for instance. 
 
+> ### Aside: LaTeX strings
+> `L"x / \text{m}"` is an example of a LaTeX string, included in Makie, that allows easily making pretty text in figures. To include the value of a variable inside a LaTeX string, you can use string interpolation:
+>
+>```
+> a = 10
+> texstr = L"The value of $a$ is %$a"
+> ```
+> The above would render as 
+> ![](../images/LaTeX-a.png)
+> Note that you will likely want to format floats before passing them to a LaTeX string, otherwise it will include the whole, unrounded value. The included package `Printf` can be used for this
+>
 The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colormaps or variants are frequently used in climate science, and many have common meanings, which help readers intuit your results.
 
 > ### Exercise 1
