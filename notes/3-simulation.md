@@ -345,7 +345,7 @@ end
 ```
 We then add this to the simulation callbacks.
 ```julia
-simulation.callbacks[:progress] = Callback(progress, TimeInterval(20Δt))
+simulation.callbacks[:progress] = Callback(progress, TimeInterval(100Δt))
 ```
 ### Variable time steps
 [Adaptive time stepping · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/stable/simulations/simulations_overview/#Adaptive-time-stepping-with-TimeStepWizard)
@@ -416,6 +416,8 @@ run!(simulation)
 > ### Exercise 3.5
 > Run the simulation.
 > 
-> _At_ $512\times 64$ _resolution, it took about 2.5 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue._
+> *At* $`512\times 64`$ *resolution, it took about 2.5 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue.*
 
-![Run time as a function of threads](../images/runtime.png)
+> ![Run time as a function of thread number](../images/runtime.png)
+>
+> Performance of the simulation for two resolutions and a varying number of threads on a Ryzen 5 7640U. The processor has 12 logical cores; however, choosing many threads has diminishing returns and even increases the runtime in certain cases. Choosing 2-4 threads will likely be the most efficient option.
