@@ -13,7 +13,7 @@ where $\alpha$ is the coefficient of thermal expansion and $\rho_0$, $T_0$, $p_0
 
 We will also briefly introduce the role of density fronts in the ocean, and how idealized studies of fronts, such as the one we will simulate later, may be constructed. 
 
-This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section. A detailed derivation of the Boussinesq equations from the basic equations of motion of a fluid can be found in $\S 2.4$ of *Atmospheric and Oceanic Fluid Dynamics* by Geoffrey K. Vallis
+This section is intended for recap and as a theoretical context for the main, simulation component of the module. Those familiar with the Boussinesq equations for ocean flow may skip it, and those who just want to start doing some simulations may skim this and the following section. A detailed derivation of the Boussinesq equations from the basic equations of motion of a fluid can be found in $\S 2.4$ of [Vallis, 2017, *Atmospheric and Oceanic Fluid Dynamics*](https://doi.org/10.1017/9781107588417)
 
 ## Fluid in a rotating frame
 Observers at a fixed point relative to the surface of the Earth rotate with it. This is not an inertial frame, and Newton's second law doesn't apply in its unmodified form. Those familiar with solid body mechanics will recall that, for an inertial frame $(I)$ and frame $(R)$ rotating at a constant angular velocity ${\vec{\Omega} = \Omega \hat{n}}$ the rate of change of a vector $`{\vec A}`$ in the two frames are related by
@@ -80,7 +80,7 @@ If $\delta\rho \ll \rho_0$, we can neglect the corresponding term on the LHS
 ```math
 \rho_0 \frac{\text{D}\vec u}{\text{D}t} \approx -\nabla \delta p- \delta \rho g\hat z.
 ```
-Note that we cannot neglect the term $\delta \rho g$. The rate of change of velocity due to gravitational acceleration $g/U\approx 10\!-\!100\,\text{s}^{-1}$ is very large compared to typical flows in the ocean, which may evolve over hours, days or much longer, so the product $\delta \rho g$ is not small compared to $\rho_0D\vec{u} /Dt$. We usually define a geopotential $\phi = \delta p/\rho_0$ and buoyancy $b = -\delta\rho g /\rho_0$ to get the Boussinesq momentum equation.
+Note that we cannot neglect the term $\delta \rho g$. The rate of change of velocity due to gravitational acceleration $`g/U\approx 10\!-\!100\,\text{s}^{-1}`$ is very large compared to typical flows in the ocean, which may evolve over hours, days or much longer, so the product $\delta \rho g$ is not small compared to $`\rho_0D\vec{u} /Dt`$. We usually define a geopotential $\phi = \delta p/\rho_0$ and buoyancy $b = -\delta\rho g /\rho_0$ to get the Boussinesq momentum equation.
 ```math
 \frac{\text{D}\vec u}{\text{D}t} = -\nabla \phi + b\hat z.
 ```
@@ -99,7 +99,7 @@ For the rest of this module, we will assume that there are no non-conservative s
 
 ## The Boussinesq equations
 
-Combining rotation and the Boussinesq approximation, we arrive at the inviscid Boussinesq equations for ocean flow in the absence of sources of momentum and buoyancy
+Combining traditional rotation and the Boussinesq approximation, we arrive at the inviscid Boussinesq equations for ocean flow in the absence of sources of momentum and buoyancy
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z,\quad \frac{\text{D}b}{\text{D}t} = 0 \quad \text{and}\quad \nabla \cdot \vec u = 0.
 ```
@@ -141,7 +141,7 @@ The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any 
 ```math
 \vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, z') \,\text{d}z' + \phi. \qquad  (1.2)
 ```
-We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background.
+We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background $`(v_0\hat y, b_0)`$.
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (1.3a)\\ \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3b, c)
 ```

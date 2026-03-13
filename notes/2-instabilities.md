@@ -33,8 +33,8 @@ Instability (i.e., modes with $\omega^2 < 0$) can clearly occur for $f(f + \zeta
 > Hence sketch the flow due to the most unstable mode.
 
 Symmetric instability consists of thin rolls aligned with isopycnals (lines of constant $b_0$) in the hydrostatic case and with no variation in the down-front ($y$) direction, hence the name. Symmetric instability has some quirks which may be of interest
- - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$ (Stone 1966)
- - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${\vec \Omega \not\parallel \hat{z}}$) (Zeitlin 2018)
+ - When treated with care in a bounded domain, the growth rate can be shown to be maximized for modes with $k \to \infty$ [(Stone 1966)](https://doi.org/10.1175/1520-0469(1966)023%3C0390:ONGBS%3E2.0.CO;2)
+ - Correct treatment for deep/non-hydrostatic flows requires non-traditional effects (${\vec \Omega \not\parallel \hat{z}}$) [(Zeitlin 2018)](https://doi.org/10.1063/1.5031099)
  - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
  - Its stability parameter, $q$, is materially conserved if fluid parcels conserved momentum and buoyancy.
 
@@ -46,7 +46,7 @@ For the rest of this module, we will be using a background state with $`\zeta = 
 
 $$q = fN^2\left (1 - \frac{M^4}{N^2f^2}\right ) = fN^2\left (1 - \frac{S^2}{N^2}\right )\\ = fN^2 \left ( 1- \frac{1}{\text{Ri}}\right) \quad \text{with} \quad \text{Ri} = \frac{N^2}{S^2}.$$
 
-The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertical shear of velocity. Instability due to a velocity shear is one of the first type of fluid instability one learns about (e.g. Kelvin-Helmholtz). However, fluid with a large Richardson number, like that of most large-scale ocean flows, is very well-supported by gravity -- low density on top of much higher density -- which counteracts the destabilising effect of velocity shear if $\text{Ri} > 0.25$. Symmetric instability is the dominant instability for background flows with $0.25 < \text{Ri} < 1$ (Stone 1966).
+The Richardson number $\text{Ri}$ is the ratio of fluid stratification to vertical shear of velocity. Instability due to a velocity shear is one of the first type of fluid instability one learns about (e.g. Kelvin-Helmholtz). However, fluid with a large Richardson number, like that of most large-scale ocean flows, is very well-supported by gravity -- low density on top of much higher density -- which counteracts the destabilising effect of velocity shear if $\text{Ri} > 0.25$. Symmetric instability is the dominant instability for background flows with $0.25 < \text{Ri} < 1$ [(Stone 1966)](https://doi.org/10.1175/1520-0469(1966)023%3C0390:ONGBS%3E2.0.CO;2).
 
 Finally, we are ready to proceed with the fun part of the module. A rough outline of the remaining content is as follows.
 

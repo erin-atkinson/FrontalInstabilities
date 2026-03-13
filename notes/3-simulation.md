@@ -6,7 +6,7 @@ This section will cover the basic components of an Oceananigans `NonhydrostaticM
 
 [Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
 
-In brief, Oceananigans is a finite-difference simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
+In brief, Oceananigans is a finite-volume simulator of the Boussinesq equations. This is in contrast to some other methods of producing solutions to PDEs (such as [Dedalus](https://dedalus-project.org/), a Python package that uses _spectral_ methods). Quantities such as velocities and tracers are stored as arrays in memory that represent the values at specific points in physical space. We will refer to these as _fields_. We will focus on the `RectilinearGrid` structure, though Oceananigans supports other grid types. A basic definition of a 2D grid is as follows:
 ```julia
 grid = RectilinearGrid(CPU();
     topology = (Periodic, Bounded, Flat),
@@ -61,7 +61,7 @@ Derived fields may exist on whatever set of locations, for instance the vertical
 
 There is a secret, third thing: `Nothing`. This is the location for fields that are the result of a `Reduction`, which we will look at later. A reduction takes a field and "reduces" it in one or more directions (such as an average or integral).
  
-Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy.
+Note that staggering the grid in this way makes no difference to the physics that it's representing, this is purely an optimisation for the simulation. We could have every velocity and tracer be on the same set of grid nodes, but then we would have to do an extra set of interpolation operations every timestep to achieve the same numerical accuracy. This setup, with velocities on cell faces and tracers on cell centres is called an Arakawa C-grid [(Arakawa 1977)](https://doi.org/10.1016%2FB978-0-12-460817-7.50009-4).
 
 ## Fields
 [Fields · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/fields/)
@@ -210,7 +210,7 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 Pay attention to how external parameters and field dependencies are introduced and treated.
 
 > ### Exercise 3.2
-> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, in a manner that is appropriate to our frontal problem.
+> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, according to the forcing terms due to the background flow present in equations $1.3a,b$ for the case $\zeta = 0$
 
 ### Boundary conditions: `boundary_conditions`
 
@@ -290,6 +290,7 @@ model = NonhydrostaticModel(;
 ### Advection: `advection`
 
 [Advection · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/appendix/library/#Advection)
+
 The advection terms are non-linear, and typically require special treatment for good numerical performance (this is the reason for the staggered grid). Over time, people have developed many methods for calculating these terms. Oceananigans supports a few different schemes:
 - `Centered(; order)`: Interpolates values of fields using even `order` polynomials.
 - `UpwindBiased(; order)`: Interpolates values of fields using odd `order` polynomials.
