@@ -24,11 +24,11 @@ Applying this operator twice to the position of a fluid parcel ${\vec{x}}$, we c
 ```math
 \left.\frac{\text{d}^2\vec x}{\text{d}t^2}\right|_{(I)} = \left (\left.\frac{\text{d}}{\text{d}t}\right|_{(R)} + \vec \Omega \times\right )\left (\left.\frac{\text{d}}{\text{d}t}\right|_{(R)} + \vec \Omega \times \right)\vec x = \vec F,
 ```
-where $\vec u = \text d\vec x/\text d t|_{(R)}$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represent external forces. The right-hand side above gives two inertial (pseudo-)forces
+where $\vec u = \text d\vec x/\text d t|_{(R)}$ is the velocity parcel measured in the rotating frame of reference and $\vec F$ represents external forces. The right-hand side above gives two inertial (pseudo-)forces
 ```math
 \left.\frac{\text{d}\vec x}{\text{d}t^2}\right|_{(I)} = \left.\frac{\text{d}\vec u}{\text{d}t}\right|_{(R)} + 2\vec{\Omega} \times \vec u - \Omega^2(\vec x - \vec x \cdot \hat n \,\hat n).
 ```
-The term proportional to $\Omega^2$ is the centrifugal acceleration, which is well known. It is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The term $2\vec{\Omega} \times \vec u$ is the Coriolis acceleration. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction, $\hat x$ points directly east and ${\hat{y}}$ points directly north.
+The term proportional to $\Omega^2$ is the centrifugal acceleration, which is well known. It is directed perpendicularly away from the rotational axis and can be absorbed into the gravitational potential with little fuss. The term $2\vec{\Omega} \times \vec u$ is the Coriolis acceleration and arises due to differences in relative velocity between a parcel and its surroundings as it moves towards or away from the axis of rotation. At all but the largest scales, the spherical geometry of the Earth can be ignored and we can work in a coordinate system with ${\hat{z}}$ aligned with the local vertical direction, $\hat x$ pointed directly east and ${\hat{y}}$ pointed directly north.
 
 In this coordinate system, the Coriolis acceleration can be written
 ```math
@@ -40,7 +40,7 @@ In most geophysical applications, gravity is strong compared to rotation (${|2\O
 ```math
 2\vec{\Omega} \times \vec u \approx 2\Omega \begin{pmatrix} -v\sin \lambda   \\ u\sin \lambda \\ 0 \end{pmatrix} = f \hat z \times \vec u\quad \text{where} \quad f = 2\Omega \sin\lambda
 ```
-is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at mid-latitudes $(\lambda \approx 45^{\circ}\,\text{N})$.
+is the Coriolis parameter, or Coriolis frequency. As a reference, $`f \approx 10^{-4}\,\text{s}^{-1}`$ at mid-latitudes $`(\lambda \approx 45^{\circ}\,\text{N})`$. Note that under this approximation, the equations of motion are now invariant under rotations around the $`\hat{z}`$ axis.
 
 Turning back to Newton's second law, the acceleration in the rotating reference frame, namely, $`\text{d}\vec{u}/\text{d}t|_{(R)}`$, becomes the Lagrangian acceleration of a fluid parcel measured on a rotating Earth, namely, $\text D\vec u/\text D t$. Newton's second law then becomes
 ```math
@@ -58,11 +58,11 @@ More generally, if we assume that the timescale of a flow is advective ${T \sim 
 ```math
 \frac{{\text{D}\vec u}/{\text{D}t}}{f \hat z \times \vec u} \sim \frac{U^2/L}{fU} = \frac{U}{fL}.
 ```
-This is the Rossby number ${\text{Ro} = U / fL}$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically $`{U \sim 0.1\! -\! 1\,\text{m}\,\text{s}^{-1}}`$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
+This is the Rossby number $`{\text{Ro} = U / fL}`$. The effect of rotation is greater when ${\text{Ro}}$ is small, with geostrophic balance becoming increasingly dominant as ${\text{Ro}}\to 0$. For ocean flow, which is typically $`{U \sim 0.1\! -\! 1\,\text{m}\,\text{s}^{-1}}`$ and at mid-latitudes, rotation dominates the momentum equation for flow structures with 
 ```math
-L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}.
+\text{Ro} \ll 1 \implies L \gg \frac{1\,\text{m}\,\text{s}^{-1}}{10^{-4}\,\text{s}^{-1}} = 10 \,\text{km}.
 ```
-So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime can still slowly evolve due to weak (i.e., ${O(\text{Ro})}$) _ageostrophic_ velocities, and is called _quasi-geostrophic_. (Quasi-)Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for ${\text{Ro}\ll 1}$.
+So, away from the equator where ${f \approx 0}$, rotation is the most important component of the acceration of a fluid parcel at many scales of interest for oceanography. Flow in this rotation-dominated regime can still slowly evolve due to weak (i.e., $`{O(\text{Ro})}`$) _ageostrophic_ velocities, and is called _quasi-geostrophic_. (Quasi-)Geostrophy can be a strong constraint on the possible motion of a fluid, and much understanding has been gleaned by studying the behaviour of models built on approximations to the equations of motion valid for $`{\text{Ro}\ll 1}`$.
 
 
 ## The Boussinesq approximation
@@ -99,7 +99,7 @@ For the rest of this module, we will assume that there are no non-conservative s
 
 ## The Boussinesq equations
 
-Combining rotation and the Boussinesq approximation, we arrive at the inviscid Boussinesq equations ocean flow in the absence of sources of momentum and buoyancy
+Combining rotation and the Boussinesq approximation, we arrive at the inviscid Boussinesq equations for ocean flow in the absence of sources of momentum and buoyancy
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z,\quad \frac{\text{D}b}{\text{D}t} = 0 \quad \text{and}\quad \nabla \cdot \vec u = 0.
 ```
@@ -115,9 +115,13 @@ These model the flow of an almost-constant density, incompressible fluid. Note t
 
 # Ocean fronts
 
-Density fronts are highly anisotropic structures consisting of a horizontal change in density in one direction. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by fresh water inflow due to rivers.
+Density fronts are highly anisotropic structures consisting of a horizontal change in density in one *across-front* direction and only gradual changes in an *along-front* direction. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by inflow of fresh, light water from rivers.
 
-An important feature of fronts, especially at smaller scales ($\text{Ro} \sim 1$), is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
+> ![a](../images/front.png)
+>
+> Sea surface temperature from NASA MODIS, November 2020. A cutaway view shows a hypothetical vertical structure of temperature. Figure from [Taylor and Thompson 2013]()
+
+An important feature of fronts, especially at smaller scales $`(\text{Ro} \sim 1)`$, is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
 
 Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
 
