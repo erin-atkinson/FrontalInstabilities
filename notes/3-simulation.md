@@ -1,4 +1,7 @@
 # Basic Oceananigans setup
+
+This section will cover the basic components of an Oceananigans `NonhydrostaticModel` setup, to the required level for our problem. Links to the relevant documentation are included at the start of each subsection. Note that the links will take you to the documentation for the version of Oceananigans used in this module. 
+
 ## Grid
 
 [Grids · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/grids/)
@@ -247,7 +250,7 @@ model = NonhydrostaticModel(;
 )
 ```
 
-### Tracers and buoyancy
+### Tracers and buoyancy: `tracers`, `buoyancy`
 
 [Buoyancy models and equation of state · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/buoyancy_and_equation_of_state/)
 
@@ -284,7 +287,9 @@ model = NonhydrostaticModel(;
 )
 ```
 
-### Advection
+### Advection: `advection`
+
+[Advection · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/appendix/library/#Advection)
 The advection terms are non-linear, and typically require special treatment for good numerical performance (this is the reason for the staggered grid). Over time, people have developed many methods for calculating these terms. Oceananigans supports a few different schemes:
 - `Centered(; order)`: Interpolates values of fields using even `order` polynomials.
 - `UpwindBiased(; order)`: Interpolates values of fields using odd `order` polynomials.
@@ -298,7 +303,7 @@ model = NonhydrostaticModel(;
     ...
 )
 ```
-### Closure
+### Closure: `closure`
 [Turbulent diffusivity closures and LES models · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/models/turbulence_closures/)
 
 When we simulate a fluid on a computer, we necessarily lose some information as we can only represent a finite range of length scales. In particular, energy dissipates at molecular scales, which are impossible to resolve in any oceanic simulation. In order to close the equations of motion, motion at smaller-than-grid-scales must be represented in some way in a numerical model. A closure is some representation of the effect of these small scales on the simulated flow. A simple example would be an effective viscosity term ${\nu\nabla^2\vec{u}}$ with a coefficient that would be larger than the physical value to model down-gradient turbulent diffusion of velocity.
@@ -313,7 +318,7 @@ model = NonhydrostaticModel(;
 )
 ```
 
-### Initial conditions
+## Initial conditions using `set!`
 `set!` can be called for models just like fields, with keywords describing what model fields to set:
 ```julia
 set!(model; u=u₀, v=v₀) # etc.
@@ -327,7 +332,7 @@ We will use this to set the initial conditions of the simulation, after the mode
 ### Creation
 We pass the model to a `Simulation`, which controls timestepping, output and other processes associated with actually running the simulation. A simulation takes a model, an initial timestep and a stop condition.
 ```julia
-simulation = Simulation(model; Δt=7, stop_time=6)
+simulation = Simulation(model; Δt=0.1, stop_time=10)
 ```
 ### Progress info
 [Callbacks · Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/simulations/callbacks/)
