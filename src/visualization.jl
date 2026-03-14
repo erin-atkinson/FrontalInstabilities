@@ -37,8 +37,9 @@ c = interior(c_fts[n], :, 1, :)
 
 # Time in hours
 time_string = let 
-    t = round(u_fts.times[n] / 3600; digits=1)
-    L"t = %$t ~ \text{hr}"
+    t = u_fts.times[n] / 3600
+    t_str = @sprintf "%.1f" t
+    L"t = %$t_str \, \text{hr}"
 end
 
 fig = Figure(;

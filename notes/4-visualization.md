@@ -4,7 +4,7 @@ This section will use `GLMakie` to produce plots of simulation fields and demons
 
 ## Elements of `Makie`
 
-Currently, Julia's premier plotting package is `Makie` this comes in two different flavours:
+Currently, Julia's premier plotting package is `Makie` which comes in two different flavours:
 - `CairoMakie` Lightweight, platform-agnostic
 - `GLMakie` Uses OpenGL to render figures, notably, this enables 3D plotting and interactive plots
 
@@ -14,7 +14,7 @@ I will refer to both of these as "Makie", but note that you only need to `add` o
 
 [Example use of FieldTimeSeries for simple output](https://clima.github.io/OceananigansDocumentation/v0.102.5/literated/two_dimensional_turbulence/#Visualizing-the-results)
 
-Simulation output data can be read into memory using `FieldTimeSeries`. This creates an indexable series of a field when given a path to the file produced by an output writer, and the name of the field to read. The most important option is perhaps `backend`.
+Simulation output data can be read into memory using `FieldTimeSeries`. This creates an indexable series of a field when given a path to the file produced by an output writer, and the name of the field to read. The most important option is perhaps `backend`:
 
 - `backend = InMemory()` is the default, and loads all iterations stored in a file into memory for quick access
 - `backend = OnDisk()` will *lazily* load the data; the file is only accessed when indexing into the timeseries
@@ -24,11 +24,11 @@ The simulation output here will likely fit in your computer's memory, but if the
 To create a timeseries that contains all the output for $u$, we do
 ```julia
 filename = "output.jld2"
-u_timeseries = FieldTimeSeries(filename, "u"; backend=InMemory())
+u_fts = FieldTimeSeries(filename, "u"; backend=InMemory())
 ```
 Each element of a `FieldTimeSeries` is a `Field`, and they can be indexed like a 1D array in time
 ```julia
-u = u_timeseries[10]
+u = u_fts[10]
 ```
 ```
 512×1×64 Field{Face, Center, Center} on RectilinearGrid on CPU
@@ -40,14 +40,14 @@ u = u_timeseries[10]
 ```
 A `FieldTimeSeries` can also be indexed as if it were a large (offset) array, with time as the last index `(x, y, z, t)`
 ```julia
-u_timeseries[1, 32, 40, 10] # equivalent to u[1, 32, 40]
+u_fts[1, 32, 40, 10] # equivalent to u[1, 32, 40]
 ```
 ```
 -1.0188229815355498e-8
 ```
 We can also get the saved times with 
 ```julia
-u_timeseries.times
+u_fts.times
 ```
 ```
 601-element Vector{Float64}:
@@ -63,17 +63,17 @@ u_timeseries.times
     1.198e6
     1.2e6
 ```
-and coordinate nodes with `xnodes`, etc.. as for `Field`s. We can then plot `u_timeseries` with `GLMakie`. A simple plot of the final state of u can be made with `heatmap`.
+and coordinate nodes with `xnodes`, etc.. as for `Field`s. We can then plot `u_fts` with `GLMakie`. A simple plot of the final state of u can be made with `heatmap`.
 ## Simple plot
 ```julia
-x = xnodes(u_timeseries)
-z = znodes(u_timeseries)
+x = xnodes(u_fts)
+z = znodes(u_fts)
 
 # Index
-n = length(u_timeseries)
+n = length(u_fts)
 
 # Get field interior
-u = interior(u_timeseries[n], :, 1, :)
+u = interior(u_fts[n], :, 1, :)
 
 # Create figure
 fig = Figure(; size=(500, 200))
@@ -101,14 +101,26 @@ In 2D, Makie plotting functions typically take an array for the $x$ and $y$ coor
 > ### Aside: LaTeX strings
 > `L"x / \text{m}"` is an example of a LaTeX string, included in Makie, that allows easily making pretty text in figures. To include the value of a variable inside a LaTeX string, you can use string interpolation:
 >
->```
+> ```
 > a = 10
 > texstr = L"The value of $a$ is %$a"
 > ```
 > The above would render as 
 > ![](../images/LaTeX-a.png)
 > Note that you will likely want to format floats before passing them to a LaTeX string, otherwise it will include the whole, unrounded value. The included package `Printf` can be used for this
->
+> 
+> ```
+> e = exp(1)
+> texstr = L"$e$ is approximately %$e"
+> ```
+> ![](../images/LaTeX-e1.png)
+> ```
+> using Printf
+> e_str = @sprintf "%.3f" e
+> texstr = L"$e$ is approximately %$e_str"
+> ```
+> ![](../images/LaTeX-e2.png)
+
 The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colormaps or variants are frequently used in climate science, and many have common meanings, which help readers intuit your results.
 
 > ### Exercise 1
@@ -118,6 +130,7 @@ The [cmocean](https://docs.makie.org/stable/explanations/colors#cmocean) colorma
 > **Hint** Copy and modify the existing code for `ax_u` etc.
 
 ![Across-front velocity and passive tracer](../images/output.png)
+
 ## Video
 Animations of existing plots is easy to implement using `Makie`'s `Observable` system. Just a few changes to the example code above will save a video. Firstly, replace the integer index `n` with an observable:
 
@@ -128,12 +141,12 @@ n = Observable(1)
 Then make any animated data depend on this observable via the macro `@lift`
 ```julia
 # Get field interior
-u = @lift interior(u_timeseries, :, 1, :, $n)
+u = @lift interior(u_fts, :, 1, :, $n)
 ```
 and finally, use `record` to capture an animation
 ```julia
 # Save figure object
-N = length(u_timeseries)
+N = length(u_fts.times)
 record(fig, "../videos/example.mp4", 1:N) do i
     n[] = i 
     print("$i / $N\r")
@@ -142,3 +155,12 @@ end
 > ### Exercise 2
 >
 > Modify the `visualization.jl` to make an animation `Ri05.mp4`
+> Note that `@lift` must go at the start of the `let` block for `time_string`
+> ```julia
+> # Time in hours
+> time_string = @lift let 
+>    t = u_fts.times[$n] / 3600
+>    t_str = @sprintf "%.1f" t
+>    L"t = %$t_str \, \text{hr}"
+>end
+> ```
