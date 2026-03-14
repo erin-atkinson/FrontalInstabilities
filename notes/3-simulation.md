@@ -296,7 +296,7 @@ The advection terms are non-linear, and typically require special treatment for 
 - `UpwindBiased(; order)`: Interpolates values of fields using odd `order` polynomials.
 - `WENO(; order)`: Like `UpwindBiased`, but adaptively chooses from the results of interpolations using polynomials of lower order to avoid interpolating across sharp changes in an advected quantity, preserving these sharp features. For smoothly varying fields, the order is `order`, while the minimum order is `(order - 1) / 2`.
 
-[Durran 2010](https://link.springer.com/book/10.1007/978-1-4419-6412-0) presents some background for how these work. We will use a fifth-order WENO as it will allow us to avoid having to spend time tuning the closure (see below).
+[Durran 2010, *Numerical Methods for Fluid Dynamics With Applications to Geophysics*](https://doi.org/10.1007/978-1-4419-6412-0) presents some background for how these work. We will use a fifth-order WENO as it will allow us to avoid having to spend time tuning the closure (see below).
 ```julia
 model = NonhydrostaticModel(;
     ...
