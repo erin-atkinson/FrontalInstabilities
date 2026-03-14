@@ -27,7 +27,7 @@ This creates a rectilinear ($x$ spacing may change only as a function of $x$ and
 - has a wall at the $y$ boundaries
 - has no $z$ direction (it's "flat")
 
-The grid size is $32\times 32$ and the _physical_ size (i.e. the length and width of the physical domain it represents) is $1\times 1$, centered on the origin.
+The grid size is $`32\times 32`$ and the _physical_ size (i.e. the length and width of the physical domain it represents) is $`1\times 1`$, centered on the origin.
 
 Note the lack of units in the definition.  If you would prefer, [you can use some pre-defined units](https://clima.github.io/OceananigansDocumentation/v0.102.5/appendix/library/#Units). I'm going to continue without these however, because we may be performing non-dimensional simulations.
 
@@ -423,7 +423,7 @@ run!(simulation)
 > ### Exercise 3.5
 > Run the simulation.
 > 
-> *At* $`512\times 64`$ *resolution, it took about 2.5 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep the aspect ratio 16:1, 8:1 or 4:1), or save timesteps less often if space is an issue.*
+> *At* $`512\times 64`$ *resolution, it took about 2.5 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep Nx/Nz in the range 4-16), or save timesteps less often if space is an issue.*
 
 > ![Run time as a function of thread number](../images/runtime.png)
 >

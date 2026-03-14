@@ -134,7 +134,7 @@ We use a linearised state to define an ideal front with constant horizontal and 
 ```math
 b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = \zeta x +Sz= \zeta x + \frac{M^2}{f} z,
 ```
-where we assume that $v_0 = \zeta x$ on $z=0$.
+where we assume that $v_0 = \zeta x$ on $z=0$. Note that the use of $`N^2`$ and $`M^2`$ does not imply that these quantities must be positive, they are simply the gradients of the background state.
 
 > ### Exercise 1.2
 >
@@ -146,7 +146,9 @@ The total flow is the sum of the frontal flow itself ($v_0\hat y, b_0$) and any 
 \vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, z') \,\text{d}z' + \phi. \qquad  (1.2)
 ```
 We can substitute these into the Boussinesq equations for ${(\vec u_\text{tot} , b_\text{tot})}$ to get similar equations for ${(\vec u, b)}$, but with additional _forcing_ terms due to the background $`(v_0\hat y, b_0)`$.
+
 ```math
 \frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (1.3a)\\ \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (1.3b, c)
 ```
+
 We will simulate these equations to produce a solution for ${(\vec u, b)}$. We can then recover the total flow using equations ${(1.2)}$.
