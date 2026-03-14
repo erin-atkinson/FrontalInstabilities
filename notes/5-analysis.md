@@ -37,9 +37,13 @@ for arg in ARGS
 end
 ```
 
-when run with `julia args-example.jl one two three` will print
-```
+when run from the terminal will print the entered arguments:
 
+```bash
+$ julia args-example.jl one two three
+one
+two
+three
 ```
 Note that all the entries are strings, so if we are expecting a different type we must use `parse`:
 ```julia
@@ -48,11 +52,17 @@ a = parse(Float64, ARGS[1])
 b = parse(Float64, ARGS[2])
 println(a + b)
 ```
-Now `julia args-arithmetic.jl 1e3 12.76` will produce
+
+```bash
+$ julia args-arithmetic.jl 1e3 12.76
+1012.76
+```
 
 We can clearly separate arguments for `julia` from arguments for the script using a double-dash `--`:
+
 ```bash
-julia -t 12 --project="env" -- args-arithmetic.jl -0.5 8e-2
+$ julia -t 3 -- args-arithmetic.jl -0.5 8e-2
+-0.42
 ```
 
 > ### Exercise 2
