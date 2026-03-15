@@ -10,7 +10,7 @@ filename = "Ri09.jld2"
 fds = FieldDataset(filename; backend=OnDisk())
 u_fts = fds.u
 b_fts = fds.b
-c_fts = fds.c
+c_fts = 
 p = fds.metadata["parameters"]
 
 # Parameters
@@ -23,15 +23,22 @@ Nz = p.Nz
 x_u = xnodes(u_fts)
 z_u = znodes(u_fts)
 
+x_b = xnodes(b_fts)
+z_b = znodes(b_fts)
+
+x_c = 
+z_c =
+
 times = u_fts.times
+
 # Index to plot
 n = length(times)
 
 # Data to plot
-b₀ = [p.N² * z + p.f * p.S * x for x in x_c, z in z_c]
+b₀ = [p.N² * z + p.f * p.S * x for x in x_b, z in z_b]
 u = interior(u_fts[n], :, 1, :)
 b = interior(b_fts[n], :, 1, :) .+ b₀
-c = interior(c_fts[n], :, 1, :)
+c = 
 
 # Time in hours
 time_string = let 
@@ -71,14 +78,16 @@ ht_c =
 Colorbar(fig[3, 2], ht_c)
 
 # Add some black buoyancy contours to each
-contour!(ax_u, x_c, z_c, b;
+contour!(ax_u, x_b, z_b, b;
     color = :black,
     levels = range(-2e-5, 2e-5, 20)
 )
 
-contour!(ax_c, x_c, z_c, b;
+contour!(ax_c, x_b, z_b, b;
     color = :black,
     levels = range(-2e-5, 2e-5, 20)
 )
+
+# Exercise 2: create video
 
 fig

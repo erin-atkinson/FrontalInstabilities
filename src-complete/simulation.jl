@@ -23,14 +23,14 @@ Nz = 64
 Δt = 1e-2 / f
 T = 120 / f
 
-# Create a grid
+# Exercise 1: create a grid
 grid = RectilinearGrid(; 
     size = (Nx, Nz), 
     extent = (L, H), 
     topology = (Periodic, Flat, Bounded)
 )
 
-# Define continuous forcing functions
+# Exercise 2: define continuous forcing functions
 @inline v_forcing_func(x, z, t, w, p) = -(p.S * w)
 @inline b_forcing_func(x, z, t, u, w, p) = -(f * p.S * u + p.N² * w)
 
@@ -43,7 +43,7 @@ forcing = (;
 advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
-tracers = (:b, :c,)
+tracers = (:b, :c)
 
 # Create a model
 model = NonhydrostaticModel(; 
@@ -59,7 +59,7 @@ model = NonhydrostaticModel(;
 # Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
 
-# Tracer profile
+# Exercise 3: initial tracer profile
 @inline c₀(x, z) = -z / H
 
 set!(model; c=c₀, u=u₀)

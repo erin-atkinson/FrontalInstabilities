@@ -9,7 +9,7 @@ f = 1e-4
 # Shear
 S = f
 # Richardson number
-Ri = parse(Float64, ARGS[1])
+Ri = 0.5
 # Stratification
 N² = Ri * S^2
 
@@ -26,7 +26,7 @@ T = 120 / f
 # Exercise 1: create a grid
 grid = 
 
-# Exercise 2: define continuous forcing fumctions
+# Exercise 2: define continuous forcing functions
 @inline v_forcing_func(...) = 
 @inline b_forcing_func(...) = 
 
@@ -36,7 +36,7 @@ forcing =
 advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
-tracers = (:b, :c,)
+tracers = (:b, :c)
 
 # Create a model
 model = NonhydrostaticModel(; 
@@ -91,7 +91,7 @@ end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename = ARGS[2],
+    filename = "Ri05.jld2",
     overwrite_existing = true,
     init=init_jld2!,
     schedule = TimeInterval(20Δt)

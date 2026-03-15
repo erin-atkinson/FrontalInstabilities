@@ -25,10 +25,7 @@ KE = Field(Average((u^2 + v^2 + w^2) / 2))
 # Balanced Richardson number
 Rib = Field(Average(N²_tot / p.S^2))
 
-# Square tracer gradient
-∂c∂z²_avg = Field(Average(∂z(c)^2))
-
-outputs = (; KE, Rib, ∂c∂z²_avg)
+outputs = (; KE, Rib)
 
 output_fds = FieldDataset(times, outputs; 
     backend = OnDisk(), 

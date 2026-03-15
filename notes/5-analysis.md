@@ -1,5 +1,5 @@
 # Analysis
-This section ntroduces use of `ARGS` to allow Julia scripts to access command-line arguments, and describes post-processing using Oceananigans.
+This section introduces use of `ARGS` to allow Julia scripts to access command-line arguments, and describes post-processing using Oceananigans. The output from multiple simulations is used to show the dependence of instability growth rate on the initial Richardson number.
 
 ## Domain averages
 
@@ -79,8 +79,8 @@ $ julia -t 3 -- args-arithmetic.jl -0.5 8e-2
 
 > ### Exercise 2
 >
-> Modify the simulation code to instead read an initial $\text{Ri}$ value and output filename from the command-line arguments using `ARGS`, then run simulations for $\text{Ri} = \{0.3, 0.7, 0.9\}$ in addition to the existing $\text{Ri}=0.5$ output (which you may want to rename appropriately).
-> Smaller $\text{Ri}$ will take longer (why?). Using the same resolution, the $\text{Ri} = 0.3$ simulation took 2.7 minutes.
+> Modify the simulation code to instead read an initial $\text{Ri}$ value and output filename from the command-line arguments using `ARGS`, then run simulations for $\text{Ri} = \{0.3, 0.7, 0.9\}$ in addition to the existing $\text{Ri}=0.5$ output.
+> Smaller $\text{Ri}$ will take longer (why?). Using the same resolution, the $\text{Ri} = 0.3$ simulation took 28 minutes.
 
 ## Post-processing
 Once we have simulations for varying $\text{Ri}$, we can compare our results, however, first we will want to do some post-processing using Oceananigans. As well as simulations, Oceananigans provides powerful post-processing capabilities using `Field`s paired with `AbstractOperation`s. These work much the same way as when they are used for simulation output, but with a bit of boiler-plate code for reading and writing. Documentation is available at [Operations ⋅ Oceananigans.jl](https://clima.github.io/OceananigansDocumentation/v0.102.5/operations/#Operations-and-averaging)
@@ -150,7 +150,9 @@ Much of the code can be reused with just different entries in `outputs`.
 > ### Exercise 3
 > Add an operation to `src/analysis.jl` to produce the balanced Richardson number `Rib` as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2` for each simulation. This won't take long.
 
-Running `post-processed.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time.
-![Average kinetic energy and bulk Richardson number](../images/post-processed.png)
+Running `post-processed.jl` should produce the following figure of the average kinetic energy, growth rate and bulk Richardson number.
+
+> ![Average kinetic energy and bulk Richardson number](../images/post-processed.png)
+> Average kinetic energy, growth rate and bulk Richardson number over time for each of the simulations
 
 The instability restores the flow to a stable state, with $`\text{Ri}_b > 1`$, and grows faster for larger initial Richardson number. In addition, the sudden impact of the instability, especially starting in very unstable states, kicks off oscillations, which show up in the bulk Richardson number. 

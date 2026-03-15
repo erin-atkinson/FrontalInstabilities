@@ -23,15 +23,19 @@ Nz = p.Nz
 x_u = xnodes(u_fts)
 z_u = znodes(u_fts)
 
+x_b = xnodes(b_fts)
+z_b = znodes(b_fts)
+
 x_c = xnodes(c_fts)
 z_c = znodes(c_fts)
 
 times = u_fts.times
+
 # Index to plot
 n = Observable(190)
 
 # Data to plot
-b₀ = [p.N² * z + p.f * p.S * x for x in x_c, z in z_c]
+b₀ = [p.N² * z + p.f * p.S * x for x in x_b, z in z_b]
 u = @lift interior(u_fts[$n], :, 1, :)
 b = @lift interior(b_fts[$n], :, 1, :) .+ b₀
 c = @lift interior(c_fts[$n], :, 1, :)
@@ -66,7 +70,7 @@ ht_u = heatmap!(ax_u, x_u, z_u, u;
 
 Colorbar(fig[2, 2], ht_u)
 
-# Plot of the passive tracer
+# Exercise 1: plot of the passive tracer
 ax_c = Axis(fig[3, 1]; 
     title = L"c",
     xlabel = L"x / \text{m}",
@@ -82,16 +86,17 @@ ht_c = heatmap!(ax_c, x_c, z_c, c;
 Colorbar(fig[3, 2], ht_c)
 
 # Add some black buoyancy contours to each
-contour!(ax_u, x_c, z_c, b;
+contour!(ax_u, x_b, z_b, b;
     color = :black,
     levels = range(-2e-5, 2e-5, 20)
 )
 
-contour!(ax_c, x_c, z_c, b;
+contour!(ax_c, x_b, z_b, b;
     color = :black,
     levels = range(-2e-5, 2e-5, 20)
 )
 
+# Exercise 2: create video
 N = length(times)
 record(fig, replace(filename, ".jld2"=>".mp4"), 1:N) do i
     n[] = i
