@@ -55,9 +55,9 @@ As an optimisation, different fields "live" on different grid nodes. If the grid
 Fields will in general come with three _locations_ that define their position within a cell. As a rule:
 - $x$-velocity ($u$) is on  `Face`, `Center`, `Center`. So `u[i, j, k]` would be the velocity at `node(i, j, k, grid, Face(), Center(), Center())` and so on for $v$ and $w$.
 - Tracers such as temperature are entirely on grid centers `Center, Center, Center`.
-- Each order of a derivative "flips" the corresponding location, so $\partial_x T$ would be on `Face`, `Center`, `Center`.
+- Each order of a derivative "flips" the corresponding location, so $`\partial T / \partial x`$ would be on `Face`, `Center`, `Center`.
 
-Derived fields may exist on whatever set of locations, for instance the vertical vorticity $\zeta = \partial_x v - \partial u_y$ naturally falls onto `Face`, `Face`, `Center`.
+Derived fields may exist on whatever set of locations, for instance the vertical vorticity $`\zeta = \partial v / partial x - \partial u / partial y`$ naturally falls onto `Face`, `Face`, `Center`.
 
 There is a secret, third thing: `Nothing`. This is the location for fields that are the result of a `Reduction`, which we will look at later. A reduction takes a field and "reduces" it in one or more directions (such as an average or integral).
  
@@ -156,7 +156,9 @@ model = NonhydrostaticModel(;
 
 Recall the equations we need to simulate:
 
-$$\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.$$
+```math
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \frac{M^2}{f}w\hat y,\quad \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0.
+```
 
 These contain terms in addition to the rotating Boussinesq equations that represent interaction between the background state and the simulated flow. We can add these terms to the right hand side of our model equations using Oceananigans's `Forcing` constructor.
 Let us now explain in general how to build forcing terms, before turning our attention back to our frontal problem.
@@ -225,9 +227,18 @@ At each boundary, wall-normal velocities are zero and all other fields have zero
 `PeriodicBoundaryCondition` cannot be changed, but `NoFluxBoundaryCondition` can be changed. The options depend on the location of the field. 
 
 For fields located on `Center` in the boundary direction (e.g. `v`, `w` and `b` on the boundary $x=0$), the possible boundary conditions are:
-- `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition:    $$v(0, y, z) = v_\text{boundary};$$
+- `ValueBoundaryCondition` represents boundary conditions that constrain the value of a particular field, for example the no-slip boundary condition:
+
+```math
+v(0, y, z) = v_\text{boundary};
+```
+
 - `GradientBoundaryCondition` represents boundary conditions that constrain the gradient, rather than the value of a field:
-$$\frac{\partial v}{\partial x}(0, y, z) = A;$$
+
+```math
+\frac{\partial v}{\partial x}(0, y, z) = A;
+```
+
 - `FluxBoundaryCondition` is not quite a boundary condition, but a forcing at the boundary equal to the divergence of a specified flux (density) of a field across that boundary. This is useful for applying cooling at the ocean surface, for instance.
 
 For fields located on `Face` in the boundary direction (e.g. `u` on the boundary $x=0$), there is only one non-default choice:
@@ -256,7 +267,9 @@ model = NonhydrostaticModel(;
 
 Passive tracers may be inserted into the model with the keyword argument `tracers`. To add an unforced field $c$ that is evolved by the model using
 
-$$\frac{\text{D}c}{\text{D}t} = 0,$$
+```math
+\frac{\text{D}c}{\text{D}t} = 0,
+```
 
 just add
 ```julia
@@ -393,7 +406,7 @@ mean_u = Average(u)
 ```
 
 > ### Exercise 3.4
-> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $N^2 + \partial b / \partial z$.
+> Add an abstract operation `N²_tot` to the output that computes the total buoyancy gradient $`{N^2 + \partial b / \partial z}`$.
 
 We can also pass a function as keyword argument `init` that is run when the output file is initialized. It is prudent to output simulation parameters and a short description in addition to fields.
 
