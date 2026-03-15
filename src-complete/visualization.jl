@@ -4,7 +4,7 @@ visualization.jl
 =#
 using Oceananigans, GLMakie, Printf
 
-filename = "output.jld2"
+filename = "Ri09.jld2"
 
 # Read simulation data
 fds = FieldDataset(filename; backend=OnDisk())
@@ -26,6 +26,7 @@ z_u = znodes(u_fts)
 x_c = xnodes(c_fts)
 z_c = znodes(c_fts)
 
+times = u_fts.times
 # Index to plot
 n = Observable(190)
 
@@ -37,7 +38,7 @@ c = @lift interior(c_fts[$n], :, 1, :)
 
 # Time in hours
 time_string = @lift let 
-    t = u_fts.times[$n] / 3600
+    t = times[$n] / 3600
     t_str = @sprintf "%.1f" t
     L"t = %$t_str \, \text{hr}"
 end
@@ -91,9 +92,10 @@ contour!(ax_c, x_c, z_c, b;
     levels = range(-2e-5, 2e-5, 20)
 )
 
-record(fig, replace(filename, ".jld2"=>".mp4"), 1:length(b_fts.times)) do i
+N = length(times)
+record(fig, replace(filename, ".jld2"=>".mp4"), 1:N) do i
     n[] = i
-    print("$i\r")
+    print("$i / $N\r")
 end
 
 fig

@@ -28,7 +28,7 @@ u_fts = FieldTimeSeries(filename, "u"; backend=InMemory())
 ```
 Each element of a `FieldTimeSeries` is a `Field`, and they can be indexed like a 1D array in time
 ```julia
-u = u_fts[10]
+u = u_fts[32]
 ```
 ```
 512×1×64 Field{Face, Center, Center} on RectilinearGrid on CPU
@@ -40,7 +40,7 @@ u = u_fts[10]
 ```
 A `FieldTimeSeries` can also be indexed as if it were a large (offset) array, with time as the last index `(x, y, z, t)`
 ```julia
-u_fts[1, 32, 40, 10] # equivalent to u[1, 32, 40]
+u_fts[10, 1, 10, 32] # equivalent to u[10, 1, 10]
 ```
 ```
 -1.0188229815355498e-8
@@ -64,19 +64,62 @@ u_fts.times
     1.2e6
 ```
 and coordinate nodes with `xnodes`, etc.. as for `Field`s. We can then plot `u_fts` with `GLMakie`. A simple plot of the final state of u can be made with `heatmap`.
+
+`FieldDataset` has a similar interface, but collects all output fields found within a file:
+
+```julia
+filename = "output.jld2"
+fds = FieldDataset(filename; backend=InMemory())
+```
+
+```
+FieldDataset with 6 fields and 2 metadata entries:
+├── v: 512×1×64×601 FieldTimeSeries{InMemory} located at (Center, Face, Center) of v at output.jld2
+├── N²_tot: 512×1×65×601 FieldTimeSeries{InMemory} located at (Center, Center, Face) of N²_tot at output.jld2
+├── w: 512×1×65×601 FieldTimeSeries{InMemory} located at (Center, Center, Face) of w at output.jld2
+├── c: 512×1×64×601 FieldTimeSeries{InMemory} located at (Center, Center, Center) of c at output.jld2
+├── b: 512×1×64×601 FieldTimeSeries{InMemory} located at (Center, Center, Center) of b at output.jld2
+└── u: 512×1×64×601 FieldTimeSeries{InMemory} located at (Face, Center, Center) of u at output.jld2
+```
+
+Indiviual entries can be accessed similar to named tuples:
+
+```julia
+fds.v
+```
+
+```
+512×1×64×601 FieldTimeSeries{InMemory} located at (Center, Face, Center) of v at output.jld2
+├── grid: 512×1×64 RectilinearGrid{Float64, Periodic, Flat, Bounded} on CPU with 3×0×3 halo
+├── indices: (:, :, :)
+├── time_indexing: Linear()
+├── backend: InMemory()
+├── path: output-512.jld2
+├── name: v
+└── data: 518×1×70×601 OffsetArray(::Array{Float64, 4}, -2:515, 1:1, -2:67, 1:601) with eltype Float64 with indices -2:515×1:1×-2:67×1:601
+    └── max=3.59088e-8, min=-3.50195e-8, mean=-3.88389e-14
+```
+
 ## Simple plot
 ```julia
+filename = "Ri05.jld2"
+u_fts = FieldTimeSeries(filename, "u", backend=InMemory())
+
+# Grid
 x = xnodes(u_fts)
 z = znodes(u_fts)
 
-# Index
+# Time index to plot
 n = length(u_fts)
 
 # Get field interior
 u = interior(u_fts[n], :, 1, :)
 
 # Create figure
-fig = Figure(; size=(500, 200))
+fig = Figure(; 
+    size = (500, 200),
+    fontsize = 18
+)
 
 # Create axis
 ax = Axis(fig[1, 1]; 
@@ -155,7 +198,7 @@ end
 > ### Exercise 2
 >
 > Modify the `visualization.jl` to make an animation `Ri05.mp4`
-> Note that `@lift` must go at the start of the `let` block for `time_string`
+> Note that `@lift` must go at the start of the `let` block for `time_string`:
 > ```julia
 > # Time in hours
 > time_string = @lift let 

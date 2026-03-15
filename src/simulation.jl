@@ -9,11 +9,11 @@ f = 1e-4
 # Shear
 S = f
 # Richardson number
-Ri = 0.5
+Ri = parse(Float64, ARGS[1])
 # Stratification
 N² = Ri * S^2
 
-# Dimensions typical of submesoscale, but keep aspect ratio low for WENO
+# Dimensions typical of submesoscale, but keep aspect ratio close to unity
 L = 1_000
 H = 100
 Nx = 512
@@ -23,45 +23,37 @@ Nz = 64
 Δt = 1e-2 / f
 T = 120 / f
 
-# Exercise 1: Create a grid
-grid = RectilinearGrid(CPU();
-    topology=(Periodic, Bounded, Flat),
-    size=(32, 32),
-    x=(-0.5, 0.5),
-    y=(-0.5, 0.5)
-)
+# Exercise 1: create a grid
+grid = 
 
-# Exercise 2: Define continuous forcing functions
-#
-#
-#
+# Exercise 2: define continuous forcing fumctions
+@inline v_forcing_func(...) = 
+@inline b_forcing_func(...) = 
 
-forcing =
+forcing = 
 
 # Other model arguments
-    advection = WENO(; order=5)
+advection = WENO(; order=5)
 coriolis = FPlane(; f)
 buoyancy = BuoyancyTracer()
-tracers = (:b, :c)
+tracers = (:b, :c,)
 
 # Create a model
-model = NonhydrostaticModel(;
+model = NonhydrostaticModel(; 
     grid,
     advection,
     forcing,
     coriolis,
     tracers,
-    buoyancy
+    buoyancy,
 )
 
 # Initial conditions
 # Random noise in u
 @inline u₀(x, z) = 1e-8 * randn()
 
-# Exercise 3: Initial tracer profile
-#
-#
-#
+# Exercise 3: initial tracer profile
+@inline c₀(x, z) = 
 
 set!(model; c=c₀, u=u₀)
 
@@ -86,23 +78,23 @@ simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(10))
 u, v, w = model.velocities
 b, c = model.tracers
 
-# Exercise 4: Derived fields
+# Derived fields
 # Total buoyancy gradient
-N²_tot =
+N²_tot = Field(∂z(b) + N²)
 
 # Output metadata
-    function init_jld2!(file, model)
-        file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
-        file["metadata/description"] = "Symmetric instability in a frontal zone"
-        return nothing
-    end
+function init_jld2!(file, model)
+    file["metadata/parameters"] = (; Ri, S, N², f, L, H, Nx, Nz, Δt, T)
+    file["metadata/description"] = "Symmetric instability in a frontal zone"
+    return nothing
+end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename="output.jld2",
-    overwrite_existing=true,
+    filename = ARGS[2],
+    overwrite_existing = true,
     init=init_jld2!,
-    schedule=TimeInterval(20Δt)
+    schedule = TimeInterval(20Δt)
 )
 
 # Run simulation

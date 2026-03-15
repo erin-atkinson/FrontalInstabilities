@@ -1,34 +1,34 @@
 using Oceananigans
-using Oceananigans.Fields: instantiated_location
 
 input = ARGS[1]
 output = replace(ARGS[1], ".jld2" => "-pp.jld2")
 
 # Read in the raw output
 fds = FieldDataset(input; backend=OnDisk())
-N²_tot_fts = fds.N²_tot
-w_fts = fds.w
-c_fts = fds.c
 p = fds.metadata["parameters"]
-times = c_fts.times
 
-# Initialize input fields
-N²_tot = N²_tot_fts[1]
-w = w_fts[1]
-c = c_fts[1]
+# Create input fields
+u = fds.u[1]
+v = fds.v[1]
+w = fds.w[1]
+b = fds.b[1]
+c = fds.c[1]
+N²_tot = fds.N²_tot[1]
 
-# Balanced Ri
-Ri_b = Field(Average(N²_tot / p.S^2))
+# Times and grid
+grid = fds.u.grid
+times = fds.u.times
 
-c_avg = Field(Average(c))
-w_avg = Field(Average(w))
+# Average kinetic energy of the instability
+KE = Field(Average((u^2 + v^2 + w^2) / 2))
 
-c′ = c - c_avg
-w′ = w - w_avg
+# Balanced Richardson number
+Rib = Field(Average(N²_tot / p.S^2))
 
-w′c′_avg = Field(Average(w′ * c′))
+# Square tracer gradient
+∂c∂z²_avg = Field(Average(∂z(c)^2))
 
-outputs = (; Ri_b, w′c′_avg)
+outputs = (; KE, Rib, ∂c∂z²_avg)
 
 output_fds = FieldDataset(times, outputs; 
     backend = OnDisk(), 
@@ -37,19 +37,20 @@ output_fds = FieldDataset(times, outputs;
 )
 
 # Iterate over times
-N = length(c_fts)
+N = length(times)
 for n in 1:N
-    # Set input
-    set!(N²_tot, N²_tot_fts[n])
-    set!(w, w_fts[n])
-    set!(c, c_fts[n])
+    # Update input fields to this time
+    set!(u, fds.u[n])
+    set!(v, fds.v[n])
+    set!(w, fds.w[n])
+    set!(b, fds.b[n])
+    set!(c, fds.c[n])
+    set!(N²_tot, fds.N²_tot[n])
 
-    # Perform operation
-    # NB: compute! will by default call compute! on all dependencies
-    # see Oceananigans.Fields.compute_at!
+    # Compute fields (this automatically computes dependencies)
     compute!(outputs)
 
-    # Save the result
+    # Save the result to disk
     set!(output_fds, n; outputs...)
 
     print("$n / $N\r")

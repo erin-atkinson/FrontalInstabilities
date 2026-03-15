@@ -1,30 +1,42 @@
 # Analysis
-This section covers some motivation for modelling instabilities in the first place in the form of their effect on an averaged state, introduces use of `ARGS` to allow Julia scripts to access command-line arguments, and describes post-processing using Oceananigans.
+This section ntroduces use of `ARGS` to allow Julia scripts to access command-line arguments, and describes post-processing using Oceananigans.
 
-## Vertical transport
-It is clear from the videos that the instability-induced turbulence transports momentum and tracers vertically. As discussed in section 3, a simulation is not a true representation of an inviscid fluid, with the most important difference being a lack of infinite resolution. Our simulation may be contained entirely in a single grid cell within a global ocean model. The value of velocities and tracers within this cell will be the average over the whole simulation, for example the tracer $c$ we define an average and perturbations from this average
+## Domain averages
 
-$$\langle c \rangle = \frac{1}{LH}\int_\text{cell} c\;\text{d}x\text{d}z  \quad \text{and}\quad c'=c - \langle c\rangle$$
+Define the domain average $`\langle \cdot \rangle`$ as
+```math
+\langle c\rangle(t) = \frac{1}{LH}\iint c(x, z, t)\,\text{d}x\text{d}z
+```
 
-How does $\langle c \rangle$ evolve? Well, we can start by considering its Lagrangian derivative.
+Recall the form of a plane wave from section 2:
 
-$$
-\frac{\text {D}\langle c \rangle}{\text{D}t} = \frac{\partial \langle c\rangle}{\partial t} + \vec u \cdot \nabla \langle c \rangle
-$$
+```math
+u =  \Re \left (\tilde ue^{ikx + imz - i\omega t}\right )
+```
 
-Using $\langle c \rangle = c - c'$ and taking a horizontal average (noting that $\langle \langle a\rangle\rangle = \langle a\rangle$)
+For instability, $`\omega = \pm i\sigma`$ where $`\sigma`$ is the growth rate of the instability. It follows that the average kinetic energy density of the unstable mode is
 
-$$
-\left \langle\frac{\text {D}\langle c \rangle}{\text{D}t}\right \rangle = \left \langle\frac{\partial c}{\partial t}\right \rangle + \langle\vec u \cdot \nabla c\rangle -  \langle\vec u \cdot \nabla c'\rangle = \left \langle\frac{\text {D} c }{\text{D}t}\right \rangle - \langle \vec u \cdot \nabla c'\rangle =  - \langle \vec u' \cdot \nabla c'\rangle = - \nabla \cdot \langle \vec u' c'\rangle 
-$$
+```math
+\text{KE} = \frac{1}{2}\left (\Re(\tilde u)^2 + \Re(\tilde v)^2 + \Re(\tilde w)^2\right )e^{2\sigma t} \langle g\rangle 
+```
 
-Where incompressibility is used for the final equality. We end up with a tracer equation for $\langle c \rangle$, but this averaged tracer is no longer materially conserved as it has a non-zero Lagrangian derivative
+Where $`g(x, z)`$ is some sinusoidal function that describes the shape of the mode. We can then estimate the growth rate, assuming that the most unstable mode dominates, as
 
-$$
-\frac{\text {D}\langle c \rangle}{\text{D}t} =- \nabla \cdot \langle \vec u' c'\rangle 
-$$
+```math
+\ln \text{KE} = A + 2\sigma t
+```
 
-(note that there will also be a direct effect of the sub-grid diffusivity due to the advection scheme/closure as discussed previously, but we ignore it here). As simulations at this fine resolution are impractical for larger regions, realistic simulations require that we model the effects of small-scale turbulence by producing estimates of the turbulent flux terms ${\langle \vec{u}' c'\rangle}$ (this _closes_ the set of equations for the averaged fields, hence the term _closure_). This can be done completely analytically for only simple cases, another method is to perform multiple small-scale simulations for a range of large-scale conditions, usually represented by non-dimensional numbers, and fit a curve. Here we will produce an estimate of the total vertical transport of the tracer $c$ for different values of $\text{Ri}$ over time.
+We will investigate how the growth rate of the instability depends on the initial Richardson number, and how the Richardson number changes over time
+
+> ### Exercise 2
+> Show that the balanced Richardson number, defined by
+> 
+> $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
+> 
+> May be written, for the boundary conditions in our simulation, as
+> 
+> $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}$$
+> 
 
 ## Parameter sweep
 
@@ -75,73 +87,70 @@ Once we have simulations for varying $\text{Ri}$, we can compare our results, ho
 
 ## Simple post-processing workflow
 
-Here is an example script that produces total kinetic energy and kinetic energy density
+Here is an example script that produces total kinetic energy and kinetic energy density:
+
 ```julia
-# analysis-example.jl
 using Oceananigans
 
 input = "Ri03.jld2"
-output = "Ri03-pp.jld2"
+output = "Ri03-KE.jld2"
 
 # Read in the raw output
 fds = FieldDataset(input; backend=OnDisk())
-u_fts, v_fts, w_fts = fds.u, fds.v, fds.w
-u, v, w = u_fts[1], v_fts[1], w_fts[1]
-grid = u.grid
-times = u_fts.times
+
+# Create input fields
+u = fds.u[1]
+v = fds.v[1]
+w = fds.w[1]
+b = fds.b[1]
+c = fds.c[1]
+N²_tot = fds.N²_tot[1]
+
+# Times and grid
+grid = fds.u.grid
+times = fds.u.times
 
 # Kinetic energy density
-η = Field(@at (Center, Center, Center) (u^2 + v^2 + w^2) / 2)
+η = Field((u^2 + v^2 + w^2) / 2)
 
-# Total kinetic energy
-KE = Field(Integral(η))
+# Average kinetic energy of the instability
+KE = Field(Average(η))
 
-# Create empty OnDisk FieldTimeSeries allows output
-η_fts = FieldTimeSeries{Center, Center, Center}(grid, times; 
-    name = "η", 
+outputs = (; η, KE)
+
+# Creating empty OnDisk FieldDataset allows output
+output_fds = FieldDataset(times, outputs;
     backend = OnDisk(),
-    path = output
-)
-
-KE_fts = FieldTimeSeries{Nothing, Nothing, Nothing}(grid, times; 
-    name = "KE", 
-    backend = OnDisk(),
-    path = output
+    path = output,
 )
 
 # Iterate over times
 N = length(u_fts)
-@time for n in 1:N
-    # Set input
-    set!(u, u_fts[n])
-    set!(v, v_fts[n])
-    set!(w, w_fts[n])
+for n in 1:N
+    # Update input fields to this time
+    set!(u, fds.u[n])
+    set!(v, fds.v[n])
+    set!(w, fds.w[n])
+    set!(b, fds.b[n])
+    set!(c, fds.c[n])
+    set!(N²_tot, fds.N²_tot[n])
 
     # Compute fields (this automatically computes dependencies)
-    compute!(KE)
+    compute!(outputs)
 
-    # Save the result
-    set!(η_fts, η, n)
-    set!(KE_fts, KE, n)
+    # Save the result to disk
+    set!(output_fds, n; outputs...)
 
     print("$n / $N\r")
 end
 ```
-> ### Exercise 2
-> Show that the balanced Richardson number, defined by
-> 
-> $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
-> 
-> May be written, for the boundary conditions in our simulation, as
-> 
-> $$\text{Ri}_b(t) = \frac{\langle N^2_\text{tot}(t)\rangle}{S^2}$$
-> 
+
+Much of the code can be reused with just different entries in `outputs`. 
 
 > ### Exercise 3
-> Add functions to `src/analysis.jl` to produce the mean state $\langle c \rangle$ (`c_avg`), perturbations $c'$ (`c′`) and vertical turbulent transport $\langle w'c'\rangle$ (`w′c′_avg`). Also, add the balanced Richardson number as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2`.
+> Add an operation to `src/analysis.jl` to produce the balanced Richardson number `Rib` as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2` for each simulation. This won't take long.
 
-Running `transport.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time. 
-Running `transport.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time. 
-![Bulk Richardson number and cumulative vertical transport](../images/transport.png)
+Running `post-processed.jl` should produce the following figure of the bulk Richardson number and cumulative vertical transport over time.
+![Average kinetic energy and bulk Richardson number](../images/post-processed.png)
 
-The instability restores the flow to a stable state, with $\text{Ri}_b = 1$, and vertically mixes the passive tracer in the process. In addition, the sudden impact of the instability, especially starting in very unstable states, kicks off oscillations, which show up in the bulk Richardson number. 
+The instability restores the flow to a stable state, with $`\text{Ri}_b > 1`$, and grows faster for larger initial Richardson number. In addition, the sudden impact of the instability, especially starting in very unstable states, kicks off oscillations, which show up in the bulk Richardson number. 

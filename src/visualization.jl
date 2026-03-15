@@ -2,9 +2,9 @@
 visualization.jl
     Create a visualization of simulation output
 =#
-using Oceananigans, GLMakie
+using Oceananigans, GLMakie, Printf
 
-filename = "output.jld2"
+filename = "Ri09.jld2"
 
 # Read simulation data
 fds = FieldDataset(filename; backend=OnDisk())
@@ -23,11 +23,9 @@ Nz = p.Nz
 x_u = xnodes(u_fts)
 z_u = znodes(u_fts)
 
-x_c = xnodes(c_fts)
-z_c = znodes(c_fts)
-
+times = u_fts.times
 # Index to plot
-n = 170
+n = length(times)
 
 # Data to plot
 b₀ = [p.N² * z + p.f * p.S * x for x in x_c, z in z_c]
@@ -37,14 +35,14 @@ c = interior(c_fts[n], :, 1, :)
 
 # Time in hours
 time_string = let 
-    t = u_fts.times[n] / 3600
+    t = times[n] / 3600
     t_str = @sprintf "%.1f" t
     L"t = %$t_str \, \text{hr}"
 end
 
 fig = Figure(;
-    size = (1060, 400),
-    fontsize = 18
+    size = (1200, 500),
+    fontsize = 16
 )
 
 # Time label
@@ -65,10 +63,12 @@ ht_u = heatmap!(ax_u, x_u, z_u, u;
 
 Colorbar(fig[2, 2], ht_u)
 
-# Plot of the passive tracer on third row of figure
-#
-#
-#
+# Exercise 1: plot of the passive tracer
+ax_c = 
+
+ht_c = 
+
+Colorbar(fig[3, 2], ht_c)
 
 # Add some black buoyancy contours to each
 contour!(ax_u, x_c, z_c, b;
@@ -76,9 +76,9 @@ contour!(ax_u, x_c, z_c, b;
     levels = range(-2e-5, 2e-5, 20)
 )
 
-#
-#
-#
+contour!(ax_c, x_c, z_c, b;
+    color = :black,
+    levels = range(-2e-5, 2e-5, 20)
+)
 
-save("output.png", fig; px_per_unit=2)
 fig

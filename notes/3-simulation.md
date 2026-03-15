@@ -407,7 +407,7 @@ end
 
 # Configure output writer
 simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot);
-    filename = "output.jld2",
+    filename = "Ri05.jld2",
     overwrite_existing = true,
     init=init_jld2!,
     schedule = TimeInterval(20Δt)
@@ -423,8 +423,4 @@ run!(simulation)
 > ### Exercise 3.5
 > Run the simulation.
 > 
-> *At* $`512\times 64`$ *resolution, it took about 2.5 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep Nx/Nz in the range 4-16), or save timesteps less often if space is an issue.*
-
-> ![Run time as a function of thread number](../images/runtime.png)
->
-> Performance of the simulation for two resolutions and a varying number of threads on a Ryzen 5 7640U. The processor has 12 logical cores; however, choosing many threads has diminishing returns and even increases the runtime in certain cases. Choosing 2-4 threads will likely be the most efficient option.
+> *At* $`512\times 64`$ *resolution, it took about 12 minutes on Erin's laptop (Ryzen 5 7640U, running with 6 threads) and 10 minutes on Nico's laptop (MacBook Pro 2021, Apple M1, the number of threads does not impact the runtime). The output file was ~500 MB. You can reduce the resolution if it takes too long (keep Nx/Nz in the range 4-16), or save timesteps less often if space is an issue.*

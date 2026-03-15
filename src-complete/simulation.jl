@@ -13,7 +13,7 @@ Ri = parse(Float64, ARGS[1])
 # Stratification
 N² = Ri * S^2
 
-# Dimensions typical of submesoscale, but keep aspect ratio low for WENO
+# Dimensions typical of submesoscale, but keep aspect ratio close to unity
 L = 1_000
 H = 100
 Nx = 512
@@ -35,7 +35,7 @@ grid = RectilinearGrid(;
 @inline b_forcing_func(x, z, t, u, w, p) = -(f * p.S * u + p.N² * w)
 
 forcing = (;
-    v = Forcing(v_forcing_func; parameters=(; S), field_dependencies=(:u, )),
+    v = Forcing(v_forcing_func; parameters=(; S), field_dependencies=(:w, )),
     b = Forcing(b_forcing_func; parameters=(; S, N²), field_dependencies=(:u, :w, ))
 )
 
@@ -52,7 +52,7 @@ model = NonhydrostaticModel(;
     forcing,
     coriolis,
     tracers,
-    buoyancy
+    buoyancy,
 )
 
 # Initial conditions
