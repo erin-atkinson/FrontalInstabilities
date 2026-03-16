@@ -212,7 +212,7 @@ ContinuousForcing{@NamedTuple{c::Float64}}
 Pay attention to how external parameters and field dependencies are introduced and treated.
 
 > ### Exercise 3.2
-> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, according to the forcing terms due to the background flow present in equations $1.3a,b$ for the case $\zeta = 0$
+> Define the continuous forcing functions `v_forcing_func(...)` and `b_forcing_func(...)`, with arguments to be determined, according to the forcing terms due to the background flow present in equations $`(2.2a,b)`$ for the case $`\zeta = 0`$
 
 ### Boundary conditions: `boundary_conditions`
 

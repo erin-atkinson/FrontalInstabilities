@@ -1,12 +1,52 @@
-# Instability in a front
+# Ocean fronts
 
-This section covers the basic instability theory for our frontal problem. This section is the most mathematically involved, and the exercises are optional, but we encourage readers with some experience with linear stability analysis to attempt them. For simplicity, we now turn to motions that evolve on time scales much longer than $`{N^{-1}}`$.
+Density fronts are highly anisotropic structures consisting of a horizontal change in density in one *across-front* direction and only gradual changes in an *along-front* direction. In the open ocean, they are primarily created at the edges of large-scale vortices, or seperating boundary currents like the Gulf Stream or Kuroshio current. They can also be created at coasts, such as by inflow of fresh, light water from rivers.
+
+> ![a](../images/front.png)
+>
+> Sea surface temperature from NASA MODIS, November 2020. A cutaway view shows a hypothetical vertical structure of temperature. Figure from [Taylor and Thompson 2013]()
+
+An important feature of fronts, especially at smaller scales $`{(\text{Ro} \sim 1)}`$, is the secondary circulation that forms due to the effect of the background flow or forcing by winds or cooling at the ocean surface. This circulation transports fluid around the front and is responsible for an intense vertical transport of heat, carbon and nutrients. 
+
+Strong fronts may also be susceptible to instabilities. In this module we will explore the evolution of such a front and the consequences of instability for the vertical transport of fluid properties.
+
+## Describing an ideal front
+> ![](../images/frontal-zone.png)
+> 
+> Left: some kind of frontal structure in the surface mixed layer. Black contours are isopycnals (lines of constant $`b`$) and the filled contours show the balanced along-front velocity $`v`$. A magenta box surrounds the region of interest. Right: The same structure, but zoomed in. The spacing between contours is reduced by a factor of three for clarity. In this region, the gradients in $`b`$ and $`v`$ are approximately constant.
+
+We use a linearised state to define an ideal front with constant horizontal and vertical buoyancy gradients, as well as a balanced thermal wind jet whose orientation we choose to be along $\hat y$ without loss of generality, namely,
+```math
+b_0 = N^2z + M^2 x \quad \text{and} \quad v_0  = \zeta x +Sz= \zeta x + \frac{M^2}{f} z,
+```
+where we assume that $v_0 = \zeta x$ on $z=0$. Note that the use of $`N^2`$ and $`M^2`$ does not imply that these quantities must be positive, they are simply the gradients of the background state.
 
 > ### Exercise 2.1
+>
+> Verify that the fields above are indeed in thermal wind balance.
+
+## Flow around an ideal front
+The total flow is the sum of the frontal flow itself ($`{v_0\hat y, b_0}`$) and any perturbations (note the change in notation for $`{\vec u, b}`$), namely,
+```math
+\vec u_\text{tot} = v_0\hat y + \vec u,  \quad b_\text{tot} = b_0 + b\quad\text{and}\quad \phi_\text{tot}= \int_0^z b_0(x, z') \,\text{d}z' + \phi. \qquad  (2.1)
+```
+We can substitute these into the Boussinesq equations for $`{(\vec u_\text{tot} , b_\text{tot})}`$ to get similar equations for $`{(\vec u, b)}`$, but with additional _forcing_ terms due to the background $`{(v_0\hat y, b_0)}`$.
+
+```math
+\frac{\text{D}\vec u}{\text{D}t} + f \hat z \times \vec u = -\nabla \phi + b\hat z - \left (\zeta u + \frac{M^2}{f}w\right )\hat y, \qquad (2.2a)\\ \frac{\text{D}b}{\text{D}t} = - N^2 w - M^2 u\quad \text{and}\quad \nabla \cdot \vec u = 0. \qquad (2.2b, c)
+```
+
+We will simulate these equations to produce a solution for $`{(\vec u, b)}`$. We can then recover the total flow using equations $`{(2.1)}`$.
+
+# Instability in a front
+
+This subsection covers the basic instability theory for our frontal problem. It is the most mathematically involved, and the exercises are optional, but we encourage readers with some experience with linear stability analysis to attempt them. For simplicity, we now turn to motions that evolve on time scales much longer than $`{N^{-1}}`$.
+
+> ### Exercise 2.2
 > 
 > A. Using the equation for $`{\text{D}w/\text{D}t}`$, show that, under the condition highlighted above, one can neglect the vertical acceleration of perburbations. What is this approximation called?
 >
-> B. Using this approximation, show that equation set $1.3$ may be written, keeping only linear terms and ignoring $y$ variation, as
+> B. Using this approximation, show that equation set $`(2.2)`$ may be written, keeping only linear terms and ignoring $y$ variation, as
 > 
 > ```math
 > \frac{\partial u}{\partial t} - fv = -\frac{\partial \phi}{\partial x}, \quad \frac{\partial v}{\partial t} + fu = -\zeta u-\frac{M^2}{f}w \\
@@ -18,15 +58,15 @@ This section covers the basic instability theory for our frontal problem. This s
 > C. Show that a plane-wave mode $`{(u, v, w, b) = (\tilde u, \tilde v, \tilde w, \tilde b)\exp[\text i(kx + mz - \omega t)]}`$ evolving in an infinitely long domain follows the dispersion relationship
 > 
 > ```math
-> \omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \qquad (2.1)
+> \omega^2 = f(f + \zeta) + \frac{1}{m^2}\left (N^2k^2 - 2M^2km\right ) \qquad (2.3)
 > ```
 > 
 > Hint: construct a differential equation for $u$ only, then use the plane wave assumption.
 >
 Instability (i.e., modes with $`{\omega^2 < 0}`$) can clearly occur for $`{f(f + \zeta) < 0}`$ or $`{N^2 < 0}`$. These are inertial and gravitational instabilities respectively and will not be the focus of this example. Even if those two conditions are not met, a sufficiently large $`M^2`$ can produce a third form of instability.
 
-> ### Exercise 2.2
-> A: For positive $`f`$, show that the condition for stability in equation $`{(2.1)}`$ is that the potential vorticity $q$ is positive, where
+> ### Exercise 2.3
+> A: For positive $`f`$, show that the condition for stability in equation $`{(2.3)}`$ is that the potential vorticity $q$ is positive, where
 > 
 > ```math
 > q = (\nabla \times \vec u_0 + f\hat z) \cdot \nabla b_0 = (f + \zeta)N^2 - \frac{M^4}{f}.
@@ -48,7 +88,7 @@ Symmetric instability consists of thin rolls aligned with isopycnals (lines of c
  - The full evolution is quite sensitive to details of the viscosity/diffusivity, even if they are very small.
  - Its stability parameter, $`q`$, is materially conserved if fluid parcels conserved momentum and buoyancy.
 
-> ### Exercise 2.3
+> ### Exercise 2.4
 > Potential vorticity is typically thought of as a materially conserved property $`{(\text{D}q/\text{D}t=0}`$, see Vallis $`\S\,4.5)`$ and this is true for the inviscid Boussinesq equations $`{(1.2)}`$ presented previously. This presents a problem: an unstable fluid parcel with $`{q<0}`$ will remain unstable to SI no matter how much perturbations attempt to restore the fluid to a stable state. What may resolve this contradiction?
 >
 

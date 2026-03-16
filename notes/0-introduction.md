@@ -13,8 +13,8 @@ In this module we will create a simulation of flow around a submesoscale ocean f
 The module will assume basic familiarity with fluid dynamics fundamentals and the incompressible Navier-Stokes equations. Proficiency in Julia is not required, the language should be intuitive for those with experience in Python (NumPy) or MATLAB. An outline of this module is as follows:
 
 0. Julia setup for Oceananigans and GLMakie
-1. Derivation of the Boussinesq equations and subsequently the Sawyer-Eliassen equations for the flow in the frontal plane
-2. Instabilities in the Sawyer-Eliassen equations
+1. Derivation of the Boussinesq equations 
+2. Fronts and their instabilities
 3. Setting up a simulation
 4. Visualization - plotting the results
 5. Analysis and post-processing of simulation output
