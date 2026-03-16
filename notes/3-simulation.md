@@ -252,7 +252,7 @@ v_top_bcs = ValueBoundaryCondition(v_boundary, parameters=(; σ=1))
 v_bcs = FieldBoundaryConditions(; top=v_top_bcs)
 boundary_conditions = (; v=v_bcs)
 ```
-See the docs page for more examples, including how to implment boundary conditions on non-rectilinear "immersed" boundaries. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
+See the docs page for more examples, including how to implement boundary conditions on non-rectilinear "immersed" boundaries. We will not modify the default boundary conditions here, so can just pass `nothing` to the model.
 ```julia
 model = NonhydrostaticModel(;
     ...

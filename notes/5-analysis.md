@@ -5,25 +5,25 @@ This section introduces use of `ARGS` to allow Julia scripts to access command-l
 
 Define the domain average $`\langle \cdot \rangle`$ as
 ```math
-\langle c\rangle(t) = \frac{1}{LH}\iint c(x, z, t)\,\text{d}x\text{d}z
+\langle c\rangle(t) = \frac{1}{LH}\iint c(x, z, t)\,\text{d}x\text{d}z.
 ```
 
 Recall the form of a plane wave from section 2:
 
 ```math
-u =  \Re \left (\tilde ue^{ikx + imz - i\omega t}\right )
+u =  \Re \left (\tilde ue^{ikx + imz - i\omega t}\right ).
 ```
 
 For instability, $`\omega = \pm i\sigma`$ where $`\sigma`$ is the growth rate of the instability. It follows that the average kinetic energy density of the unstable mode is
 
 ```math
-\text{KE} = \frac{1}{2}\left (\Re(\tilde u)^2 + \Re(\tilde v)^2 + \Re(\tilde w)^2\right )e^{2\sigma t} \langle g\rangle 
+\text{KE} = \frac{1}{2}\left (\Re(\tilde u)^2 + \Re(\tilde v)^2 + \Re(\tilde w)^2\right )e^{2\sigma t} \langle g\rangle ,
 ```
 
-Where $`g(x, z)`$ is some sinusoidal function that describes the shape of the mode. We can then estimate the growth rate, assuming that the most unstable mode dominates, as
+where $`g(x, z)`$ is some sinusoidal function that describes the shape of the mode. We can then estimate the growth rate, assuming that the most unstable mode dominates, using
 
 ```math
-\ln \text{KE} = A + 2\sigma t
+\ln \text{KE} = A + 2\sigma t.
 ```
 
 We will investigate how the growth rate of the instability depends on the initial Richardson number, and how the Richardson number changes over time
