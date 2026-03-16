@@ -4,6 +4,9 @@ simulation.jl
 =#
 using Oceananigans
 
+# Progress info throughout script
+@info "Creating a simulation using Oceananigans"
+
 # Coriolis frequency
 f = 1e-4
 # Shear
@@ -25,6 +28,7 @@ T = 120 / f
 
 # Exercise 1: create a grid
 grid = 
+@info grid
 
 # Exercise 2: define continuous forcing functions
 @inline v_forcing_func(...) = 
@@ -47,6 +51,7 @@ model = NonhydrostaticModel(;
     tracers,
     buoyancy,
 )
+@info model
 
 # Initial conditions
 # Random noise in u
@@ -96,6 +101,8 @@ simulation.output_writers[:output] = JLD2Writer(model, (; u, v, w, b, c, N²_tot
     init=init_jld2!,
     schedule = TimeInterval(20Δt)
 )
+
+@info simulation
 
 # Run simulation
 run!(simulation)
