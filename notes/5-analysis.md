@@ -28,7 +28,7 @@ where $`g(x, z)`$ is some sinusoidal function that describes the shape of the mo
 
 We will investigate how the growth rate of the instability depends on the initial Richardson number, and how the Richardson number changes over time
 
-> ### Exercise 2
+> ### Exercise 1
 > Show that the balanced Richardson number, defined by
 > 
 > $$\text{Ri}_b(t) = f^2\frac{\left \langle \frac{\partial b_\text{tot}}{\partial z}\right\rangle}{ \left\langle \frac{\partial b_\text{tot}}{\partial x}\right\rangle^2}.$$
