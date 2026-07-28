@@ -148,7 +148,7 @@ end
 Much of the code can be reused with just different entries in `outputs`. 
 
 > ### Exercise 3
-> Add an operation to `src/analysis.jl` to produce the balanced Richardson number `Rib` as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2` for each simulation. This won't take long.
+> Add an operation to `src/analysis.jl` to produce the balanced Richardson number `Rib` as defined in exercise 2. Run with the input `RiXX.jld2` as an argument to produce `RiXX-pp.jld2` for each simulation. The script should complete quickly.
 
 Running `post-processed.jl` should produce the following figure of the average kinetic energy, growth rate and bulk Richardson number.
 
